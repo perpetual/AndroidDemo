@@ -1,0 +1,242 @@
+package com.example.androiddemo.activity;
+
+import java.util.ArrayList;
+
+import com.example.androiddemo.R;
+import com.example.androiddemo.R.id;
+import com.example.androiddemo.R.layout;
+import com.example.androiddemo.R.string;
+import com.example.androiddemo.utils.AndroidUtils;
+
+import android.app.Dialog;
+import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class BlankActivity extends BaseActivity implements OnClickListener {
+	static {
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private static final String TAG = AndroidUtils.getClassName(BlankActivity.class);
+	private CheckBox mCheckBox = null;
+	private Button mAddContactsBtn = null;
+	private Button mNewContactsBtn = null;
+	private Button mAsyncTaskBtn = null;
+	private Button mTestBtn = null;
+	private Button mConsumeMemoryBtn = null;
+	private TextView mTextView = null;
+	private EditText mEditText = null;
+	private LinearLayout mList = null;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		Intent intent = getIntent();
+		super.onCreate(savedInstanceState);
+		Log.d("gary", this + "onCreate");
+		bindUI();
+		updateUI();
+		getWindow().setBackgroundDrawable(null);
+	}
+	
+	@Override
+	public void onClick(View v) {
+		try {
+			switch (v.getId()) {
+			case R.id.add_contacts_btn:
+				AddContact();
+				break;
+			case R.id.new_contacts_btn:
+				newContact();
+				break;
+			case R.id.async_task_btn:
+				asyncTaskTest();
+				break;
+			case R.id.test_btn:
+				int keycode = KeyEvent.KEYCODE_0;
+				for (keycode = 1; keycode < 300; ++keycode) {
+					mEditText.onKeyDown(keycode, new KeyEvent(KeyEvent.ACTION_DOWN, keycode));
+				}
+				break;
+			case R.id.consume_memory_btn:
+				consumeMemory();
+				break;
+			default:
+				break;
+			}
+		} catch (Exception e) {
+		}
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		Log.d("gary", this + "onSaveInstanceState");
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		Log.d("gary", this + "onRestoreInstanceState");
+	}
+
+	/**
+	 * 私有工具函数
+	 */
+	void bindUI() {
+		setContentView(R.layout.blank_layout);
+
+		mCheckBox = (CheckBox) findViewById(R.id.checkbox);
+		mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				Toast.makeText(BlankActivity.this, "xxx", 0).show();
+			}
+		});
+		mAddContactsBtn = (Button) findViewById(R.id.add_contacts_btn);
+		mAddContactsBtn.setOnClickListener(this);
+		mNewContactsBtn = (Button) findViewById(R.id.new_contacts_btn);
+		mNewContactsBtn.setOnClickListener(this);
+		mAsyncTaskBtn = (Button) findViewById(R.id.async_task_btn);
+		mAsyncTaskBtn.setOnClickListener(this);
+		mTestBtn = (Button) findViewById(R.id.test_btn);
+		mTestBtn.setOnClickListener(this);
+		mConsumeMemoryBtn = (Button) findViewById(R.id.consume_memory_btn);
+		mConsumeMemoryBtn.setOnClickListener(this);
+		mTextView = (TextView)findViewById(R.id.text_view);
+		mEditText = (EditText)findViewById(R.id.edittext1);
+		mList = (LinearLayout)findViewById(R.id.list);
+		EditText et = (EditText)LayoutInflater.from(this).inflate(R.layout.edit_text_layout, null);
+		mList.addView(et, 10);
+	}
+	
+	private void updateUI() {
+		String str = String.format(getString(R.string.format_string), TextUtils.htmlEncode(getString(R.string.my_name)));
+//		str = getString(R.string.style_string);
+		mEditText.setText("xxxx");
+		mEditText.setText(null);
+		mTextView.setText(String.valueOf(mTextView.getTextScaleX()));
+		mTextView.setText(String.valueOf(getResources().getDisplayMetrics().density));
+	}
+
+	private void AddContact() throws Exception {
+		Uri uri = Uri.parse("content://com.android.contacts/raw_contacts");
+		ContentResolver resolver = getBaseContext().getContentResolver();
+		ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>();
+		ContentProviderOperation op1 = ContentProviderOperation.newInsert(uri)
+				.withValue("account_name", null).build();
+		operations.add(op1);
+
+		uri = Uri.parse("content://com.android.contacts/data");
+		ContentProviderOperation op2 = ContentProviderOperation.newInsert(uri)
+				.withValueBackReference("raw_contact_id", 0)
+				.withValue("mimetype", "vnd.android.cursor.item/name").withValue("data2", "!!!!!")
+				.build();
+		operations.add(op2);
+		
+		for (Integer i = 0; i < 110; ++i) {
+
+			ContentProviderOperation op3 = ContentProviderOperation.newInsert(uri)
+					.withValueBackReference("raw_contact_id", 0)
+					.withValue("mimetype", "vnd.android.cursor.item/phone_v2")
+					.withValue("data1", i.toString()).withValue("data2", "2").build();
+			operations.add(op3);
+		}
+
+		ContentProviderOperation op4 = ContentProviderOperation.newInsert(uri)
+				.withValueBackReference("raw_contact_id", 0)
+				.withValue("mimetype", "vnd.android.cursor.item/email_v2")
+				.withValue("data1", "asdfasfad@163.com").withValue("data2", "2").build();
+		operations.add(op4);
+
+		resolver.applyBatch("com.android.contacts", operations);
+	}
+	
+	private void newContact() {
+		 Intent intent = new Intent(Intent.ACTION_INSERT);
+         intent.setType("vnd.android.cursor.dir/person");
+         intent.setType("vnd.android.cursor.dir/contact");
+         intent.setType("vnd.android.cursor.dir/raw_contact");
+         startActivity(intent);
+	}
+
+	private void asyncTaskTest() {
+		new AsyncTaskTest().execute(new Integer[] { 0, 1, 2, 3 });
+	}
+
+	private void mapTest() {
+		Uri uri = Uri.parse("geo:" + "30.5403,104.06908");
+		startActivity(new Intent(Intent.ACTION_VIEW, uri));
+	}
+
+	private void webTest() {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse("http://www.qq.com"));
+		startActivity(intent);
+	}
+
+	private void copyDB() {
+		AndroidUtils.copyFile("/data/data/com/tencent/pb/databases/contactsv2.db",
+				"/storage/sdcard0/contactsv2.db");
+		AndroidUtils.copyFile("/data/data/com/tencent/pb/databases/pb.db", "/storage/sdcard0/pb.db");
+	}
+
+	private void consumeMemory() {
+
+	}
+}
+
+class AsyncTaskTest extends AsyncTask<Integer, String, Long> {
+
+	@Override
+	protected Long doInBackground(Integer... params) {
+		Log.d("gary", "doInBackground:" + Thread.currentThread().getId());
+		String[] strings = new String[] { "11", "22", "33", "44" };
+		for (Integer i : params) {
+			publishProgress(strings[i]);
+		}
+		return 333L;
+	}
+
+	@Override
+	protected void onProgressUpdate(String... values) {
+		super.onProgressUpdate(values);
+		Log.d("gary", "onProgressUpdate:" + Thread.currentThread().getId() + ":" + values[0]);
+	}
+
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		Log.d("gary", "onPreExecute:" + Thread.currentThread().getId());
+	}
+
+	@Override
+	protected void onPostExecute(Long result) {
+		super.onPostExecute(result);
+		Log.d("gary", "onPostExecute:" + Thread.currentThread().getId() + ":" + result);
+	}
+	
+	
+}
