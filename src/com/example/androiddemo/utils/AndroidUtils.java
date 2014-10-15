@@ -15,6 +15,8 @@ import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -140,7 +142,6 @@ public class AndroidUtils {
 			fields = cls.getDeclaredFields();
 
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 		return fields;
 	}
@@ -247,5 +248,44 @@ public class AndroidUtils {
 		info.append("] ");
 
 		return info.toString();
+	}
+
+	public static void logChildView(ViewGroup viewGroup) {
+		logChildView(viewGroup, 0);
+	}
+	
+	public static void logChildView(View view) {
+		if (view instanceof ViewGroup) {
+			logChildView((ViewGroup)view, 0);
+		}
+	}
+	
+
+	/**
+	 * 打印View树
+	 * @param viewGroup
+	 * @param level	层级，根为0
+	 *
+	 * @author Gary in 2014-10-15
+	 */
+	private static void logChildView(ViewGroup viewGroup, int level) {
+		if (null == viewGroup) {
+			return;
+		}
+			
+		Log.w(TAG, viewGroup.getClass().getName() + "|level:" + level);
+		for (int i = 0; i < viewGroup.getChildCount(); ++i) {
+			View childView = viewGroup.getChildAt(i);
+			if (childView instanceof ViewGroup) {
+				Log.w(TAG, childView.getClass().getName() + "|level:" + (level + 1));
+			}
+		}
+		Log.w(TAG, "--------------------------");
+		for (int i = 0; i < viewGroup.getChildCount(); ++i) {
+			View childView = viewGroup.getChildAt(i);
+			if (childView instanceof ViewGroup) {
+				logChildView((ViewGroup) childView, level + 1);
+			}
+		}
 	}
 }
