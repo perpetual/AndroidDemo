@@ -36,12 +36,8 @@ public class MainListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		AndroidUtils.getPrivateValue(Activity.class, "mActivityInfo", this);
 		Log.d(TAG, TAG + ":process id:" + android.os.Process.myPid());
-		String str = AndroidUtils.deviceInfo2String();
 		initData();
 		initView();
-		String xx = "feffe|fefef";
-		String[] strs = xx.split("\\|");
-		Log.d("xxx", strs.toString());
 	}
 
 //	@Override

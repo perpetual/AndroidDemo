@@ -155,7 +155,8 @@ containing a value of this type.
         public static final int tabbar_layout=0x7f030019;
         public static final int test_layout=0x7f03001a;
         public static final int touch_event_layout=0x7f03001b;
-        public static final int view_stub_layout=0x7f03001c;
+        public static final int view_draw_layout=0x7f03001c;
+        public static final int view_stub_layout=0x7f03001d;
     }
     public static final class menu {
         public static final int list_select_menu=0x7f080000;

@@ -103,6 +103,7 @@
         <activity android:name="com.example.androiddemo.activity.HelloJniActivity" />
         <activity android:name="com.example.androiddemo.activity.MediaActivity" />
         <activity android:name="com.example.androiddemo.activity.ScreenConfigActivity" />
+        <activity android:name="com.example.androiddemo.activity.ViewDrawActivity" />
     </application>
 
 </manifest>
