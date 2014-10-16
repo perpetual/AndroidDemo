@@ -22,13 +22,15 @@ public class ViewDrawActivity extends BaseActivity {
 
 	@Override
 	public void initLayout() {
-		setContentView(R.layout.view_draw_layout);
+//		setContentView(R.layout.view_draw_layout);
+		ViewGroup decorView = (ViewGroup)getWindow().getDecorView();
+		LayoutInflater.from(this).inflate(R.layout.view_draw_layout, decorView);
 	}
 
 	@Override
 	public void initView() {
 		AndroidUtils.logChildView((ViewGroup)getWindow().getDecorView());
-		AndroidUtils.logChildView(LayoutInflater.from(this).inflate(R.layout.view_draw_layout, null));
+//		AndroidUtils.logChildView(LayoutInflater.from(this).inflate(R.layout.view_draw_layout, null));
 	}
 
 	@Override
