@@ -3,4 +3,8 @@
     <color name="red">#FFFF0000</color>
     <color name="green">#FF00FF00</color>
     <color name="blue">#FF0000FF</color>
+    <drawable name="red">#FFFF0000</drawable>
+    <drawable name="green">#FF00FF00</drawable>
+    <drawable name="blue">#FF0000FF</drawable>
+    <drawable name="transparent">#00000000</drawable>
 </resources>

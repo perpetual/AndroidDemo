@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
@@ -25,10 +26,10 @@ public class AndroidUtils {
 			.getClassName(AndroidUtils.class);
 
 	public static Context APPLICATION_CONTEXT = null;
+	public static Resources RESOURCES = null;
 
 	public static boolean copyFile(String srcPath, String destPath) {
 
-		// ²ÎÊý¼ì²é
 		FileChannel in = null;
 		FileChannel out = null;
 		try {
@@ -125,7 +126,12 @@ public class AndroidUtils {
 				for (int i = 0; i < localList.size(); ++i) {
 					ActivityManager.RunningTaskInfo runningTaskInfo = ((ActivityManager.RunningTaskInfo) localList
 							.get(i));
-					activityNameList.add(runningTaskInfo.baseActivity.getClassName() + ":" + runningTaskInfo.topActivity.getClassName() + ":" + runningTaskInfo.numActivities);
+					activityNameList.add(runningTaskInfo.baseActivity
+							.getClassName()
+							+ ":"
+							+ runningTaskInfo.topActivity.getClassName()
+							+ ":"
+							+ runningTaskInfo.numActivities);
 				}
 			}
 		} else {
@@ -134,7 +140,7 @@ public class AndroidUtils {
 
 		return activityNameList.toString();
 	}
-	
+
 	public static Field[] getPrivateFields(Class cls) {
 		Field fields[] = null;
 
@@ -145,7 +151,7 @@ public class AndroidUtils {
 		}
 		return fields;
 	}
-	
+
 	public static Object getPrivateValue(Class cls, String name, Activity obj) {
 		Field[] fields = getPrivateFields(cls);
 		if (null != fields) {
@@ -164,7 +170,7 @@ public class AndroidUtils {
 		}
 		return null;
 	}
-	
+
 	public static String deviceInfo2String() {
 		StringBuffer info = new StringBuffer();
 		info.append("VERSION.RELEASE");
@@ -253,31 +259,61 @@ public class AndroidUtils {
 	public static void logChildView(ViewGroup viewGroup) {
 		logChildView(viewGroup, 0);
 	}
-	
+
 	public static void logChildView(View view) {
 		if (view instanceof ViewGroup) {
-			logChildView((ViewGroup)view, 0);
+			logChildView((ViewGroup) view, 0);
 		}
 	}
-	
+
+	public static void logChildView(View view, int[] level) {
+		if (null == view || !(view instanceof ViewGroup) || null == level
+				|| level.length < 1) {
+			return;
+		}
+		ViewGroup vg = (ViewGroup) view;
+		for (int i = 0; i < level.length; ++i) {
+			View childView = vg.getChildAt(level[i]);
+			Log.d(TAG,
+					childView.toString() + "|height:"
+							+ childView.getLayoutParams().height);
+			if (childView instanceof ViewGroup) {
+				vg = (ViewGroup) childView;
+			} else {
+				break;
+			}
+		}
+	}
 
 	/**
-	 * ´òÓ¡ViewÊ÷
+	 * æ‰“å°å­è§†å›¾
+	 * 
 	 * @param viewGroup
-	 * @param level	²ã¼¶£¬¸ùÎª0
-	 *
+	 * @param level å±‚çº§æ•°
+	 * 
 	 * @author Gary in 2014-10-15
 	 */
 	private static void logChildView(ViewGroup viewGroup, int level) {
 		if (null == viewGroup) {
 			return;
 		}
-			
-		Log.w(TAG, viewGroup.getClass().getName() + "|level:" + level);
+
+		String className = viewGroup.getClass().getName();
+		String resourceId = View.NO_ID == viewGroup.getId() ? "" : RESOURCES.getResourceEntryName(viewGroup.getId());
+		className = className.substring(className.lastIndexOf(".") + 1);
+		Log.w(TAG, viewGroup.getClass().getName() + "|level:" + level + "|top:"
+				+ viewGroup.getTop() + "|height:" + viewGroup.getHeight()
+				+ "|class name:" + className + "|resource id:" + resourceId);
 		for (int i = 0; i < viewGroup.getChildCount(); ++i) {
 			View childView = viewGroup.getChildAt(i);
 			if (childView instanceof ViewGroup) {
-				Log.w(TAG, childView.getClass().getName() + "|level:" + (level + 1));
+				className = childView.getClass().getName();
+				className = className.substring(className.lastIndexOf(".") + 1);
+				resourceId = View.NO_ID == childView.getId() ? "" : RESOURCES.getResourceEntryName(childView.getId());
+				Log.w(TAG, childView.getClass().getName() + "|level:"
+						+ (level + 1) + "|top:" + childView.getTop()
+						+ "|height:" + childView.getHeight() + "|class name:"
+						+ className + "|resource id:" + resourceId);
 			}
 		}
 		Log.w(TAG, "--------------------------");

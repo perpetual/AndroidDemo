@@ -3,9 +3,12 @@ package com.example.androiddemo.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.ViewGroup;
 
 import com.example.androiddemo.model.IUIInitialization;
 import com.example.androiddemo.utils.AndroidUtils;
@@ -13,6 +16,9 @@ import com.example.androiddemo.utils.AndroidUtils;
 public class BaseActivity extends Activity implements IUIInitialization{
 
 	private static final String TAG = AndroidUtils.getClassName(BaseActivity.class);
+	private ViewGroup mDecorView = null;
+	private Handler mHandler = null;
+	private static final int MSG_REFRESH = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,7 @@ public class BaseActivity extends Activity implements IUIInitialization{
 		super.onResume();
 		Log.d(TAG, this + "onResume");
 		AndroidUtils.showToast("onResume");
-		AndroidUtils.hideSoftInput(this);
+		mHandler.sendEmptyMessageDelayed(MSG_REFRESH, 2000);
 	}
 
 	@Override
@@ -70,7 +76,7 @@ public class BaseActivity extends Activity implements IUIInitialization{
 	}
 
 	@Override
-	public void initLayout() {		
+	public void initLayout() {
 	}
 
 	@Override
@@ -78,16 +84,36 @@ public class BaseActivity extends Activity implements IUIInitialization{
 	}
 
 	@Override
-	public void initView() {		
+	public void initView() {
+		mDecorView.setFitsSystemWindows(true);
 	}
 
 	@Override
 	public void initData(Context context, AttributeSet attrs) {
-		
+		mDecorView = (ViewGroup)getWindow().getDecorView();
+		mHandler = new Handler(getMainLooper(), new Handler.Callback() {
+			
+			@Override
+			public boolean handleMessage(Message msg) {
+				switch (msg.what) {
+				case MSG_REFRESH:
+					refreshView();
+					break;
+
+				default:
+					break;
+				}
+				return true;
+			}
+		});
 	}
 
 	@Override
 	public void refreshView() {
-		
+		AndroidUtils.logChildView(mDecorView);
 	}
+	
+	/**
+	 * 私有工具函数
+	 */
 }

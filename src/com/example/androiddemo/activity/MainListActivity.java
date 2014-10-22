@@ -38,6 +38,32 @@ public class MainListActivity extends ListActivity {
 		Log.d(TAG, TAG + ":process id:" + android.os.Process.myPid());
 		initData();
 		initView();
+		
+
+	}
+	
+	private int parse(String str) {
+		Integer p1 = null;
+		Integer p2 = null;
+		for (int i = 0; i < str.length(); ++i) {
+			int numberStartIndex = -1;
+			int numberEndIndex = -1;
+			if (Character.isDigit(str.charAt(i)) && numberStartIndex < 0) {
+				numberStartIndex = i;
+			}
+			if (!Character.isDigit(str.charAt(i)) && numberStartIndex >= 0) {
+				numberEndIndex = i;
+				int temp = Integer.valueOf(str.substring(numberStartIndex, numberEndIndex));
+				if (null == p1) {
+					p1 = temp;
+				} else if (null == p2) {
+					p2 = temp;
+				}
+				numberStartIndex = -1;
+				numberEndIndex = -1;
+			}			
+		}
+		return p1 + p2;
 	}
 
 //	@Override

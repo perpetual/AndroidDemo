@@ -10,9 +10,9 @@ import com.example.androiddemo.utils.AndroidUtils;
  * <pre>
  * Copyright (C) 1998-2014 TENCENT Inc.All Rights Reserved.
  * 
- * Description£º
+ * Descriptionï¿½ï¿½
  * 
- * History£º
+ * Historyï¿½ï¿½
  * 
  * User				Date			Info		Reason
  * Gary		2014-10-15		Create
@@ -22,15 +22,10 @@ public class ViewDrawActivity extends BaseActivity {
 
 	@Override
 	public void initLayout() {
-//		setContentView(R.layout.view_draw_layout);
-		ViewGroup decorView = (ViewGroup)getWindow().getDecorView();
-		LayoutInflater.from(this).inflate(R.layout.view_draw_layout, decorView);
 	}
 
 	@Override
 	public void initView() {
-		AndroidUtils.logChildView((ViewGroup)getWindow().getDecorView());
-//		AndroidUtils.logChildView(LayoutInflater.from(this).inflate(R.layout.view_draw_layout, null));
 	}
 
 	@Override
@@ -39,6 +34,6 @@ public class ViewDrawActivity extends BaseActivity {
 	}
 
 	/**
-	 * Ë½ÓĞ¹¤¾ßº¯Êı
+	 * ç§æœ‰å·¥å…·å‡½æ•°
 	 */
 }
