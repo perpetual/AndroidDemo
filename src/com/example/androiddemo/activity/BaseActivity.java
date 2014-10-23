@@ -16,7 +16,7 @@ import com.example.androiddemo.utils.AndroidUtils;
 public class BaseActivity extends Activity implements IUIInitialization{
 
 	private static final String TAG = AndroidUtils.getClassName(BaseActivity.class);
-	private ViewGroup mDecorView = null;
+	protected ViewGroup mDecorView = null;
 	private Handler mHandler = null;
 	private static final int MSG_REFRESH = 0;
 	

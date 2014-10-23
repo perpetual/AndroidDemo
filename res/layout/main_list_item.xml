@@ -18,7 +18,6 @@
 
         <TextView
             android:id="@+id/title1"
-            android:labelFor="333"
             android:tag="@string/test"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
