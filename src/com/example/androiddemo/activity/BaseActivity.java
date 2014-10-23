@@ -85,7 +85,7 @@ public class BaseActivity extends Activity implements IUIInitialization{
 
 	@Override
 	public void initView() {
-		mDecorView.setFitsSystemWindows(true);
+		Log.d(TAG, getWindow().getClass().getName());
 	}
 
 	@Override
