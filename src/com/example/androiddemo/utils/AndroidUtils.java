@@ -301,7 +301,7 @@ public class AndroidUtils {
 		String className = viewGroup.getClass().getName();
 		String resourceId = View.NO_ID == viewGroup.getId() ? "" : RESOURCES.getResourceEntryName(viewGroup.getId());
 		className = className.substring(className.lastIndexOf(".") + 1);
-		Log.w(TAG, viewGroup.getClass().getName() + "|level:" + level + "|top:"
+		Log.d(TAG, viewGroup.getClass().getName() + "|level:" + level + "|top:"
 				+ viewGroup.getTop() + "|height:" + viewGroup.getHeight()
 				+ "|class name:" + className + "|resource id:" + resourceId);
 		for (int i = 0; i < viewGroup.getChildCount(); ++i) {
@@ -310,13 +310,13 @@ public class AndroidUtils {
 				className = childView.getClass().getName();
 				className = className.substring(className.lastIndexOf(".") + 1);
 				resourceId = View.NO_ID == childView.getId() ? "" : RESOURCES.getResourceEntryName(childView.getId());
-				Log.w(TAG, childView.getClass().getName() + "|level:"
+				Log.d(TAG, childView.getClass().getName() + "|level:"
 						+ (level + 1) + "|top:" + childView.getTop()
 						+ "|height:" + childView.getHeight() + "|class name:"
 						+ className + "|resource id:" + resourceId);
 			}
 		}
-		Log.w(TAG, "--------------------------");
+		Log.d(TAG, "--------------------------");
 		for (int i = 0; i < viewGroup.getChildCount(); ++i) {
 			View childView = viewGroup.getChildAt(i);
 			if (childView instanceof ViewGroup) {
