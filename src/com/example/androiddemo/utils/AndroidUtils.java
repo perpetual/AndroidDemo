@@ -84,6 +84,13 @@ public class AndroidUtils {
 		Toast.makeText(APPLICATION_CONTEXT, stringId, Toast.LENGTH_LONG).show();
 	}
 
+	public static String getClassName(Object obj) {
+		if (null == obj) {
+			return "";
+		}
+		return getClassName(obj.getClass());
+	}
+		
 	public static String getClassName(final Class<?> cls) {
 		if (null == cls) {
 			return "";
@@ -284,7 +291,8 @@ public class AndroidUtils {
 			}
 		}
 	}
-
+	
+	/**********私有工具函数*************/
 	/**
 	 * 打印子视图
 	 * 

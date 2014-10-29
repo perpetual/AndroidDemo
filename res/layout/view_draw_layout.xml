@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.androiddemo.view.CustomViewGroup xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue"
     android:orientation="vertical" >
 
-    <FrameLayout
-        android:layout_width="100dip"
-        android:layout_height="100dip"
-        android:background="@color/red" >
-    </FrameLayout>
+    <com.example.androiddemo.view.CustomView
+        android:id="@+id/custom_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/red" />
 
-    <RelativeLayout
-        android:layout_width="200dip"
-        android:layout_height="200dip"
-        android:background="@color/green" >
-    </RelativeLayout>
-
-</LinearLayout>
+</com.example.androiddemo.view.CustomViewGroup>

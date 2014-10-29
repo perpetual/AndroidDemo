@@ -7,16 +7,16 @@ import android.util.AttributeSet;
  * <pre>
  * Copyright (C) 1998-2014 TENCENT Inc.All Rights Reserved.
  *
- * Description£º
+ * Descriptionï¿½ï¿½
  * 
- * History£º
+ * Historyï¿½ï¿½
  * 
  * User				Date			Info		Reason
  * Gary		2014-10-11		Create		
  * </pre>
  */
 public interface IUIInitialization {
-
+	
 	public void initData(Context context, AttributeSet attrs);
 	
 	public void initLayout();

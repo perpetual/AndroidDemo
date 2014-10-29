@@ -1,7 +1,5 @@
 package com.example.androiddemo.view;
 
-import java.sql.Types;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
@@ -12,18 +10,18 @@ import android.widget.TextView;
 
 import com.example.androiddemo.R;
 import com.example.androiddemo.model.IUIInitialization;
-import com.example.androiddemo.utils.AndroidUtils;
 
 /**
+ * 
  * <pre>
  * Copyright (C) 1998-2014 TENCENT Inc.All Rights Reserved.
+ *
+ * Descriptionï¼š
  * 
- * Description£º
- * 
- * History£º
+ * Historyï¼š
  * 
  * User				Date			Info		Reason
- * Gary		2014-10-11		Create
+ * Gary		2014-10-28		Create		
  * </pre>
  */
 public class LabelTextView extends LinearLayout implements IUIInitialization {
