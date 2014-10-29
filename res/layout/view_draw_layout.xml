@@ -2,13 +2,13 @@
 <com.example.androiddemo.view.CustomViewGroup xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
+    android:background="@color/red"
     android:orientation="vertical" >
 
     <com.example.androiddemo.view.CustomView
         android:id="@+id/custom_view"
+        android:background="@color/blue"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/red" />
+        android:layout_height="match_parent" />
 
 </com.example.androiddemo.view.CustomViewGroup>

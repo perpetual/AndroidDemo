@@ -92,7 +92,7 @@ public class BaseActivity extends Activity implements IUIInitialization,
 	@Override
 	public void initView() {
 		getWindow().getDecorView().addOnLayoutChangeListener(this);
-		LogUtil.d("xxx", getWindowManager().toString());
+		LogUtil.d(TAG, getWindowManager().toString());
 	}
 
 	@Override
