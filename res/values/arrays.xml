@@ -27,6 +27,7 @@
         <item>MediaActivity</item>
         <item>ScreenConfigActivity</item>
         <item>ViewDrawActivity</item>
+        <item>SampleActivity</item>
     </string-array>
 
     <string-array name="media_spinner_list">
