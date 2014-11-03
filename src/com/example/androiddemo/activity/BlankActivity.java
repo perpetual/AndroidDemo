@@ -58,6 +58,7 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 		bindUI();
 		updateUI();
 		getWindow().setBackgroundDrawable(null);
+		AndroidUtils.lightOn();
 	}
 	
 	@Override
@@ -102,7 +103,7 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 	}
 
 	/**
-	 * Ë½ÓÐ¹¤¾ßº¯Êý
+	 * Ë½ï¿½Ð¹ï¿½ï¿½ßºï¿½ï¿½ï¿½
 	 */
 	void bindUI() {
 		setContentView(R.layout.blank_layout);
