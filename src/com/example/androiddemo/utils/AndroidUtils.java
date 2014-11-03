@@ -15,6 +15,7 @@ import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class AndroidUtils {
 
 	public static Context APPLICATION_CONTEXT = null;
 	public static Resources RESOURCES = null;
+	private static PowerManager.WakeLock wl;
 
 	public static boolean copyFile(String srcPath, String destPath) {
 
@@ -82,6 +84,13 @@ public class AndroidUtils {
 
 	public static void showLongToast(final int stringId) {
 		Toast.makeText(APPLICATION_CONTEXT, stringId, Toast.LENGTH_LONG).show();
+	}
+
+	public static String getClassName(Object obj) {
+		if (null == obj) {
+			return "";
+		}
+		return getClassName(obj.getClass());
 	}
 
 	public static String getClassName(final Class<?> cls) {
@@ -285,11 +294,13 @@ public class AndroidUtils {
 		}
 	}
 
+	/********** 私有工具函数 *************/
 	/**
 	 * 打印子视图
 	 * 
 	 * @param viewGroup
-	 * @param level 层级数
+	 * @param level
+	 *            层级数
 	 * 
 	 * @author Gary in 2014-10-15
 	 */
@@ -299,9 +310,10 @@ public class AndroidUtils {
 		}
 
 		String className = viewGroup.getClass().getName();
-		String resourceId = View.NO_ID == viewGroup.getId() ? "" : RESOURCES.getResourceEntryName(viewGroup.getId());
+		String resourceId = View.NO_ID == viewGroup.getId() ? "" : RESOURCES
+				.getResourceEntryName(viewGroup.getId());
 		className = className.substring(className.lastIndexOf(".") + 1);
-		Log.w(TAG, viewGroup.getClass().getName() + "|level:" + level + "|top:"
+		Log.d(TAG, viewGroup.getClass().getName() + "|level:" + level + "|top:"
 				+ viewGroup.getTop() + "|height:" + viewGroup.getHeight()
 				+ "|class name:" + className + "|resource id:" + resourceId);
 		for (int i = 0; i < viewGroup.getChildCount(); ++i) {
@@ -309,19 +321,49 @@ public class AndroidUtils {
 			if (childView instanceof ViewGroup) {
 				className = childView.getClass().getName();
 				className = className.substring(className.lastIndexOf(".") + 1);
-				resourceId = View.NO_ID == childView.getId() ? "" : RESOURCES.getResourceEntryName(childView.getId());
-				Log.w(TAG, childView.getClass().getName() + "|level:"
+				resourceId = View.NO_ID == childView.getId() ? "" : RESOURCES
+						.getResourceEntryName(childView.getId());
+				Log.d(TAG, childView.getClass().getName() + "|level:"
 						+ (level + 1) + "|top:" + childView.getTop()
 						+ "|height:" + childView.getHeight() + "|class name:"
 						+ className + "|resource id:" + resourceId);
 			}
 		}
-		Log.w(TAG, "--------------------------");
+		Log.d(TAG, "--------------------------");
 		for (int i = 0; i < viewGroup.getChildCount(); ++i) {
 			View childView = viewGroup.getChildAt(i);
 			if (childView instanceof ViewGroup) {
 				logChildView((ViewGroup) childView, level + 1);
 			}
+		}
+	}
+
+	public static void lightOn() {
+		try {
+			releaseLight();
+			PowerManager pm = (PowerManager) APPLICATION_CONTEXT
+					.getSystemService(Context.POWER_SERVICE);
+			// 获取电源管理器对象
+
+			wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP
+					| PowerManager.SCREEN_DIM_WAKE_LOCK, "bright");
+			wl.setReferenceCounted(false);
+
+			// end add
+			wl.acquire();
+		} catch (Exception e) {
+		}
+	}
+	
+	public static synchronized void releaseLight() {
+		try {
+			if (wl != null) {
+				if (wl.isHeld()) {
+					wl.release();
+				}
+				wl = null;
+			}
+		} catch (Exception e) {
 		}
 	}
 }

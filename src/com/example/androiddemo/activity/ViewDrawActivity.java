@@ -1,16 +1,13 @@
 package com.example.androiddemo.activity;
 
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-
 import com.example.androiddemo.R;
-import com.example.androiddemo.utils.AndroidUtils;
+
 
 /**
  * <pre>
  * Copyright (C) 1998-2014 TENCENT Inc.All Rights Reserved.
  * 
- * Description��
+ * Description
  * 
  * History��
  * 
@@ -21,16 +18,18 @@ import com.example.androiddemo.utils.AndroidUtils;
 public class ViewDrawActivity extends BaseActivity {
 
 	@Override
+	protected String getLogTag() {
+		return "xxx";
+	}
+	
+	@Override
 	public void initLayout() {
+		setContentView(R.layout.view_draw_layout);
 	}
 
 	@Override
 	public void initView() {
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
+		super.initView();
 	}
 
 	/**

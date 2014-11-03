@@ -247,7 +247,6 @@
         android:textDirection="rtl"
         android:textAlignment="center"
         android:importantForAccessibility="yes"
-        android:labelFor="3"
         android:entries="@array/demo_list"
         android:divider="#ff880000"
         android:dividerHeight="5dip"

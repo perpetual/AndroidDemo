@@ -40,7 +40,7 @@ public class AlarmManagerActivity extends Activity {
 	}
 	
 	/**
-	 * Ë½ÓÐ¹¤¾ßº¯Êý
+	 * Ë½ï¿½Ð¹ï¿½ï¿½ßºï¿½ï¿½ï¿½
 	 */
 	private void initData() {
 		mAlarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);

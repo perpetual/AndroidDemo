@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="21" />
+        android:minSdkVersion="9"
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
@@ -105,6 +105,7 @@
         <activity android:name="com.example.androiddemo.activity.MediaActivity" />
         <activity android:name="com.example.androiddemo.activity.ScreenConfigActivity" />
         <activity android:name="com.example.androiddemo.activity.ViewDrawActivity" />
+        <activity android:name="com.example.androiddemo.activity.DebugActivity" />
     </application>
 
 </manifest>

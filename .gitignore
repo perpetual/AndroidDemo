@@ -214,8 +214,5 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-<<<<<<< HEAD
-=======
 !.gitignore
->>>>>>> origin/master
 gen/*

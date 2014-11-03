@@ -1,12 +1,11 @@
 package com.example.androiddemo.view;
 
-import com.example.androiddemo.R;
-
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.androiddemo.R;
 
 public class ListItemView extends LinearLayout {
 
@@ -21,9 +20,8 @@ public class ListItemView extends LinearLayout {
 	public void setMainText(String str) {
 		mMainTextView.setText(str);
 	}
-	/**
-	 * 私有工具函数
-	 */
+
+
 	private void bindView () {
 		mMainTextView = (TextView) findViewById(R.id.main_text);
 	}
