@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.example.androiddemo.R;
 import com.example.androiddemo.utils.CustomSpinnerAdapter;
 
-public class MediaActivity extends Activity implements OnClickListener,
+public class StorageActivity extends Activity implements OnClickListener,
 		OnItemSelectedListener {
 
 	private TextView mDisplayView = null;

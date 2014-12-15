@@ -27,6 +27,9 @@ public class AndroidDemoUtil {
 	private static final String TAG = AndroidDemoUtil
 			.getClassName(AndroidDemoUtil.class);
 
+	public static final int API_LEVEL_8 = 8;
+	public static final int API_LEVEL_14 = 14;
+	
 	private static final float DENSITY = Resources.getSystem().getDisplayMetrics().density;
 
 	public static Context APPLICATION_CONTEXT = null;
@@ -297,13 +300,13 @@ public class AndroidDemoUtil {
 		}
 	}
 
-	/********** 私有工具函数 *************/
+	/********** 绉����宸ュ�峰�芥�� *************/
 	/**
-	 * 打印子视图
+	 * �����板��瑙����
 	 * 
 	 * @param viewGroup
 	 * @param level
-	 *            层级数
+	 *            灞�绾ф��
 	 * 
 	 * @author Gary in 2014-10-15
 	 */
@@ -346,7 +349,7 @@ public class AndroidDemoUtil {
 			releaseLight();
 			PowerManager pm = (PowerManager) APPLICATION_CONTEXT
 					.getSystemService(Context.POWER_SERVICE);
-			// 获取电源管理器对象
+			// ��峰����垫��绠＄����ㄥ�硅薄
 
 			wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP
 					| PowerManager.SCREEN_DIM_WAKE_LOCK, "bright");

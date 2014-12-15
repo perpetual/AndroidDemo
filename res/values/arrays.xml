@@ -24,11 +24,11 @@
         <item>ViewStubActivity</item>
         <item>FragmentActivity</item>
         <item>HelloJniActivity</item>
-        <item>MediaActivity</item>
+        <item>StorageActivity</item>
         <item>ScreenConfigActivity</item>
         <item>ViewDrawActivity</item>
         <item>DebugActivity</item>
-        <item>HeadsetActivity</item>
+        <item>MediaActivity</item>
     </string-array>
 
     <string-array name="media_spinner_list">
