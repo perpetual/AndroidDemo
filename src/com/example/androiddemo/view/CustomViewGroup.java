@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.View.OnLayoutChangeListener;
 import android.widget.LinearLayout;
 
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
 /**
@@ -33,14 +33,14 @@ public class CustomViewGroup extends LinearLayout implements OnLayoutChangeListe
 
 	@Override
 	protected void onFinishInflate() {
-		LogUtil.d(TAG, AndroidUtils.getClassName(this)
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this)
 				+ "|onFinishInflate|getHeight:" + getHeight());
 		super.onFinishInflate();
 	}
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		LogUtil.d(TAG, AndroidUtils.getClassName(this)
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this)
 				+ "|onMeasure|widthMeasureSpec:" + widthMeasureSpec
 				+ "|heightMeasureSpec:" + heightMeasureSpec + "|getHeight:"
 				+ getHeight());
@@ -53,9 +53,9 @@ public class CustomViewGroup extends LinearLayout implements OnLayoutChangeListe
 			int parentHeightMeasureSpec, int heightUsed) {
 		LogUtil.d(
 				TAG,
-				AndroidUtils.getClassName(this)
+				AndroidDemoUtil.getClassName(this)
 						+ "|measureChildWithMargins|child:"
-						+ AndroidUtils.getClassName(child.getClass())
+						+ AndroidDemoUtil.getClassName(child.getClass())
 						+ "|parentWidthMeasureSpec:" + parentWidthMeasureSpec
 						+ "|widthUsed:" + widthUsed
 						+ "|parentHeightMeasureSpec:" + parentHeightMeasureSpec
@@ -68,8 +68,8 @@ public class CustomViewGroup extends LinearLayout implements OnLayoutChangeListe
 	@Override
 	protected void measureChild(View child, int parentWidthMeasureSpec,
 			int parentHeightMeasureSpec) {
-		LogUtil.d(TAG, AndroidUtils.getClassName(this) + "|measureChild|child:"
-				+ AndroidUtils.getClassName(child.getClass())
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this) + "|measureChild|child:"
+				+ AndroidDemoUtil.getClassName(child.getClass())
 				+ "|parentWidthMeasureSpec:" + parentWidthMeasureSpec
 				+ "|parentHeightMeasureSpec:" + parentHeightMeasureSpec
 				+ getHeight());
@@ -79,7 +79,7 @@ public class CustomViewGroup extends LinearLayout implements OnLayoutChangeListe
 
 	@Override
 	protected void measureChildren(int widthMeasureSpec, int heightMeasureSpec) {
-		LogUtil.d(TAG, AndroidUtils.getClassName(this)
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this)
 				+ "|measureChildren|widthMeasureSpec:" + widthMeasureSpec
 				+ "|heightMeasureSpec:" + heightMeasureSpec + "|getHeight:"
 				+ getHeight());
@@ -88,7 +88,7 @@ public class CustomViewGroup extends LinearLayout implements OnLayoutChangeListe
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		LogUtil.d(TAG, AndroidUtils.getClassName(this) + "|onLayout|changed:"
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this) + "|onLayout|changed:"
 				+ changed + "|l:" + l + "|t:" + t + "|r:" + r + "|b:" + b
 				+ "|getHeight:" + getHeight());
 		super.onLayout(changed, l, t, r, b);
@@ -96,7 +96,7 @@ public class CustomViewGroup extends LinearLayout implements OnLayoutChangeListe
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		LogUtil.d(TAG, AndroidUtils.getClassName(this) + "|onDraw|getHeight:"
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this) + "|onDraw|getHeight:"
 				+ getHeight());
 		super.onDraw(canvas);
 	}
@@ -104,8 +104,8 @@ public class CustomViewGroup extends LinearLayout implements OnLayoutChangeListe
 	@Override
 	public void onLayoutChange(View v, int left, int top, int right,
 			int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-		LogUtil.d(TAG, AndroidUtils.getClassName(this) + "|onLayoutChange:v:"
-				+ AndroidUtils.getClassName(v) + "|left:" + left + "|top:"
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this) + "|onLayoutChange:v:"
+				+ AndroidDemoUtil.getClassName(v) + "|left:" + left + "|top:"
 				+ top + "|right:" + right + "|bottom:" + bottom + "|getHeight:"
 				+ getHeight());
 		

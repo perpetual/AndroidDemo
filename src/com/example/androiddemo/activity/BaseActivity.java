@@ -12,7 +12,7 @@ import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 
 import com.example.androiddemo.model.IUIInitialization;
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
 public class BaseActivity extends Activity implements IUIInitialization,
@@ -31,7 +31,7 @@ public class BaseActivity extends Activity implements IUIInitialization,
 	protected void onCreate(Bundle savedInstanceState) {
 		TAG = getLogTag();
 		super.onCreate(savedInstanceState);
-		LogUtil.d(TAG, AndroidUtils.getClassName(this.getClass()) + "|onCreate");
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this.getClass()) + "|onCreate");
 		initData(null, null);
 		initLayout();
 		bindView();
@@ -41,39 +41,39 @@ public class BaseActivity extends Activity implements IUIInitialization,
 	@Override
 	protected void onStart() {
 		super.onStart();
-		LogUtil.d(TAG, AndroidUtils.getClassName(this.getClass()) + "|onStart");
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this.getClass()) + "|onStart");
 	}
 
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		LogUtil.d(TAG, AndroidUtils.getClassName(this.getClass()) + "|onRestart");
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this.getClass()) + "|onRestart");
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		LogUtil.d(TAG, AndroidUtils.getClassName(this.getClass()) + "|onResume");
-		AndroidUtils.showToast("onResume");
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this.getClass()) + "|onResume");
+		AndroidDemoUtil.showToast("onResume");
 		// mHandler.sendEmptyMessageDelayed(MSG_REFRESH, 2000);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		LogUtil.d(TAG, AndroidUtils.getClassName(this.getClass()) + "|onPause");
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this.getClass()) + "|onPause");
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		LogUtil.d(TAG, AndroidUtils.getClassName(this.getClass()) + "|onStop");
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this.getClass()) + "|onStop");
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		LogUtil.d(TAG, AndroidUtils.getClassName(this.getClass()) + "|onDestroy");
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this.getClass()) + "|onDestroy");
 	}
 
 	@Override
@@ -127,7 +127,7 @@ public class BaseActivity extends Activity implements IUIInitialization,
 	public void onLayoutChange(View v, int left, int top, int right,
 			int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
 		LogUtil.d(TAG,
-				"onLayoutChange|v:" + AndroidUtils.getClassName(v.getClass())
+				"onLayoutChange|v:" + AndroidDemoUtil.getClassName(v.getClass())
 						+ "|left:" + left + "|top:" + top + "|right:" + right
 						+ "|bottom:" + bottom + "|oldLeft:" + oldLeft
 						+ "|oldTop:" + oldTop + "|oldRight:" + oldRight

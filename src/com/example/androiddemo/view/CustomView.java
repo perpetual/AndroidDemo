@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
 
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
 public class CustomView extends View implements OnLayoutChangeListener {
@@ -20,7 +20,7 @@ public class CustomView extends View implements OnLayoutChangeListener {
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		LogUtil.d(TAG, AndroidUtils.getClassName(this)
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this)
 				+ "|onMeasure|widthMeasureSpec:" + widthMeasureSpec
 				+ "|heightMeasureSpec:" + heightMeasureSpec + "|getHeight:"
 				+ getHeight());
@@ -30,7 +30,7 @@ public class CustomView extends View implements OnLayoutChangeListener {
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right,
 			int bottom) {
-		LogUtil.d(TAG, AndroidUtils.getClassName(this) + "|onLayout|changed:"
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this) + "|onLayout|changed:"
 				+ changed + "|left:" + left + "|top:" + top + "|right:" + right
 				+ "|bottom:" + bottom + "|getHeight:" + getHeight());
 		super.onLayout(changed, left, top, right, bottom);
@@ -38,14 +38,14 @@ public class CustomView extends View implements OnLayoutChangeListener {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		LogUtil.d(TAG, AndroidUtils.getClassName(this) + "|onDraw|getHeight:"
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this) + "|onDraw|getHeight:"
 				+ getHeight());
 		super.onDraw(canvas);
 	}
 
 	@Override
 	protected void onFinishInflate() {
-		LogUtil.d(TAG, AndroidUtils.getClassName(this)
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this)
 				+ "|onFinishInflate|getHeight:" + getHeight());
 		super.onFinishInflate();
 	}
@@ -53,8 +53,8 @@ public class CustomView extends View implements OnLayoutChangeListener {
 	@Override
 	public void onLayoutChange(View v, int left, int top, int right,
 			int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-		LogUtil.d(TAG, AndroidUtils.getClassName(this) + "|onLayoutChange:v:"
-				+ AndroidUtils.getClassName(v) + "|left:" + left + "|top:"
+		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this) + "|onLayoutChange:v:"
+				+ AndroidDemoUtil.getClassName(v) + "|left:" + left + "|top:"
 				+ top + "|right:" + right + "|bottom:" + bottom + "|getHeight:"
 				+ getHeight());
 	}

@@ -6,7 +6,7 @@ import com.example.androiddemo.R;
 import com.example.androiddemo.R.id;
 import com.example.androiddemo.R.layout;
 import com.example.androiddemo.R.string;
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 import android.app.Dialog;
 import android.content.ContentProviderOperation;
@@ -39,7 +39,7 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 	
-	private static final String TAG = AndroidUtils.getClassName(BlankActivity.class);
+	private static final String TAG = AndroidDemoUtil.getClassName(BlankActivity.class);
 	private CheckBox mCheckBox = null;
 	private Button mAddContactsBtn = null;
 	private Button mNewContactsBtn = null;
@@ -58,7 +58,7 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 		bindUI();
 		updateUI();
 		getWindow().setBackgroundDrawable(null);
-		AndroidUtils.lightOn();
+		AndroidDemoUtil.lightOn();
 	}
 	
 	@Override
@@ -199,9 +199,9 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void copyDB() {
-		AndroidUtils.copyFile("/data/data/com/tencent/pb/databases/contactsv2.db",
+		AndroidDemoUtil.copyFile("/data/data/com/tencent/pb/databases/contactsv2.db",
 				"/storage/sdcard0/contactsv2.db");
-		AndroidUtils.copyFile("/data/data/com/tencent/pb/databases/pb.db", "/storage/sdcard0/pb.db");
+		AndroidDemoUtil.copyFile("/data/data/com/tencent/pb/databases/pb.db", "/storage/sdcard0/pb.db");
 	}
 
 	private void consumeMemory() {

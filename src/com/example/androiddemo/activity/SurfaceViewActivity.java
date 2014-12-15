@@ -6,7 +6,7 @@ import com.example.androiddemo.R;
 import com.example.androiddemo.R.id;
 import com.example.androiddemo.R.layout;
 import com.example.androiddemo.R.string;
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 import android.app.Activity;
 import android.content.Context;
@@ -62,7 +62,7 @@ public class SurfaceViewActivity extends Activity {
 	}
 
 	/**
-	 * Ë½ÓÐº¯Êý
+	 * Ë½ï¿½Ðºï¿½ï¿½ï¿½
 	 */
 	private void initData() {
 
@@ -156,7 +156,7 @@ public class SurfaceViewActivity extends Activity {
 			@Override
 			public void surfaceChanged(SurfaceHolder holder, int format,
 					int width, int height) {
-				AndroidUtils.showToast("xxx");
+				AndroidDemoUtil.showToast("xxx");
 			}
 		});
 

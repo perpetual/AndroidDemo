@@ -2,7 +2,7 @@ package com.example.androiddemo.activity;
 
 import com.example.androiddemo.R;
 import com.example.androiddemo.R.layout;
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
@@ -14,7 +14,7 @@ public class TestActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		AndroidUtils.APPLICATION_CONTEXT = getApplicationContext();
+		AndroidDemoUtil.APPLICATION_CONTEXT = getApplicationContext();
 	}
 	
 	@Override

@@ -1,6 +1,6 @@
 package com.example.androiddemo.service;
 
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 import android.app.Service;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class BaseService extends Service {
 
-	private final String TAG = AndroidUtils.getClassName(BaseService.class);
+	private final String TAG = AndroidDemoUtil.getClassName(BaseService.class);
 	
 	@Override
 	public void onCreate() {

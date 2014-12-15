@@ -3,7 +3,7 @@ package com.example.androiddemo.activity;
 import com.example.androiddemo.R;
 import com.example.androiddemo.R.id;
 import com.example.androiddemo.R.layout;
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -40,7 +40,7 @@ public class RotatableActivity extends BaseActivity implements OnClickListener {
 			break;
 		case R.id.view:
 			intent = new Intent(Intent.ACTION_VIEW, mContact);
-			AndroidUtils.showLongToast(mContact.toString());
+			AndroidDemoUtil.showLongToast(mContact.toString());
 			startActivity(intent);
 			break;
 		default:
@@ -62,7 +62,7 @@ public class RotatableActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		AndroidUtils.showToast("onSaveInstanceState");
+		AndroidDemoUtil.showToast("onSaveInstanceState");
 		if (null != mContact) {
 			outState.putString(CONTACT, mContact.toString());
 		}
@@ -80,7 +80,7 @@ public class RotatableActivity extends BaseActivity implements OnClickListener {
 	}
 	
 	/**
-	 * Ë½ÓÐ¹¤¾ßº¯Êý
+	 * Ë½ï¿½Ð¹ï¿½ï¿½ßºï¿½ï¿½ï¿½
 	 */
 	private void initData(Bundle bundle) {
 //		restoreMe(bundle);

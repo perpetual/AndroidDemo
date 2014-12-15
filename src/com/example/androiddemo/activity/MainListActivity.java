@@ -6,7 +6,7 @@ import com.example.androiddemo.R;
 import com.example.androiddemo.R.array;
 import com.example.androiddemo.R.id;
 import com.example.androiddemo.R.layout;
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 import android.app.Activity;
 import android.app.ListActivity;
@@ -24,7 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainListActivity extends ListActivity {
-	private static final String TAG = AndroidUtils.getClassName(MainListActivity.class);
+	private static final String TAG = AndroidDemoUtil.getClassName(MainListActivity.class);
 	
 	private ListAdapter mListAdapter = null;
 	private String[] mTitleArray = null;
@@ -34,7 +34,7 @@ public class MainListActivity extends ListActivity {
 		Intent intent = getIntent();
 		Set<String> set = intent.getCategories();
 		super.onCreate(savedInstanceState);
-		AndroidUtils.getPrivateValue(Activity.class, "mActivityInfo", this);
+		AndroidDemoUtil.getPrivateValue(Activity.class, "mActivityInfo", this);
 		Log.d(TAG, TAG + ":process id:" + android.os.Process.myPid());
 		initData();
 		initView();
@@ -83,7 +83,7 @@ public class MainListActivity extends ListActivity {
 			Intent intent = new Intent(MainListActivity.this, cls);
 			startActivity(intent);
 		} catch (Exception e) {
-			AndroidUtils.showLongToast(e.toString());
+			AndroidDemoUtil.showLongToast(e.toString());
 		}
 	}
 
@@ -103,7 +103,7 @@ public class MainListActivity extends ListActivity {
 	protected void onResume() {
 		super.onResume();
 		Log.d("gary", this + "onResume");
-		AndroidUtils.showLongToast("taskID:" + getTaskId());
+		AndroidDemoUtil.showLongToast("taskID:" + getTaskId());
 	}
 
 	@Override
@@ -147,10 +147,10 @@ public class MainListActivity extends ListActivity {
 	}
 
 	/**
-	 * Ë½ÓÐ¹¤¾ßº¯Êý
+	 * Ë½ï¿½Ð¹ï¿½ï¿½ßºï¿½ï¿½ï¿½
 	 */
 	private void initData() {
-		AndroidUtils.APPLICATION_CONTEXT = getApplicationContext();
+		AndroidDemoUtil.APPLICATION_CONTEXT = getApplicationContext();
 		mTitleArray = getResources().getStringArray(R.array.demo_list);
 		initAdapter();
 	}

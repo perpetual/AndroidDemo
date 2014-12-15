@@ -8,7 +8,7 @@ import com.example.androiddemo.R.id;
 import com.example.androiddemo.R.layout;
 import com.example.androiddemo.R.menu;
 import com.example.androiddemo.R.string;
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -140,18 +140,18 @@ public class ListViewActivity extends Activity {
 			ListView.MultiChoiceModeListener {
 
 		/**
-		 * ´´½¨ActionMode£¬¼´:³¤°´ListViewÒÔºó»á³öÏÖÃÉ°åÐ§¹û£¬Õâ¸öÃÉ°å¾ÍÊÇActionMode£¬ ¿ÉÒÔÔÚÉÏÃæÌí¼Ó²Ëµ¥£¬¿ì½Ý°´Å¥µÈ¡£
+		 * ï¿½ï¿½ï¿½ï¿½ActionModeï¿½ï¿½ï¿½ï¿½:ï¿½ï¿½ï¿½ï¿½ListViewï¿½Ôºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É°ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É°ï¿½ï¿½ï¿½ï¿½ActionModeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó²Ëµï¿½ï¿½ï¿½ï¿½ï¿½Ý°ï¿½Å¥ï¿½È¡ï¿½
 		 */
 		public boolean onCreateActionMode(ActionMode mActionMode, Menu menu) {
 			MenuInflater inflater = getMenuInflater();
 
 			/**
-			 * ÉèÖÃActionModeµÄ²Ëµ¥¡£
+			 * ï¿½ï¿½ï¿½ï¿½ActionModeï¿½Ä²Ëµï¿½ï¿½ï¿½
 			 */
 			inflater.inflate(R.menu.list_select_menu, menu);
 
 			/**
-			 * ÉèÖÃActionModeµÄ±êÌâ¡£
+			 * ï¿½ï¿½ï¿½ï¿½ActionModeï¿½Ä±ï¿½ï¿½â¡£
 			 */
 			mActionMode.setTitle("Select Items");
 
@@ -165,28 +165,28 @@ public class ListViewActivity extends Activity {
 		}
 
 		/**
-		 * µ¥»÷ActionModeµÄ²Ëµ¥Ïî»áµ÷ÓÃ´Ë·½·¨¡£
+		 * ï¿½ï¿½ï¿½ï¿½ActionModeï¿½Ä²Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã´Ë·ï¿½ï¿½ï¿½ï¿½ï¿½
 		 */
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			switch (item.getItemId()) {
-			case R.id.share:/* menuÌõÄ¿ */
-				AndroidUtils.showToast("Shared "
+			case R.id.share:/* menuï¿½ï¿½Ä¿ */
+				AndroidDemoUtil.showToast("Shared "
 						+ mListView.getCheckedItemCount() + " items");
 				mode.finish();
 				break;
 			default:
-				AndroidUtils.showToast("Clicked " + item.getTitle());
+				AndroidDemoUtil.showToast("Clicked " + item.getTitle());
 				break;
 			}
 			return true;
 		}
 
 		public void onDestroyActionMode(ActionMode mode) {
-			AndroidUtils.showToast("onDestroyActionMode");
+			AndroidDemoUtil.showToast("onDestroyActionMode");
 		}
 
 		/**
-		 * ÔÚÑ¡ÔñListViewµÄÒ»¸öÌõÄ¿Ê±»á´¥·¢¡£
+		 * ï¿½ï¿½Ñ¡ï¿½ï¿½ListViewï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ä¿Ê±ï¿½á´¥ï¿½ï¿½ï¿½ï¿½
 		 */
 		public void onItemCheckedStateChanged(ActionMode mActionMode,
 				int position, long id, boolean checked) {
@@ -231,7 +231,7 @@ public class ListViewActivity extends Activity {
 	}
 
 	/**
-	 * Ë½ÓÐ¹¤¾ßº¯Êý
+	 * Ë½ï¿½Ð¹ï¿½ï¿½ßºï¿½ï¿½ï¿½
 	 */
 	private void initData() {
 		mListViewAdapter = new ListViewAdapter();
@@ -269,7 +269,7 @@ public class ListViewActivity extends Activity {
 				View view = new View(ListViewActivity.this);
 				view.setBackgroundColor(0x8800ff00);
 				// mRelative.addView(view);
-				AndroidUtils.showToast("xxxx");
+				AndroidDemoUtil.showToast("xxxx");
 				// wm.addView(view, param);
 			}
 		});
@@ -281,7 +281,7 @@ public class ListViewActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				AndroidUtils.showToast("onItemClick:" + mListView.isFocused()
+				AndroidDemoUtil.showToast("onItemClick:" + mListView.isFocused()
 						+ ":" + view.isFocused());
 			}
 		});
@@ -292,17 +292,17 @@ public class ListViewActivity extends Activity {
 					@Override
 					public boolean onItemLongClick(AdapterView<?> parent,
 							View view, int position, long id) {
-						AndroidUtils.showToast("onItemLongClick:"
+						AndroidDemoUtil.showToast("onItemLongClick:"
 								+ mListView.getContentDescription().toString());
 						return true;
 					}
 				});
 
-		AndroidUtils.showLongToast("" + mListView.getPersistentDrawingCache());
+		AndroidDemoUtil.showLongToast("" + mListView.getPersistentDrawingCache());
 	}
 
 	public void clickTest(View v) {
-		AndroidUtils.showToast("clickTest");
+		AndroidDemoUtil.showToast("clickTest");
 	}
 
 	private void updateUI() {

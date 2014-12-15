@@ -14,6 +14,7 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 import android.content.res.Resources;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.PowerManager;
 import android.util.Log;
@@ -22,9 +23,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-public class AndroidUtils {
-	private static final String TAG = AndroidUtils
-			.getClassName(AndroidUtils.class);
+public class AndroidDemoUtil {
+	private static final String TAG = AndroidDemoUtil
+			.getClassName(AndroidDemoUtil.class);
+
+	private static final float DENSITY = Resources.getSystem().getDisplayMetrics().density;
 
 	public static Context APPLICATION_CONTEXT = null;
 	public static Resources RESOURCES = null;
@@ -365,5 +368,39 @@ public class AndroidUtils {
 			}
 		} catch (Exception e) {
 		}
+	}
+	
+	public static int dip2px(float dipValue) {
+		return (int) (dipValue * DENSITY + 0.5f);
+	}
+
+	public static int px2dip(Context context, float pxValue) {
+		return (int) (pxValue / DENSITY + 0.5f);
+	}
+	
+	public static void pauseMusic(AudioManager.OnAudioFocusChangeListener audioFocusListener){
+		Log.d(TAG, "pauseMusic" );
+		
+		AudioManager am = (AudioManager)APPLICATION_CONTEXT.getSystemService(Context.AUDIO_SERVICE);
+		int ret = am.requestAudioFocus(
+				audioFocusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+		if(ret == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
+			Log.d(TAG,"request audio focus ok!");
+		} else {
+			Log.w(TAG,"request audio focus error!");
+		}
+	}
+	
+	
+	public static void resumeMusic(AudioManager.OnAudioFocusChangeListener audioFocusListener){
+		Log.d(TAG, "resumeMusic");
+		AudioManager am = (AudioManager)APPLICATION_CONTEXT.getSystemService(Context.AUDIO_SERVICE);
+		int ret = am.abandonAudioFocus(audioFocusListener);
+		if(ret == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
+			Log.d(TAG,"abandon audio focus ok!");
+		} else {
+			Log.w(TAG,"abandon audio focus error!");
+		}
+		
 	}
 }

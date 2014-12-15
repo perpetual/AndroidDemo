@@ -22,11 +22,11 @@ import com.example.androiddemo.IRemoteService2;
 import com.example.androiddemo.R;
 import com.example.androiddemo.model.Person;
 import com.example.androiddemo.service.BaseService;
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 public class ServiceActivity extends Activity {
 	public static class BackgroundService extends BaseService {
-		private static final String TAG = AndroidUtils
+		private static final String TAG = AndroidDemoUtil
 				.getClassName(BackgroundService.class);
 
 		private NotificationManager mNotificationMananger = null;
@@ -89,7 +89,7 @@ public class ServiceActivity extends Activity {
 
 	public static class RemoteService extends Service {
 
-		private final String TAG = AndroidUtils
+		private final String TAG = AndroidDemoUtil
 				.getClassName(RemoteService.class);
 
 		public class RemoteServiceImpl extends IRemoteService.Stub {
@@ -166,7 +166,7 @@ public class ServiceActivity extends Activity {
 		}
 	}
 
-	private static final String TAG = AndroidUtils
+	private static final String TAG = AndroidDemoUtil
 			.getClassName(ServiceActivity.class);
 	private Intent mServiceIntent = null;
 	private int mCounter = 0;
@@ -174,7 +174,7 @@ public class ServiceActivity extends Activity {
 	private ServiceConnection mServiceConnect2 = null;
 	private IRemoteService mRemoteService = null;
 	private IRemoteService2 mRemoteService2 = null;
-	// UI¿Ø¼þ
+	// UIï¿½Ø¼ï¿½
 	private Button mStartBtn = null;
 	private Button mStopBtn = null;
 	private ToggleButton mBindBtn = null;
@@ -189,13 +189,13 @@ public class ServiceActivity extends Activity {
 		Log.d(TAG, TAG + ":Current process id:" + android.os.Process.myPid());
 		initData();
 		bindUI();
-		AndroidUtils.getThreadSignature();
+		AndroidDemoUtil.getThreadSignature();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		AndroidUtils.showLongToast("taskID:" + getTaskId());
+		AndroidDemoUtil.showLongToast("taskID:" + getTaskId());
 	}
 	
 	@Override
@@ -216,7 +216,7 @@ public class ServiceActivity extends Activity {
 	}
 
 	/**
-	 * Ë½ÓÐ¹¤¾ßº¯Êý
+	 * Ë½ï¿½Ð¹ï¿½ï¿½ßºï¿½ï¿½ï¿½
 	 */
 	private void initData() {
 
@@ -307,7 +307,7 @@ public class ServiceActivity extends Activity {
 			public void onClick(View v) {
 				try {
 					double val = mRemoteService.getQuote("ANDROID");
-					AndroidUtils.showToast(String.valueOf(val));
+					AndroidDemoUtil.showToast(String.valueOf(val));
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
@@ -339,7 +339,7 @@ public class ServiceActivity extends Activity {
 					Person person = new Person();
 					person.mAge = 27;
 					person.mName = "garyzhao";
-					AndroidUtils.showToast(String.valueOf(mRemoteService2
+					AndroidDemoUtil.showToast(String.valueOf(mRemoteService2
 							.getQuote("ANDROID", person)));
 				} catch (RemoteException e) {
 					e.printStackTrace();
@@ -375,7 +375,7 @@ public class ServiceActivity extends Activity {
 
 class ServiceRunnable implements Runnable {
 
-	private static final String TAG = AndroidUtils
+	private static final String TAG = AndroidDemoUtil
 			.getClassName(ServiceRunnable.class);
 	private int mCounter = -1;
 

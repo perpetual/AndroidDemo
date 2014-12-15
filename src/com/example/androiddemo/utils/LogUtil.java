@@ -32,6 +32,13 @@ public class LogUtil {
 		Log.e(TAG, msg);
 	}
 
+	public static void w(String TAG, int value) {
+		LogUtil.w(TAG, String.valueOf(value));
+	}
+	public static void w(String TAG, String msg) {
+		Log.w(TAG, msg);
+	}
+
 	public static void e(String TAG, int value) {
 		LogUtil.e(TAG, String.valueOf(value));
 	}

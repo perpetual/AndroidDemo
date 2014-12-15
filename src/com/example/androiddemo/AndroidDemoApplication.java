@@ -1,6 +1,6 @@
 package com.example.androiddemo;
 
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 import android.app.Application;
 import android.util.Log;
@@ -22,8 +22,8 @@ public class AndroidDemoApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		Log.d("AndroidDemoApplication", "AndroidDemoApplication:onCreate");
-		AndroidUtils.APPLICATION_CONTEXT = getApplicationContext();
-		AndroidUtils.RESOURCES = getResources();
+		AndroidDemoUtil.APPLICATION_CONTEXT = getApplicationContext();
+		AndroidDemoUtil.RESOURCES = getResources();
 	}
 }
 

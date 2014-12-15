@@ -3,7 +3,7 @@ package com.example.androiddemo.activity;
 import com.example.androiddemo.R;
 import com.example.androiddemo.R.id;
 import com.example.androiddemo.R.layout;
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -22,7 +22,7 @@ public class AlarmManagerActivity extends Activity {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			AndroidUtils.showToast("hahahha");
+			AndroidDemoUtil.showToast("hahahha");
 		}		
 	}
 

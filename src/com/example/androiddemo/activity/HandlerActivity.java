@@ -3,7 +3,7 @@ package com.example.androiddemo.activity;
 import com.example.androiddemo.R;
 import com.example.androiddemo.R.id;
 import com.example.androiddemo.R.layout;
-import com.example.androiddemo.utils.AndroidUtils;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ public class HandlerActivity extends Activity {
 	private DeferWorkHandler mHandler = new DeferWorkHandler(this);
 
 	private Thread mWorkThread = null;
-	// UI¿Ø¼þ
+	// UIï¿½Ø¼ï¿½
 	private Button mTestBtn = null;
 
 	@Override
@@ -29,7 +29,7 @@ public class HandlerActivity extends Activity {
 	}
 
 	/**
-	 * Ë½ÓÐ¹¤¾ßº¯Êý
+	 * Ë½ï¿½Ð¹ï¿½ï¿½ßºï¿½ï¿½ï¿½
 	 */
 	private void initData() {
 		mWorkThread = new Thread(new WorkThreadRunnable(mHandler));
@@ -58,7 +58,7 @@ class DeferWorkHandler extends Handler {
 	}
 
 	private void printMessage(String xyz) {
-		AndroidUtils.showToast(xyz);
+		AndroidDemoUtil.showToast(xyz);
 	}
 
 	public void sendTestMessage(long interval) {
@@ -104,7 +104,7 @@ class WorkThreadRunnable implements Runnable {
 	}
 
 	/**
-	 * Ë½ÓÐ¹¤¾ßº¯Êý
+	 * Ë½ï¿½Ð¹ï¿½ï¿½ßºï¿½ï¿½ï¿½
 	 */
 	private void infoMiddle(int count) {
 		Message m = mHandler.obtainMessage();
