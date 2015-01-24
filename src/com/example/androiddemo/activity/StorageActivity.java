@@ -30,14 +30,14 @@ public class StorageActivity extends Activity implements OnClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.media_layout);
+		setContentView(R.layout.storage_layout);
 		initData();
 		bindView();
 		initView();
 	}
 
 	/**
-	 * Ë½ÓÐ¹¤¾ßº¯Êý
+	 * Ë½ï¿½Ð¹ï¿½ï¿½ßºï¿½ï¿½ï¿½
 	 */
 	private void initData() {
 		mSpinnerAdapter = new CustomSpinnerAdapter(this);

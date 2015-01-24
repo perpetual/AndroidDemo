@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
+import android.util.AndroidException;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,7 +28,7 @@ import com.example.androiddemo.utils.LogUtil;
  * </pre>
  */
 public class MediaActivity extends BaseActivity implements BaseBroadcastReceiver.IBaseBroadcastReceiver, AudioManager.OnAudioFocusChangeListener{
-	private static final String TAG = "HeadsetActivity";
+	private static final String TAG = AndroidDemoUtil.getClassName(MediaActivity.class);
 	BaseBroadcastReceiver mBaseBroadcastReceiver = null;
 	AudioManager mAudioManager = null;
 	
@@ -47,7 +48,7 @@ public class MediaActivity extends BaseActivity implements BaseBroadcastReceiver
 	
 	@Override
 	public void initLayout() {
-		super.initLayout();
+		setContentView(0);
 	}
 	
 	@Override
@@ -76,7 +77,7 @@ public class MediaActivity extends BaseActivity implements BaseBroadcastReceiver
 
 	@Override
 	public void onAudioFocusChange(int focusChange) {
-		Log.d("xxx", "onAudioFocusChange:" + focusChange);
+		Log.d(TAG, "onAudioFocusChange:" + focusChange);
 	}
 }
 
