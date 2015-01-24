@@ -2,6 +2,7 @@ package com.example.androiddemo.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
@@ -24,7 +25,7 @@ import com.example.androiddemo.utils.LogUtil;
  */
 public class CustomViewGroup extends LinearLayout implements OnLayoutChangeListener {
 
-	private static final String TAG = "xxx";
+	private static final String TAG = "CustomViewGroup";
 
 	public CustomViewGroup(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -109,5 +110,26 @@ public class CustomViewGroup extends LinearLayout implements OnLayoutChangeListe
 				+ top + "|right:" + right + "|bottom:" + bottom + "|getHeight:"
 				+ getHeight());
 		
+	}
+	
+	@Override
+	public void draw(Canvas canvas) {
+		LogUtil.d(TAG, "draw");
+		super.draw(canvas);
+		canvas.translate(0, 10);
+//		canvas.clipRect(new Rect(0, 10, 10, 10));
+		canvas.restore();
+	}
+	
+	@Override
+	protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+		LogUtil.d(TAG, "drawChild");
+		return super.drawChild(canvas, child, drawingTime);
+	}
+	
+	@Override
+	protected void dispatchDraw(Canvas canvas) {
+		LogUtil.d(TAG, "dispatchDraw");
+		super.dispatchDraw(canvas);
 	}
 }

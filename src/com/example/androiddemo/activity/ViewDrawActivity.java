@@ -19,7 +19,7 @@ public class ViewDrawActivity extends BaseActivity {
 
 	@Override
 	protected String getLogTag() {
-		return "xxx";
+		return getClass().getSimpleName();
 	}
 	
 	@Override
