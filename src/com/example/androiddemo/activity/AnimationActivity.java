@@ -1,34 +1,43 @@
 package com.example.androiddemo.activity;
 
-import com.example.androiddemo.R;
-import com.example.androiddemo.R.id;
-import com.example.androiddemo.R.layout;
-
 import android.app.Activity;
 import android.graphics.Camera;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Transformation;
 import android.widget.Button;
+
+import com.example.androiddemo.R;
 
 
 public class AnimationActivity extends Activity {
 
 	private View mAnimationView = null;
+	private View mCircleAnimationView = null;
 	private Button mTestButton = null;
+	private AlphaAnimation mCircleAnimation = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.animation_layout);
 		bindView();
+		initView();
+		updateView();
 	}
 
+	private void initView() {
+		initCircleAniamation();
+	}
 	/**
-	 * Ë½ÓÐ¹¤¾ßº¯Êý
+	 * Ë½ï¿½Ð¹ï¿½ï¿½ßºï¿½ï¿½ï¿½
 	 */
 	private void bindView() {
 		mTestButton = (Button) findViewById(R.id.test_btn);
@@ -40,8 +49,22 @@ public class AnimationActivity extends Activity {
 			}
 		});
 		mAnimationView = findViewById(R.id.animation_view);
+		mCircleAnimationView = findViewById(R.id.circle_animation_view);
 	}
 
+	private void updateView() {
+		mCircleAnimationView.startAnimation(mCircleAnimation);
+	}
+	
+	private void initCircleAniamation() {
+		mCircleAnimation = new AlphaAnimation(1.0f, 0.2f);
+		mCircleAnimation.setDuration(2000);
+		mCircleAnimation.setRepeatMode(Animation.REVERSE);
+		AccelerateInterpolator interpolator = new AccelerateInterpolator();
+		mCircleAnimation.setInterpolator(interpolator);
+		mCircleAnimation.setRepeatCount(Animation.INFINITE);
+	}
+	
 	private void startRotate3dAnimation() {
 		Rotate3dAnimation rotate3dAnimation = new Rotate3dAnimation(0, 180,
 				mAnimationView.getWidth() / 2, mAnimationView.getHeight() / 4, 0, true);
@@ -51,17 +74,17 @@ public class AnimationActivity extends Activity {
 }
 
 class Rotate3dAnimation extends Animation {
-	// ¿ªÊ¼½Ç¶È
+	// ï¿½ï¿½Ê¼ï¿½Ç¶ï¿½
 	private final float mFromDegrees;
-	// ½áÊø½Ç¶È
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½
 	private final float mToDegrees;
-	// ÖÐÐÄµã
+	// ï¿½ï¿½ï¿½Äµï¿½
 	private final float mCenterX;
 	private final float mCenterY;
 	private final float mDepthZ;
-	// ÊÇ·ñÐèÒªÅ¤Çú
+	// ï¿½Ç·ï¿½ï¿½ï¿½ÒªÅ¤ï¿½ï¿½
 	private final boolean mReverse;
-	// ÉãÏñÍ·
+	// ï¿½ï¿½ï¿½ï¿½Í·
 	private Camera mCamera;
 
 	public Rotate3dAnimation(float fromDegrees, float toDegrees, float centerX,
@@ -81,11 +104,11 @@ class Rotate3dAnimation extends Animation {
 		mCamera = new Camera();
 	}
 
-	// Éú³ÉTransformation
+	// ï¿½ï¿½ï¿½ï¿½Transformation
 	@Override
 	protected void applyTransformation(float interpolatedTime, Transformation t) {
 		final float fromDegrees = mFromDegrees;
-		// Éú³ÉÖÐ¼ä½Ç¶È
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½Ç¶ï¿½
 		float degrees = fromDegrees
 				+ ((mToDegrees - fromDegrees) * interpolatedTime);
 
@@ -102,7 +125,7 @@ class Rotate3dAnimation extends Animation {
 			camera.translate(0.0f, 0.0f, mDepthZ * (1.0f - interpolatedTime));
 		}
 		camera.rotateY(degrees);
-		// È¡µÃ±ä»»ºóµÄ¾ØÕó
+		// È¡ï¿½Ã±ä»»ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½
 		camera.getMatrix(matrix);
 		camera.restore();
 

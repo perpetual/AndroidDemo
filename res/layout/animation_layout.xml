@@ -15,5 +15,12 @@
         android:layout_width="200dip"
         android:layout_height="200dip"
         android:background="#ffff0000" />
+    
+    <ImageView 
+        android:id="@+id/circle_animation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/circle_shap"
+        android:background="@android:color/transparent"/>
 
 </LinearLayout>
