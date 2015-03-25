@@ -25,6 +25,8 @@ public interface IUIInitialization {
 	
 	public void initView();
 	
+	public void updateView();
+	
 	public void refreshView();
 }
 

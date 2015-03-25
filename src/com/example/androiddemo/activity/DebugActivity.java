@@ -21,7 +21,7 @@ import com.example.androiddemo.R;
  * Gary		2014-10-31		Create
  * </pre>
  */
-public class DebugActivity extends BaseActivity {
+public class DebugActivity extends SuperActivity {
 
 	/**
 	 * 内部类

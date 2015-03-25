@@ -15,7 +15,7 @@ import com.example.androiddemo.R;
  * Gary		2014-10-15		Create
  * </pre>
  */
-public class ViewDrawActivity extends BaseActivity {
+public class ViewDrawActivity extends SuperActivity {
 
 	@Override
 	protected String getLogTag() {
@@ -31,8 +31,4 @@ public class ViewDrawActivity extends BaseActivity {
 	public void initView() {
 		super.initView();
 	}
-
-	/**
-	 * 私有工具函数
-	 */
 }

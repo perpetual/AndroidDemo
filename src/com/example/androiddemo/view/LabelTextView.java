@@ -102,4 +102,10 @@ public class LabelTextView extends LinearLayout implements IUIInitialization {
 		}
 		setContent(mContent);
 	}
+
+	@Override
+	public void updateView() {
+		// TODO Auto-generated method stub
+		
+	}
 }

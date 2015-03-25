@@ -27,7 +27,7 @@ import com.example.androiddemo.utils.LogUtil;
  * Gary		2014-12-2		Create		
  * </pre>
  */
-public class MediaActivity extends BaseActivity implements BaseBroadcastReceiver.IBaseBroadcastReceiver, AudioManager.OnAudioFocusChangeListener{
+public class MediaActivity extends SuperActivity implements BaseBroadcastReceiver.IBaseBroadcastReceiver, AudioManager.OnAudioFocusChangeListener{
 	private static final String TAG = AndroidDemoUtil.getClassName(MediaActivity.class);
 	BaseBroadcastReceiver mBaseBroadcastReceiver = null;
 	AudioManager mAudioManager = null;

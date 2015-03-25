@@ -1,27 +1,30 @@
 package com.example.androiddemo.activity;
 
+import android.content.Context;
 import android.graphics.Point;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.androiddemo.R;
+import com.example.androiddemo.model.IUIInitialization;
 import com.example.androiddemo.view.LabelTextView;
 
 /**
  * <pre>
  * Copyright (C) 1998-2014 TENCENT Inc.All Rights Reserved.
  *
- * Description��
+ * Description��
  * 
- * History��
+ * History��
  * 
  * User				Date			Info		Reason
  * Gary		2014-10-11		Create		
  * </pre>
  */
-public class ScreenConfigActivity extends BaseActivity {
+public class ScreenConfigActivity extends BaseActivity implements IUIInitialization {
 
 	private LabelTextView mScreenWidthLTV = null;
 	private LabelTextView mScreenHeightLTV = null;
@@ -42,7 +45,6 @@ public class ScreenConfigActivity extends BaseActivity {
 	
 	@Override
 	public void bindView() {
-		super.bindView();
 		mScreenWidthLTV = (LabelTextView)findViewById(R.id.screen_width);
 		mScreenHeightLTV = (LabelTextView)findViewById(R.id.screen_height);
 		mScreenDensityLTV = (LabelTextView)findViewById(R.id.screen_density);
@@ -62,7 +64,6 @@ public class ScreenConfigActivity extends BaseActivity {
 	
 	@Override
 	public void refreshView() {
-		super.refreshView();
 		DisplayMetrics dm = getResources().getDisplayMetrics();
 		mScreenWidthLTV.setContent(String.valueOf(dm.widthPixels));
 		mScreenHeightLTV.setContent(String.valueOf(dm.heightPixels));
@@ -86,6 +87,16 @@ public class ScreenConfigActivity extends BaseActivity {
 	protected void onStart() {
 		super.onStart();
 		refreshView();
+	}
+
+	@Override
+	public void initData(Context context, AttributeSet attrs) {		
+	}
+
+	@Override
+	public void updateView() {
+		// TODO 自动生成的方法存根
+		
 	}
 }
 

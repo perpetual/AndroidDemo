@@ -15,27 +15,21 @@ import com.example.androiddemo.model.IUIInitialization;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
-public class BaseActivity extends Activity implements IUIInitialization,
+public abstract class BaseActivity extends Activity implements
 		OnLayoutChangeListener {
 
-	protected static String TAG = "BaseActivity";
+	protected static String TAG = BaseActivity.class.getSimpleName();
 	protected ViewGroup mDecorView = null;
-	private Handler mHandler = null;
-	private static final int MSG_REFRESH = 0;
 
 	protected String getLogTag() {
-		return TAG = "BaseActivity";
+		return TAG;
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		TAG = getLogTag();
 		super.onCreate(savedInstanceState);
+		getWindow().getDecorView().addOnLayoutChangeListener(this);
 		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this.getClass()) + "|onCreate");
-		initData(null, null);
-		initLayout();
-		bindView();
-		initView();
 	}
 
 	@Override
@@ -54,8 +48,6 @@ public class BaseActivity extends Activity implements IUIInitialization,
 	protected void onResume() {
 		super.onResume();
 		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this.getClass()) + "|onResume");
-		AndroidDemoUtil.showToast("onResume");
-		// mHandler.sendEmptyMessageDelayed(MSG_REFRESH, 2000);
 	}
 
 	@Override
@@ -82,48 +74,6 @@ public class BaseActivity extends Activity implements IUIInitialization,
 	}
 
 	@Override
-	public void initLayout() {
-	}
-
-	@Override
-	public void bindView() {
-	}
-
-	@Override
-	public void initView() {
-		getWindow().getDecorView().addOnLayoutChangeListener(this);
-		LogUtil.d(TAG, getWindowManager().toString());
-	}
-
-	@Override
-	public void initData(Context context, AttributeSet attrs) {
-		mDecorView = (ViewGroup) getWindow().getDecorView();
-		mHandler = new Handler(getMainLooper(), new Handler.Callback() {
-
-			@Override
-			public boolean handleMessage(Message msg) {
-				switch (msg.what) {
-				case MSG_REFRESH:
-					refreshView();
-					break;
-
-				default:
-					break;
-				}
-				return true;
-			}
-		});
-	}
-
-	@Override
-	public void refreshView() {
-		LogUtil.d(
-				TAG,
-				"refreshView:"
-						+ String.valueOf(getWindow().getDecorView().getHeight()));
-	}
-
-	@Override
 	public void onLayoutChange(View v, int left, int top, int right,
 			int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
 		LogUtil.d(TAG,
@@ -133,8 +83,4 @@ public class BaseActivity extends Activity implements IUIInitialization,
 						+ "|oldTop:" + oldTop + "|oldRight:" + oldRight
 						+ "|oldBottom:" + oldBottom);
 	}
-
-	/**
-	 * 私有工具函数
-	 */
 }
