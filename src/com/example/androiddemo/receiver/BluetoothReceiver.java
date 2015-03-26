@@ -3,15 +3,15 @@ package com.example.androiddemo.receiver;
 
 import java.util.Set;
 
-import com.example.androiddemo.utils.LogUtil;
-import com.example.androiddemo.utils.TextUtil;
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+
+import com.example.androiddemo.utils.LogUtil;
+import com.example.androiddemo.utils.TextUtil;
 
 
 public class BluetoothReceiver extends BroadcastReceiver {

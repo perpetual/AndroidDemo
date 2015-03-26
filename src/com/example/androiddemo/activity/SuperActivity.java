@@ -1,9 +1,5 @@
 package com.example.androiddemo.activity;
 
-import com.example.androiddemo.R;
-import com.example.androiddemo.model.IUIInitialization;
-import com.example.androiddemo.utils.TextUtil;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +7,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.androiddemo.R;
+import com.example.androiddemo.model.IUIInitialization;
 
 
 public abstract class SuperActivity extends BaseActivity implements IUIInitialization, View.OnClickListener{

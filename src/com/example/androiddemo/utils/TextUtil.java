@@ -1,7 +1,5 @@
 package com.example.androiddemo.utils;
 
-import com.example.androiddemo.AndroidDemoApplication;
-
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -24,9 +22,9 @@ import android.text.style.UnderlineSpan;
  *
  * FileName: TextUtil.java<br>
  *
- * Description： 文本工具类<br>
+ * Description�? 文本工具�?<br>
  * 
- * History：<br>
+ * History�?<br>
  * 
  * User				Date			Info		Reason<br>
  * yongzhiguo		2013-3-28		Create		<br>
@@ -41,14 +39,14 @@ public class TextUtil {
 	 * @param s
 	 *            要高亮处理的字符
 	 * @param startPos
-	 *            开始位置
+	 *            �?始位�?
 	 * @param len
 	 *            长度
 	 * @param prefix
 	 *            高亮前缀，HTML代码
 	 * @param subfix
 	 *            高亮后缀，HTML代码
-	 * @return 加入前缀和后缀的字符串
+	 * @return 加入前缀和后�?的字符串
 	 */
 	public static CharSequence foregroundColorForText(CharSequence s, int startPos, int len,
 			int color) {
@@ -91,7 +89,7 @@ public class TextUtil {
 	}
 	
 	/**
-	 * 文本添加下划线
+	 * 文本添加下划�?
 	 * @param s
 	 * @param startPos
 	 * @param endPos
@@ -150,7 +148,7 @@ public class TextUtil {
 	}
 	
 	/**
-	 * 设置背景色
+	 * 设置背景�?
 	 * @param s
 	 * @param startPos
 	 * @param len
@@ -174,7 +172,7 @@ public class TextUtil {
 	 * @param s
 	 * @param startPos
 	 * @param len
-	 * @param proportion 缩放倍数(默认为1,设置后就是原来的乘以proportion，大于1时放大(zoon in)，小于时缩小(zoom out))
+	 * @param proportion 缩放倍数(默认�?1,设置后就是原来的乘以proportion，大�?1时放�?(zoon in)，小于时缩小(zoom out))
 	 * @return
 	 *
 	 * @author yongzhiguo in 2013-3-28
@@ -190,7 +188,7 @@ public class TextUtil {
 	} 
 	
 	/**
-	 * 会有一条线从中间穿过选中的字
+	 * 会有�?条线从中间穿过�?�中的字
 	 * @param s
 	 * @param startPos
 	 * @param len
@@ -215,7 +213,7 @@ public class TextUtil {
 	 */
 	public static void setClipBoard(CharSequence text) {
 		try {
-			//某些rom上有Bug，需要保护一下
+			//某些rom上有Bug，需要保护一�?
 			ClipboardManager clipboardManager = (ClipboardManager) AndroidDemoUtil.APPLICATION_CONTEXT
 					.getSystemService(Context.CLIPBOARD_SERVICE);
 			clipboardManager.setText(text);
@@ -225,7 +223,7 @@ public class TextUtil {
 	}
     
 	/**
-	 * 获取剪切板文本
+	 * 获取剪切板文�?
 	 * @return
 	 */
 	public static CharSequence getClipBoard(){
@@ -235,32 +233,32 @@ public class TextUtil {
 	} 
 	
 	/**
-	 * 判断字符串是否为null或者为空串(先trim)
+	 * 判断字符串是否为null或�?�为空串(先trim)
 	 * 
 	 * @param s
-	 *            输入串
-	 * @return 是否为null或者为空串
+	 *            输入�?
+	 * @return 是否为null或�?�为空串
 	 */
 	public static boolean isNullOrEmptyWithTrim(String s) {
 		return (s == null || "".equals(s.trim()));
 	}
 	
 	/**
-	 * 判断字符串是否为null或者为空串（不trim）
+	 * 判断字符串是否为null或�?�为空串（不trim�?
 	 * 
 	 * @param s
-	 *            输入串
-	 * @return 是否为null或者为空串
+	 *            输入�?
+	 * @return 是否为null或�?�为空串
 	 */
 	public static boolean isNullOrEmptyWithoutTrim(String s) { 
 		return (s == null || "".equals(s));
 	} 
 	
 	/**
-	 * 判断字符串是否为空，如果为空则返回空串
+	 * 判断字符串是否为空，如果为空则返回空�?
 	 * 
 	 * @param s
-	 *            字符串
+	 *            字符�?
 	 * @return
 	 */
 	public static String emptyIfNull(String s) {
@@ -274,7 +272,7 @@ public class TextUtil {
 	}
 	
 	/**
-	 * 把windows的文本转化为linux的文本格式，主要是换行符的处理; windows的换行符\r\n,而linux的换行符为\n
+	 * 把windows的文本转化为linux的文本格式，主要是换行符的处�?; windows的换行符\r\n,而linux的换行符为\n
 	 * 
 	 * @param text
 	 * @return
