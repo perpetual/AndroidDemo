@@ -15,6 +15,21 @@ package com.example.androiddemo.activity;
  */
 public class BluetoothActivity extends SuperActivity {
 
+	/**
+	 * 私有工具函数
+	 */
+	private void startBluetooth() {
+		
+	}
+	
+	private void stopBluetooth() {
+		
+	}
+	
+	private void showBluetooth() {
+		
+	}
+	
 	@Override
 	protected String getLeftButtonText() {
 		return "start bluetooth";
@@ -33,5 +48,20 @@ public class BluetoothActivity extends SuperActivity {
 	@Override
 	protected String getBottomButtonText() {
 		return "";
+	}
+	
+	@Override
+	protected void doTopButtonClick() {
+		showBluetooth();
+	}
+	
+	@Override
+	protected void doLeftButtonClick() {
+		startBluetooth();
+	}
+	
+	@Override
+	protected void doRightButtonClick() {
+		stopBluetooth();
 	}
 }
