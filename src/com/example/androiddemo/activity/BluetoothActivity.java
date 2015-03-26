@@ -1,5 +1,8 @@
 package com.example.androiddemo.activity;
 
+import android.content.Context;
+import android.util.AttributeSet;
+
 /**
  * 
  * <pre>
@@ -19,7 +22,6 @@ public class BluetoothActivity extends SuperActivity {
 	 * 私有工具函数
 	 */
 	private void startBluetooth() {
-		
 	}
 	
 	private void stopBluetooth() {
@@ -28,6 +30,11 @@ public class BluetoothActivity extends SuperActivity {
 	
 	private void showBluetooth() {
 		
+	}
+	
+	@Override
+	public void initData(Context context, AttributeSet attrs) {
+		super.initData(context, attrs);
 	}
 	
 	@Override

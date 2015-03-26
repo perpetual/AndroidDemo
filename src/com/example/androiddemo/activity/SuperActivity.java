@@ -121,7 +121,7 @@ public abstract class SuperActivity extends BaseActivity implements IUIInitializ
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initData(null, null);
+		initData(this, null);
 		initLayout();
 		bindView();
 		initView();
