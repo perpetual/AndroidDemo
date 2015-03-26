@@ -13,16 +13,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-public abstract class SuperActivity extends BaseActivity implements IUIInitialization{
+public abstract class SuperActivity extends BaseActivity implements IUIInitialization, View.OnClickListener{
 
-	public static final int TEXT_VIEW_TOP = 0;
-	public static final int TEXT_VIEW_LEFT = 1;
-	public static final int TEXT_VIEW_RIGHT = 2;
-	public static final int TEXT_VIEW_BOTTOM = 3;
-	public static final int BUTTON_TOP = 10;
-	public static final int BUTTON_LEFT = 11;
-	public static final int BUTTON_RIGHT = 12;
-	public static final int BUTTON_BOTTOM = 13;
+	public static final int TEXT_VIEW_TOP = R.id.top_text_view;
+	public static final int TEXT_VIEW_LEFT = R.id.left_text_view;
+	public static final int TEXT_VIEW_RIGHT = R.id.right_text_view;
+	public static final int TEXT_VIEW_BOTTOM = R.id.bottom_text_view;
+	public static final int BUTTON_TOP = R.id.top_button;
+	public static final int BUTTON_LEFT = R.id.left_button;
+	public static final int BUTTON_RIGHT = R.id.right_button;
+	public static final int BUTTON_BOTTOM = R.id.bottom_button;
 	
 	protected TextView mTopTextView = null;
 	protected TextView mLeftTextView = null;
@@ -33,67 +33,6 @@ public abstract class SuperActivity extends BaseActivity implements IUIInitializ
 	protected Button mRightButton = null;
 	protected Button mBottomButton = null;
 	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		initData(null, null);
-		initLayout();
-		bindView();
-		initView();
-		refreshView();
-	}
-	
-	@Override
-	public void initData(Context context, AttributeSet attrs) {
-		
-	}
-	
-	@Override
-	public void initLayout() {
-		setContentView(R.layout.super_layout);
-	}
-	
-	@Override
-	public void bindView() {
-		mTopTextView = (TextView)findViewById(R.id.top_text_view);
-		mLeftTextView = (TextView)findViewById(R.id.left_text_view);
-		mRightTextView = (TextView)findViewById(R.id.right_text_view);
-		mBottomTextView = (TextView)findViewById(R.id.bottom_text_view);
-		mTopButton = (Button)findViewById(R.id.top_button);
-		mLeftButton = (Button)findViewById(R.id.left_button);
-		mRightButton = (Button)findViewById(R.id.right_button);
-		mBottomButton = (Button)findViewById(R.id.bottom_button);
-	}
-	
-	@Override
-	public void initView() {
-		updateButton(BUTTON_TOP, getTopButtonText());
-		updateButton(BUTTON_LEFT, getLeftButtonText());
-		updateButton(BUTTON_RIGHT, getRightButtonText());
-		updateButton(BUTTON_BOTTOM, getBottomButtonText());
-	}
-	
-	private void updateViewState(TextView view, String str, boolean append) {
-		if (TextUtils.isEmpty(str)) {
-			view.setVisibility(View.GONE);
-		} else {
-			if (view.length() > 0 && append) {
-				view.setText(mTopTextView.getText().toString() + str);
-			} else {
-				view.setText(str);
-			}
-			view.setVisibility(View.VISIBLE);
-		}
-	}
-	
-	@Override
-	public void updateView() {
-	}
-	
-	@Override
-	public void refreshView() {
-		updateView();
-	}
 
 	protected String getTopButtonText() {
 		return "top";
@@ -143,6 +82,105 @@ public abstract class SuperActivity extends BaseActivity implements IUIInitializ
 			break;
 		case BUTTON_BOTTOM:
 			updateViewState(mBottomButton, str, false);
+			break;
+		default:
+			break;
+		}
+	}
+	
+
+	/**
+	 * 这写私有函数
+	 */
+	private void updateViewState(TextView view, String str, boolean append) {
+		if (TextUtils.isEmpty(str)) {
+			view.setVisibility(View.GONE);
+		} else {
+			if (view.length() > 0 && append) {
+				view.setText(mTopTextView.getText().toString() + str);
+			} else {
+				view.setText(str);
+			}
+			view.setVisibility(View.VISIBLE);
+		}
+	}
+	
+
+	protected void doTopButtonClick() {}
+
+	protected void doLeftButtonClick() {}
+
+	protected void doRightButtonClick() {}
+
+	protected void doBotttomButtonClick() {}
+	
+	
+	/**
+	 * 这里写重载函数
+	 */
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		initData(null, null);
+		initLayout();
+		bindView();
+		initView();
+		refreshView();
+	}
+	
+	@Override
+	public void initData(Context context, AttributeSet attrs) {
+		
+	}
+	
+	@Override
+	public void initLayout() {
+		setContentView(R.layout.super_layout);
+	}
+	
+	@Override
+	public void bindView() {
+		mTopTextView = (TextView)findViewById(R.id.top_text_view);
+		mLeftTextView = (TextView)findViewById(R.id.left_text_view);
+		mRightTextView = (TextView)findViewById(R.id.right_text_view);
+		mBottomTextView = (TextView)findViewById(R.id.bottom_text_view);
+		mTopButton = (Button)findViewById(R.id.top_button);
+		mLeftButton = (Button)findViewById(R.id.left_button);
+		mRightButton = (Button)findViewById(R.id.right_button);
+		mBottomButton = (Button)findViewById(R.id.bottom_button);
+	}
+	
+	@Override
+	public void initView() {
+		updateButton(BUTTON_TOP, getTopButtonText());
+		updateButton(BUTTON_LEFT, getLeftButtonText());
+		updateButton(BUTTON_RIGHT, getRightButtonText());
+		updateButton(BUTTON_BOTTOM, getBottomButtonText());
+	}
+	
+	@Override
+	public void updateView() {
+	}
+	
+	@Override
+	public void refreshView() {
+		updateView();
+	}
+	
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case BUTTON_TOP:
+			doTopButtonClick();
+			break;
+		case BUTTON_LEFT:
+			doLeftButtonClick();
+			break;
+		case BUTTON_RIGHT:
+			doRightButtonClick();
+			break;
+		case BUTTON_BOTTOM:
+			doBotttomButtonClick();
 			break;
 		default:
 			break;
