@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.text.TextUtils;
 
 import com.example.androiddemo.utils.LogUtil;
 import com.example.androiddemo.utils.TextUtil;
@@ -19,7 +20,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if (context == null || intent == null || TextUtil.isNullOrEmptyWithoutTrim(intent.getAction())) {
+		if (context == null || intent == null || TextUtils.isEmpty(intent.getAction())) {
 			return;
 		}
 		LogUtil.d("xxx", "BluetoothReceiver:onReceive:intent:" + intent);
@@ -35,7 +36,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
 		}
 
 		String action = intent.getAction();
-		if (TextUtil.isNullOrEmptyWithoutTrim(action)) {
+		if (TextUtils.isEmpty(action)) {
 			LogUtil.d(TAG, "getAction == null");
 			return;
 		}

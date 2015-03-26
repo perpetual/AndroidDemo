@@ -233,28 +233,6 @@ public class TextUtil {
 	} 
 	
 	/**
-	 * 判断字符串是否为null或�?�为空串(先trim)
-	 * 
-	 * @param s
-	 *            输入�?
-	 * @return 是否为null或�?�为空串
-	 */
-	public static boolean isNullOrEmptyWithTrim(String s) {
-		return (s == null || "".equals(s.trim()));
-	}
-	
-	/**
-	 * 判断字符串是否为null或�?�为空串（不trim�?
-	 * 
-	 * @param s
-	 *            输入�?
-	 * @return 是否为null或�?�为空串
-	 */
-	public static boolean isNullOrEmptyWithoutTrim(String s) { 
-		return (s == null || "".equals(s));
-	} 
-	
-	/**
 	 * 判断字符串是否为空，如果为空则返回空�?
 	 * 
 	 * @param s
