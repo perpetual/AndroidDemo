@@ -15,4 +15,23 @@ package com.example.androiddemo.activity;
  */
 public class BluetoothActivity extends SuperActivity {
 
+	@Override
+	protected String getLeftButtonText() {
+		return "start bluetooth";
+	}
+	
+	@Override
+	protected String getRightButtonText() {
+		return "stop bluetooth";
+	}
+	
+	@Override
+	protected String getTopButtonText() {
+		return "bluetooth device";
+	}
+	
+	@Override
+	protected String getBottomButtonText() {
+		return "";
+	}
 }
