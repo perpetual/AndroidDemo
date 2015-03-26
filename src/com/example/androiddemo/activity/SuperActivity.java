@@ -73,15 +73,19 @@ public abstract class SuperActivity extends BaseActivity implements IUIInitializ
 		switch (index) {
 		case BUTTON_TOP:
 			updateViewState(mTopButton, str, false);
+			mTopButton.setOnClickListener(this);
 			break;
 		case BUTTON_LEFT:
 			updateViewState(mLeftButton, str, false);
+			mLeftButton.setOnClickListener(this);
 			break;
 		case BUTTON_RIGHT:
 			updateViewState(mRightButton, str, false);
+			mRightButton.setOnClickListener(this);
 			break;
 		case BUTTON_BOTTOM:
 			updateViewState(mBottomButton, str, false);
+			mBottomButton.setOnClickListener(this);
 			break;
 		default:
 			break;

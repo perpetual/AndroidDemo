@@ -21,19 +21,19 @@ import android.media.AudioManager;
  * </pre>
  */
 public class BaseBroadcastReceiver extends BroadcastReceiver {
-	private static final String TAG = "BaseBroadcastReceiver";
+	private static final String TAG = BaseBroadcastReceiver.class.getSimpleName();
 	
 	public interface IBaseBroadcastReceiver {
-		public void onRecive(Context context, Intent intent);
+		public void onReciveBroadcast(Context context, Intent intent);
 	}
 	
 	public IBaseBroadcastReceiver mBaseBroadcastReceiver = null;
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		LogUtil.d(TAG, intent.getAction() + "|EXTRA_SCO_AUDIO_STATE:" + intent.getIntExtra(AudioManager.EXTRA_SCO_AUDIO_STATE, -1));
+		LogUtil.d(TAG, intent);
 		if (null != mBaseBroadcastReceiver) {
-			mBaseBroadcastReceiver.onRecive(context, intent);
+			mBaseBroadcastReceiver.onReciveBroadcast(context, intent);
 		}
 	}
 	

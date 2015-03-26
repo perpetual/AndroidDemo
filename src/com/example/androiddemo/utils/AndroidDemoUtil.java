@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.Build;
@@ -424,5 +425,27 @@ public class AndroidDemoUtil {
 			return className.substring(dotIndex + 1);
 		}
 		return emptyString;
+	}
+	
+	public static IntentFilter createIntentFilter(String... actions) {
+		IntentFilter intentFilter = new IntentFilter();
+		if (null == actions) {
+			return intentFilter;
+		}
+		for (String action : actions) {
+			if (null == action) {
+				continue;
+			}
+			intentFilter.addAction(action);
+		}
+		return intentFilter;
+	}
+	
+	public static int getSDKVersion() {
+		return android.os.Build.VERSION.SDK_INT;
+	}
+	
+	public static AudioManager getAudioManager() {
+		return (AudioManager) APPLICATION_CONTEXT.getSystemService(Context.AUDIO_SERVICE);
 	}
 }

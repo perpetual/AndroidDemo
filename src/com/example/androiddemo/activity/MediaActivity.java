@@ -52,7 +52,7 @@ public class MediaActivity extends SuperActivity implements BaseBroadcastReceive
 	}
 	
 	@Override
-	public void onRecive(Context context, Intent intent) {
+	public void onReciveBroadcast(Context context, Intent intent) {
 		LogUtil.d(TAG, intent.toString());
 	}
 	
