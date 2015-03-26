@@ -10,8 +10,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.example.androiddemo.receiver.BaseBroadcastReceiver;
 import com.example.androiddemo.utils.AndroidDemoUtil;
-import com.example.androiddemo.utils.BaseBroadcastReceiver;
 import com.example.androiddemo.utils.BluetoothUtil;
 import com.example.androiddemo.utils.LogUtil;
 

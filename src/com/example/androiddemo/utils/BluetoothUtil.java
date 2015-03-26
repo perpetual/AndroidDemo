@@ -3,6 +3,8 @@ package com.example.androiddemo.utils;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.example.androiddemo.tools.PhoneStatusWatcher;
+
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;

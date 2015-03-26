@@ -15,7 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.androiddemo.R;
-import com.example.androiddemo.utils.CustomSpinnerAdapter;
+import com.example.androiddemo.tools.CustomSpinnerAdapter;
 
 public class StorageActivity extends Activity implements OnClickListener,
 		OnItemSelectedListener {

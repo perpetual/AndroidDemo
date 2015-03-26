@@ -1,12 +1,11 @@
-package com.example.androiddemo.utils;
+package com.example.androiddemo.activity;
 
-import com.example.androiddemo.activity.MainListActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class UIProxy extends Activity {
+public class UIProxyActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

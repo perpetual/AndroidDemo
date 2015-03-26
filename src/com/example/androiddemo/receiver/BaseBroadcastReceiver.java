@@ -1,4 +1,6 @@
-package com.example.androiddemo.utils;
+package com.example.androiddemo.receiver;
+
+import com.example.androiddemo.utils.LogUtil;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

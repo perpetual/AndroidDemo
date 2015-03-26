@@ -1,4 +1,4 @@
-package com.example.androiddemo.utils;
+package com.example.androiddemo.tools;
 
 import android.content.Context;
 import android.database.DataSetObserver;

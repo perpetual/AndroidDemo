@@ -1,7 +1,10 @@
-package com.example.androiddemo.utils;
+package com.example.androiddemo.receiver;
 
 
 import java.util.Set;
+
+import com.example.androiddemo.utils.LogUtil;
+import com.example.androiddemo.utils.TextUtil;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
