@@ -3,33 +3,20 @@ package com.example.androiddemo.utils;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.example.androiddemo.tools.PhoneStatusWatcher;
-
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.media.AudioManager;
 
+import com.example.androiddemo.tools.BluetoothHelper;
+import com.example.androiddemo.tools.PhoneStatusWatcher;
+
 public class BluetoothUtil {
 
 	private static final String TAG = "BluetoothUtil";
 
-	public static boolean isConnectHeadset() {
-		try {
-			if (android.os.Build.VERSION.SDK_INT >= AndroidDemoUtil.API_LEVEL_14) {
-				boolean b = BluetoothAdapter.getDefaultAdapter().getProfileConnectionState(
-						android.bluetooth.BluetoothProfile.HEADSET) == android.bluetooth.BluetoothProfile.STATE_CONNECTED;
-				return b;
-			} else {
-				return BluetoothAdapter.getDefaultAdapter().isEnabled();
-			}
-		} catch (Exception exc) {
-		}
-		return false;
-	}
-
 	private static boolean isBluetoothCanUse() {
-		if (!isConnectHeadset()) {
+		if (BluetoothHelper.isConnectHeadset()) {
 			return false;
 		}
 

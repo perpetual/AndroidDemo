@@ -3,6 +3,7 @@ package com.example.androiddemo.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -30,17 +31,12 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 	
 	/**
 	 * 私有工具函数
-	 */
+	 */	
 	private void startBluetooth() {
-		mBluetoothHelper.register();
 	}
 	
 	private void stopBluetooth() {
 		
-	}
-	
-	private void clear() {
-		updateTextView(TEXT_VIEW_TOP, "", false);
 	}
 	
 	@Override
@@ -67,7 +63,7 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 	
 	@Override
 	protected String getTopButtonText() {
-		return "clear";
+		return "";
 	}
 	
 	@Override
@@ -77,7 +73,6 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 	
 	@Override
 	protected void doTopButtonClick() {
-		clear();
 	}
 	
 	@Override
@@ -91,10 +86,44 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 	}
 
 	@Override
+	protected void doBotttomButtonClick() {
+	}
+	
+	@Override
 	public void callback(int opCode, int arg1, int arg2, String str, Object object) {
-		if (object instanceof Intent) {
-			Intent intent = (Intent)object;
-			updateTextView(TEXT_VIEW_TOP, object.toString() + intent.getExtras().toString(), false);
+		String tips = "";
+		switch (opCode) {
+		case BluetoothHelper.OP_CODE_SCO_AUDIO_STATE_UPDATE:
+			switch (arg1) {
+			case AudioManager.SCO_AUDIO_STATE_DISCONNECTED:
+				tips = "SCO_AUDIO_STATE_DISCONNECTED";
+				break;
+			case AudioManager.SCO_AUDIO_STATE_CONNECTING:
+				tips = "SCO_AUDIO_STATE_CONNECTING";
+				break;
+			case AudioManager.SCO_AUDIO_STATE_CONNECTED:
+				tips = "SCO_AUDIO_STATE_CONNECTED";
+				break;
+			case AudioManager.SCO_AUDIO_STATE_ERROR:
+				tips = "SCO_AUDIO_STATE_ERROR";
+				break;
+			default:
+				break;
+			}
+			updateTextView(TEXT_VIEW_TOP, str + "|" + tips, true);
+			break;
+		case BluetoothHelper.OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE:
+			tips = str;
+			updateTextView(TEXT_VIEW_BOTTOM, tips, true);
+			break;
+		default:
+			break;
 		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mBluetoothHelper.release();
 	}
 }
