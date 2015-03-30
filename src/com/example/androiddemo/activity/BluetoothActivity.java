@@ -1,6 +1,7 @@
 package com.example.androiddemo.activity;
 
 
+import android.bluetooth.BluetoothHeadset;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -33,10 +34,11 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 	 * 私有工具函数
 	 */	
 	private void startBluetooth() {
+		BluetoothUtil.startBluetooth(null);
 	}
 	
 	private void stopBluetooth() {
-		
+		BluetoothUtil.stopBluetooth(null);
 	}
 	
 	@Override
@@ -63,16 +65,17 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 	
 	@Override
 	protected String getTopButtonText() {
-		return "";
+		return "clear";
 	}
 	
 	@Override
 	protected String getBottomButtonText() {
-		return "";
+		return "clear";
 	}
 	
 	@Override
 	protected void doTopButtonClick() {
+		updateTextView(TEXT_VIEW_TOP, "", false);
 	}
 	
 	@Override
@@ -87,6 +90,7 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 
 	@Override
 	protected void doBotttomButtonClick() {
+		updateTextView(TEXT_VIEW_BOTTOM, "", false);
 	}
 	
 	@Override
@@ -115,6 +119,41 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 		case BluetoothHelper.OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE:
 			tips = str;
 			updateTextView(TEXT_VIEW_BOTTOM, tips, true);
+			break;
+		case BluetoothHelper.OP_CODE_ACTION_CONNECTION_STATE_CHANGED:
+			switch (arg1) {
+			case BluetoothHeadset.STATE_CONNECTED:
+				tips = "STATE_CONNECTED";
+				break;
+			case BluetoothHeadset.STATE_CONNECTING:
+				tips = "STATE_CONNECTING";
+				break;
+			case BluetoothHeadset.STATE_DISCONNECTED:
+				tips = "STATE_DISCONNECTED";
+				break;
+			case BluetoothHeadset.STATE_DISCONNECTING:
+				tips = "STATE_DISCONNECTING";
+				break;
+			default:
+				break;
+			}
+			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + tips, true);
+			break;
+		case BluetoothHelper.OP_CODE_ACTION_AUDIO_STATE_CHANGED:
+			switch (arg1) {
+			case BluetoothHeadset.STATE_AUDIO_CONNECTED:
+				tips = "STATE_AUDIO_CONNECTED";
+				break;
+			case BluetoothHeadset.STATE_AUDIO_CONNECTING:
+				tips = "STATE_AUDIO_CONNECTING";
+				break;
+			case BluetoothHeadset.STATE_AUDIO_DISCONNECTED:
+				tips = "STATE_AUDIO_DISCONNECTED";
+				break;
+			default:
+				break;
+			}
+			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + tips, true);
 			break;
 		default:
 			break;

@@ -4,8 +4,10 @@ import java.util.Iterator;
 import java.util.Set;
 
 import android.annotation.TargetApi;
+import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.media.AudioManager;
 
 import com.example.androiddemo.tools.BluetoothHelper;
@@ -16,7 +18,7 @@ public class BluetoothUtil {
 	private static final String TAG = "BluetoothUtil";
 
 	private static boolean isBluetoothCanUse() {
-		if (BluetoothHelper.isConnectHeadset()) {
+		if (!BluetoothHelper.isConnectHeadset()) {
 			return false;
 		}
 
@@ -52,8 +54,14 @@ public class BluetoothUtil {
 
 	@TargetApi(8)
 	public static boolean startBluetooth(AudioManager am) {
+		if (null == am) {
+			am = (AudioManager)AndroidDemoUtil.APPLICATION_CONTEXT.getSystemService(Context.AUDIO_SERVICE);
+		}
 		if (Integer.valueOf(android.os.Build.VERSION.SDK) >= AndroidDemoUtil.API_LEVEL_8) {
-			if (!isBluetoothCanUse() || !am.isBluetoothScoAvailableOffCall() || PhoneStatusWatcher.isCalling()) {
+			boolean isBluetoothCanUse = isBluetoothCanUse();
+			boolean isBluetoothScoAvailableOffCall = am.isBluetoothScoAvailableOffCall();
+			boolean isCalling = PhoneStatusWatcher.isCalling();
+			if (!isBluetoothCanUse || !isBluetoothCanUse || isCalling) {
 				return false;
 			}
 			am.startBluetoothSco();
@@ -67,6 +75,9 @@ public class BluetoothUtil {
 	public static void stopBluetooth(AudioManager am) {
 		if (Integer.valueOf(android.os.Build.VERSION.SDK) >= AndroidDemoUtil.API_LEVEL_8) {
 
+			if (null == am) {
+				am = (AudioManager)AndroidDemoUtil.APPLICATION_CONTEXT.getSystemService(Context.AUDIO_SERVICE);
+			}
 			if (!PhoneStatusWatcher.isCalling()) {
 				am.stopBluetoothSco();
 			}
