@@ -1,6 +1,11 @@
 package com.example.androiddemo.tools;
 
+import java.util.Iterator;
+import java.util.Set;
+
+import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
@@ -10,6 +15,7 @@ import android.text.TextUtils;
 
 import com.example.androiddemo.receiver.BaseBroadcastReceiver;
 import com.example.androiddemo.utils.AndroidDemoUtil;
+import com.example.androiddemo.utils.LogUtil;
 
 /**
  * <pre>
@@ -26,6 +32,8 @@ import com.example.androiddemo.utils.AndroidDemoUtil;
 public class BluetoothHelper extends CommonCallbacks implements
 		BaseBroadcastReceiver.IBaseBroadcastReceiver, BluetoothProfile.ServiceListener {
 
+	private static final String TAG = BluetoothHelper.class.getSimpleName();
+	
 	public static final String ACTION_SCO_AUDIO_STATE_UPDATED = AndroidDemoUtil.getSDKVersion() < AndroidDemoUtil.API_LEVEL_14 ? AudioManager.ACTION_SCO_AUDIO_STATE_CHANGED
 			: AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED;
 
@@ -122,6 +130,85 @@ public class BluetoothHelper extends CommonCallbacks implements
 			break;
 		}
 		return state;
+	}
+	
+	private static boolean isBluetoothCanUse() {
+		if (!BluetoothHelper.isConnectHeadset()) {
+			return false;
+		}
+
+		BluetoothAdapter adp = BluetoothAdapter.getDefaultAdapter();
+		if (adp == null) {
+			LogUtil.d(TAG, "dkbt BluetoothAdapter.getDefaultAdapter() == null");
+			return false;
+		}
+		if (!adp.isEnabled()) {
+			LogUtil.d(TAG, "dkbt !adp.isEnabled()");
+			return false;
+		}
+		Set<BluetoothDevice> setDev = adp.getBondedDevices();
+		if (setDev == null || setDev.size() == 0) {
+			LogUtil.d(TAG, "dkbt setDev == null || setDev.size() == 0");
+			return false;
+		}
+		boolean hasBond = false;
+		Iterator<BluetoothDevice> devs = setDev.iterator();
+		for (Iterator<BluetoothDevice> it = devs; it.hasNext();) {
+			BluetoothDevice dev = it.next();
+			if (dev.getBondState() == BluetoothDevice.BOND_BONDED) {
+				hasBond = true;
+				break;
+			}
+		}
+		if (hasBond == false) {
+			LogUtil.d(TAG, "dkbt hasBond == false");
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * 蓝牙的打开底层有计数器
+	 * @return
+	 *
+	 * @author garyzhao in 2015-3-30
+	 */
+	@TargetApi(8)
+	public static boolean startBluetooth() {
+
+		AudioManager am = (AudioManager) AndroidDemoUtil.APPLICATION_CONTEXT
+				.getSystemService(Context.AUDIO_SERVICE);
+
+		if (Integer.valueOf(android.os.Build.VERSION.SDK) >= AndroidDemoUtil.API_LEVEL_8) {
+			boolean isBluetoothCanUse = isBluetoothCanUse();
+			boolean isBluetoothScoAvailableOffCall = am.isBluetoothScoAvailableOffCall();
+			boolean isCalling = PhoneStatusWatcher.isCalling();
+			if (!isBluetoothCanUse || !isBluetoothCanUse || isCalling) {
+				return false;
+			}
+			am.startBluetoothSco();
+			am.setBluetoothScoOn(true);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 蓝牙的关闭底层有计数器
+	 * 
+	 *
+	 * @author garyzhao in 2015-3-30
+	 */
+	@TargetApi(8)
+	public static void stopBluetooth() {
+		if (Integer.valueOf(android.os.Build.VERSION.SDK) >= AndroidDemoUtil.API_LEVEL_8) {
+
+			AudioManager am = (AudioManager) AndroidDemoUtil.APPLICATION_CONTEXT
+					.getSystemService(Context.AUDIO_SERVICE);
+			if (!PhoneStatusWatcher.isCalling()) {
+				am.stopBluetoothSco();
+			}
+		}
 	}
 	
 	@Override

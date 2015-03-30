@@ -1,17 +1,11 @@
 package com.example.androiddemo.activity;
 
 
-import android.bluetooth.BluetoothHeadset;
 import android.content.Context;
-import android.content.Intent;
-import android.media.AudioManager;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import com.example.androiddemo.tools.BluetoothHelper;
 import com.example.androiddemo.tools.CommonCallbacks;
-import com.example.androiddemo.utils.AndroidDemoUtil;
-import com.example.androiddemo.utils.BluetoothUtil;
 
 /**
  * 
@@ -34,11 +28,11 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 	 * 私有工具函数
 	 */	
 	private void startBluetooth() {
-		BluetoothUtil.startBluetooth(null);
+		BluetoothHelper.startBluetooth();
 	}
 	
 	private void stopBluetooth() {
-		BluetoothUtil.stopBluetooth(null);
+		BluetoothHelper.stopBluetooth();
 	}
 	
 	@Override
