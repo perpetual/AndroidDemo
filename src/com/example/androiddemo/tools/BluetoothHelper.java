@@ -21,7 +21,7 @@ import com.example.androiddemo.utils.LogUtil;
  * <pre>
  * Copyright (C) 1998-2015 TENCENT Inc.All Rights Reserved.
  * 
- * Description：
+ * Description：外部使用蓝牙sco状态还是优先使用{@link AudioManager#ACTION_SCO_AUDIO_STATE_UPDATED}中相关的状态
  * 
  * History：
  * 
