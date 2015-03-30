@@ -32,6 +32,8 @@ public class AndroidDemoUtil {
 	public static final int API_LEVEL_14 = 14;
 	
 	private static final float DENSITY = Resources.getSystem().getDisplayMetrics().density;
+	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
 
 	public static Context APPLICATION_CONTEXT = null;
 	public static Resources RESOURCES = null;

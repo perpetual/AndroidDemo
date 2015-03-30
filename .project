@@ -3,6 +3,7 @@
 	<name>AndroidDemo</name>
 	<comment></comment>
 	<projects>
+		<project>JavaDemo</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

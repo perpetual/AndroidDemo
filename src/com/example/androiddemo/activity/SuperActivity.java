@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.androiddemo.R;
 import com.example.androiddemo.model.IUIInitialization;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.winter_maple.utils.JavaDemoUtil;
 
 
@@ -101,7 +102,7 @@ public abstract class SuperActivity extends BaseActivity implements IUIInitializ
 			view.setVisibility(View.GONE);
 		} else {
 			if (view.length() > 0 && append) {
-				view.setText(mTopTextView.getText().toString() + str + JavaDemoUtil.LINE_SEPARATOR);
+				view.setText(view.getText().toString() + AndroidDemoUtil.LINE_SEPARATOR + str);
 			} else {
 				view.setText(str);
 			}
