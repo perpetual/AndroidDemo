@@ -95,65 +95,18 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 	
 	@Override
 	public void callback(int opCode, int arg1, int arg2, String str, Object object) {
-		String tips = "";
 		switch (opCode) {
 		case BluetoothHelper.OP_CODE_SCO_AUDIO_STATE_UPDATE:
-			switch (arg1) {
-			case AudioManager.SCO_AUDIO_STATE_DISCONNECTED:
-				tips = "SCO_AUDIO_STATE_DISCONNECTED";
-				break;
-			case AudioManager.SCO_AUDIO_STATE_CONNECTING:
-				tips = "SCO_AUDIO_STATE_CONNECTING";
-				break;
-			case AudioManager.SCO_AUDIO_STATE_CONNECTED:
-				tips = "SCO_AUDIO_STATE_CONNECTED";
-				break;
-			case AudioManager.SCO_AUDIO_STATE_ERROR:
-				tips = "SCO_AUDIO_STATE_ERROR";
-				break;
-			default:
-				break;
-			}
-			updateTextView(TEXT_VIEW_TOP, str + "|" + tips, true);
+			updateTextView(TEXT_VIEW_TOP, str + "|" + BluetoothHelper.getScoAudioState(arg1), true);
 			break;
 		case BluetoothHelper.OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE:
-			tips = str;
-			updateTextView(TEXT_VIEW_BOTTOM, tips, true);
+			updateTextView(TEXT_VIEW_BOTTOM, str, true);
 			break;
 		case BluetoothHelper.OP_CODE_ACTION_CONNECTION_STATE_CHANGED:
-			switch (arg1) {
-			case BluetoothHeadset.STATE_CONNECTED:
-				tips = "STATE_CONNECTED";
-				break;
-			case BluetoothHeadset.STATE_CONNECTING:
-				tips = "STATE_CONNECTING";
-				break;
-			case BluetoothHeadset.STATE_DISCONNECTED:
-				tips = "STATE_DISCONNECTED";
-				break;
-			case BluetoothHeadset.STATE_DISCONNECTING:
-				tips = "STATE_DISCONNECTING";
-				break;
-			default:
-				break;
-			}
-			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + tips, true);
+			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + BluetoothHelper.getConnectState(), true);
 			break;
 		case BluetoothHelper.OP_CODE_ACTION_AUDIO_STATE_CHANGED:
-			switch (arg1) {
-			case BluetoothHeadset.STATE_AUDIO_CONNECTED:
-				tips = "STATE_AUDIO_CONNECTED";
-				break;
-			case BluetoothHeadset.STATE_AUDIO_CONNECTING:
-				tips = "STATE_AUDIO_CONNECTING";
-				break;
-			case BluetoothHeadset.STATE_AUDIO_DISCONNECTED:
-				tips = "STATE_AUDIO_DISCONNECTED";
-				break;
-			default:
-				break;
-			}
-			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + tips, true);
+			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + BluetoothHelper.getAudioConnectState(arg1), true);
 			break;
 		default:
 			break;

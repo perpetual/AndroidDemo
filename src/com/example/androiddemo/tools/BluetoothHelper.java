@@ -61,6 +61,69 @@ public class BluetoothHelper extends CommonCallbacks implements
 		mSCOAudioReceiver.register(mContext, AndroidDemoUtil.createIntentFilter(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED), this);
 	}
 
+	public static String getConnectState() {
+		String state = "";
+		switch (BluetoothAdapter.getDefaultAdapter().getProfileConnectionState(BluetoothProfile.HEADSET)) {
+		case BluetoothHeadset.STATE_CONNECTED:
+			state = "STATE_CONNECTED";
+			break;
+		case BluetoothHeadset.STATE_CONNECTING:
+			state = "STATE_CONNECTING";
+			break;
+		case BluetoothHeadset.STATE_DISCONNECTED:
+			state = "STATE_DISCONNECTED";
+			break;
+		case BluetoothHeadset.STATE_DISCONNECTING:
+			state = "STATE_DISCONNECTING";
+			break;
+		default:
+			state = "UNKNOWN";
+			break;
+		}
+		return state;
+	}
+	
+	public static String getAudioConnectState(int audioState) {
+		String state = "";
+		switch (audioState) {
+		case BluetoothHeadset.STATE_AUDIO_CONNECTED:
+			state = "STATE_AUDIO_CONNECTED";
+			break;
+		case BluetoothHeadset.STATE_AUDIO_CONNECTING:
+			state = "STATE_AUDIO_CONNECTING";
+			break;
+		case BluetoothHeadset.STATE_AUDIO_DISCONNECTED:
+			state = "STATE_AUDIO_DISCONNECTED";
+			break;
+		default:
+			state = "UNKNOWN";
+			break;
+		}
+		return state;
+	}
+	
+	public static String getScoAudioState(int scoAudioState) {
+		String state = "";
+		switch (scoAudioState) {
+		case AudioManager.SCO_AUDIO_STATE_DISCONNECTED:
+			state = "SCO_AUDIO_STATE_DISCONNECTED";
+			break;
+		case AudioManager.SCO_AUDIO_STATE_CONNECTING:
+			state = "SCO_AUDIO_STATE_CONNECTING";
+			break;
+		case AudioManager.SCO_AUDIO_STATE_CONNECTED:
+			state = "SCO_AUDIO_STATE_CONNECTED";
+			break;
+		case AudioManager.SCO_AUDIO_STATE_ERROR:
+			state = "SCO_AUDIO_STATE_ERROR";
+			break;
+		default:
+			state = "UNKNOWN";
+			break;
+		}
+		return state;
+	}
+	
 	@Override
 	public void onReciveBroadcast(Context context, Intent intent) {
 		if (TextUtils.equals(ACTION_SCO_AUDIO_STATE_UPDATED, intent.getAction())) {
