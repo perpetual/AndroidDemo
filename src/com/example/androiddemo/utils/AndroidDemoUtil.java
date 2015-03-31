@@ -450,4 +450,31 @@ public class AndroidDemoUtil {
 	public static AudioManager getAudioManager() {
 		return (AudioManager) APPLICATION_CONTEXT.getSystemService(Context.AUDIO_SERVICE);
 	}
+
+	public static String converIndeterminateArgumentsToString(Object... objects) {
+		return converArrayToString(objects);
+	}
+		
+	public static String converArrayToString(Object[] objects) {
+		if (objects == null || objects.length == 0) {
+			return "";
+		} else {
+			StringBuffer buffer = new StringBuffer();
+			int size = objects.length;
+
+			for (int i = 0; i < size; i++) {
+				Object item = objects[i];
+				if (item != null) {
+					buffer.append("|");
+					if (item instanceof Throwable) {
+						buffer.append(((Throwable) item).getMessage());
+					} else {
+						buffer.append(item.toString());
+					}
+				}
+			}
+			return buffer.toString();
+		}
+
+	}
 }

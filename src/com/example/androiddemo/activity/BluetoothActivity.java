@@ -103,6 +103,7 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + BluetoothHelper.getAudioConnectState(arg1), true);
 			break;
 		default:
+			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + object, true);
 			break;
 		}
 	}

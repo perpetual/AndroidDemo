@@ -1,5 +1,6 @@
 package com.example.androiddemo.tools;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -66,12 +67,20 @@ public class BluetoothHelper extends CommonCallbacks implements
 	public BluetoothHelper(Context context) {
 		mSCOAudioReceiver = new BluetoothReceiver();
 		mContext = context;
-		mAudioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+		mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 		mSCOAudioReceiver.register(mContext,
 				AndroidDemoUtil.createIntentFilter(ACTION_SCO_AUDIO_STATE_UPDATED), this);
-		BluetoothAdapter.getDefaultAdapter().getProfileProxy(mContext, this, BluetoothProfile.HEADSET);
-		mSCOAudioReceiver.register(mContext, AndroidDemoUtil.createIntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED), this);
-		mSCOAudioReceiver.register(mContext, AndroidDemoUtil.createIntentFilter(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED), this);
+		BluetoothAdapter.getDefaultAdapter().getProfileProxy(mContext, this,
+				BluetoothProfile.HEADSET);
+		mSCOAudioReceiver.register(mContext, AndroidDemoUtil
+				.createIntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED), this);
+		mSCOAudioReceiver.register(mContext,
+				AndroidDemoUtil.createIntentFilter(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED),
+				this);
+		mSCOAudioReceiver.register(mContext, AndroidDemoUtil.createIntentFilter(
+				BluetoothDevice.ACTION_ACL_CONNECTED,
+				BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED,
+				BluetoothDevice.ACTION_ACL_DISCONNECTED), this);
 	}
 
 	public static String getConnectState() {
@@ -136,6 +145,13 @@ public class BluetoothHelper extends CommonCallbacks implements
 			break;
 		}
 		return state;
+	}
+	
+	private static String getBluetoothDeviceInfo(BluetoothDevice bd) {
+		if (null == bd) {
+			return "";
+		}
+		return AndroidDemoUtil.converIndeterminateArgumentsToString(bd.getName(), bd.getAddress(), bd.getBondState(), bd.getType());
 	}
 	
 	private static boolean isBluetoothCanUse() {
@@ -226,6 +242,8 @@ public class BluetoothHelper extends CommonCallbacks implements
 			doCallbacks(OP_CODE_ACTION_CONNECTION_STATE_CHANGED, intent.getIntExtra(BluetoothHeadset.EXTRA_STATE, -1), 0, intent.getAction(), null);
 		} else if (TextUtils.equals(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED, intent.getAction())) {
 			doCallbacks(OP_CODE_ACTION_AUDIO_STATE_CHANGED, intent.getIntExtra(BluetoothHeadset.EXTRA_STATE, -1), 0, intent.getAction(), null);
+		} else {
+			doCallbacks(-1, 0, 0, intent.getAction(), getBluetoothDeviceInfo((BluetoothDevice)intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)));
 		}
 	}
 
