@@ -22,6 +22,7 @@ public class LogUtil {
 		if (data == null) {
 			data = converArrayToString(tag, datas);
 		}
+		d(tag, data);
 	}
 	
 	private static String converArrayToString(String tag, Object[] objects) {

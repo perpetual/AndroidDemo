@@ -111,11 +111,9 @@
         <activity android:name="com.example.androiddemo.activity.MediaActivity" />
         <activity android:name="com.example.androiddemo.activity.BluetoothActivity" />
 
-        <receiver android:name="com.example.androiddemo.receiver.BaseBroadcastReceiver" >
+        <receiver android:name="com.example.androiddemo.BluetoothReceiver" >
             <intent-filter android:priority="2147483647" >
-                <action android:name="android.media.ACTION_SCO_AUDIO_STATE_UPDATED"/>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
-                <action android:name="android.media.VOLUME_CHANGED_ACTION" />
             </intent-filter>
         </receiver>
     </application>
