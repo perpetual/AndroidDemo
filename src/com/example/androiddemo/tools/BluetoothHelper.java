@@ -6,6 +6,7 @@ import java.util.Set;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothProfile;
@@ -151,7 +152,17 @@ public class BluetoothHelper extends CommonCallbacks implements
 		if (null == bd) {
 			return "";
 		}
-		return AndroidDemoUtil.converIndeterminateArgumentsToString(bd.getName(), bd.getAddress(), bd.getBondState(), bd.getType());
+		return AndroidDemoUtil.converIndeterminateArgumentsToString(bd.getName(), bd.getAddress(),
+				bd.getBondState(), bd.getType(),
+				Integer.toHexString(bd.getBluetoothClass().getDeviceClass()),
+				Integer.toHexString(bd.getBluetoothClass().getMajorDeviceClass()), isBluetoothHeadset(bd));
+	}
+	
+	public static boolean isBluetoothHeadset(BluetoothDevice bluetoothDevice) {
+		if (null == bluetoothDevice) {
+			return false;
+		}
+		return bluetoothDevice.getBluetoothClass().getDeviceClass() == BluetoothClass.Device.AUDIO_VIDEO_WEARABLE_HEADSET;
 	}
 	
 	private static boolean isBluetoothCanUse() {
