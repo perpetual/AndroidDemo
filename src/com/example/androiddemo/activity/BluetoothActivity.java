@@ -1,11 +1,13 @@
 package com.example.androiddemo.activity;
 
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.util.AttributeSet;
 
 import com.example.androiddemo.tools.BluetoothHelper;
 import com.example.androiddemo.tools.CommonCallbacks;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 /**
  * 
@@ -28,11 +30,18 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 	 * 私有工具函数
 	 */	
 	private void startBluetooth() {
-		BluetoothHelper.startBluetooth();
+		boolean isBluetoothEnabled = BluetoothAdapter.getDefaultAdapter().isEnabled();
+		int bluetoothState = BluetoothAdapter.getDefaultAdapter().getState();
+		boolean isBluetoothScoAvailableOffCall = AndroidDemoUtil.getAudioManager()
+				.isBluetoothScoAvailableOffCall();
+		updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.converIndeterminateArgumentsToString(
+				"isEnabled", isBluetoothEnabled, "bluetoothState", bluetoothState, "isBluetoothScoAvailableOffCall",
+				isBluetoothScoAvailableOffCall), true);
+		BluetoothHelper.startBluetoothSCO();
 	}
 	
 	private void stopBluetooth() {
-		BluetoothHelper.stopBluetooth();
+		BluetoothHelper.stopBluetoothSCO();
 	}
 	
 	@Override
@@ -102,8 +111,10 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 		case BluetoothHelper.OP_CODE_ACTION_AUDIO_STATE_CHANGED:
 			updateTextView(TEXT_VIEW_RIGHT, str + "|" + BluetoothHelper.getAudioConnectState(arg1), true);
 			break;
-		default:
+		case BluetoothHelper.OP_CODE_ACL_CONNECTION_UPDATE:
 			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + object, true);
+			break;
+		default:
 			break;
 		}
 	}
