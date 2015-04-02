@@ -28,8 +28,9 @@ public class AndroidDemoUtil {
 	private static final String TAG = AndroidDemoUtil
 			.getClassName(AndroidDemoUtil.class);
 
-	public static final int API_LEVEL_8 = 8;
-	public static final int API_LEVEL_14 = 14;
+	public static final int API_LEVEL_8 = 8;	//2.2.x
+	public static final int API_LEVEL_11 = 11;	//3.0.x
+	public static final int API_LEVEL_14 = 14;	//4.0~4.0.2
 	
 	private static final float DENSITY = Resources.getSystem().getDisplayMetrics().density;
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
@@ -445,6 +446,10 @@ public class AndroidDemoUtil {
 	
 	public static int getSDKVersion() {
 		return android.os.Build.VERSION.SDK_INT;
+	}
+	
+	public static boolean isSDKVersionAtLeast(int apiLevel) {
+		return getSDKVersion() >= apiLevel;
 	}
 	
 	public static AudioManager getAudioManager() {

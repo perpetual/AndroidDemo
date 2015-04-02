@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.text.TextUtils;
+import android.util.AndroidException;
 
 import com.example.androiddemo.BluetoothReceiver;
 import com.example.androiddemo.receiver.BaseBroadcastReceiver;
@@ -33,7 +34,7 @@ import com.example.androiddemo.utils.LogUtil;
  * </pre>
  */
 public class BluetoothHelper extends CommonCallbacks implements
-		BaseBroadcastReceiver.IBaseBroadcastReceiver, BluetoothProfile.ServiceListener {
+		BaseBroadcastReceiver.IBaseBroadcastReceiver {
 
 	private static final String TAG = BluetoothHelper.class.getSimpleName();
 	
@@ -49,7 +50,8 @@ public class BluetoothHelper extends CommonCallbacks implements
 	private BluetoothReceiver mSCOAudioReceiver = null;
 	private Context mContext = null;
 	private AudioManager mAudioManager = null;
-
+	private BluetoothProfile.ServiceListener mServiceListener = null;
+	
 	public static boolean isConnectHeadset() {
 		try {
 			if (android.os.Build.VERSION.SDK_INT >= AndroidDemoUtil.API_LEVEL_14) {
@@ -70,8 +72,6 @@ public class BluetoothHelper extends CommonCallbacks implements
 		mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 		mSCOAudioReceiver.register(mContext,
 				AndroidDemoUtil.createIntentFilter(ACTION_SCO_AUDIO_STATE_UPDATED), this);
-		BluetoothAdapter.getDefaultAdapter().getProfileProxy(mContext, this,
-				BluetoothHeadset.HEADSET);
 		mSCOAudioReceiver.register(mContext, AndroidDemoUtil
 				.createIntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED), this);
 		mSCOAudioReceiver.register(mContext,
@@ -79,8 +79,23 @@ public class BluetoothHelper extends CommonCallbacks implements
 				this);
 		mSCOAudioReceiver.register(mContext, AndroidDemoUtil.createIntentFilter(
 				BluetoothDevice.ACTION_ACL_CONNECTED,
-				BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED,
 				BluetoothDevice.ACTION_ACL_DISCONNECTED), this);
+		if (AndroidDemoUtil.isSDKVersionAtLeast(AndroidDemoUtil.API_LEVEL_11)) {
+			mServiceListener = new BluetoothProfile.ServiceListener() {
+				
+				@Override
+				public void onServiceDisconnected(int profile) {
+					doCallbacks(OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE, profile, 0, "onServiceConnected", null);
+				}
+				
+				@Override
+				public void onServiceConnected(int profile, BluetoothProfile proxy) {
+					doCallbacks(OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE, profile, 0, "onServiceDisconnected", null);
+				}
+			};
+			BluetoothAdapter.getDefaultAdapter().getProfileProxy(mContext, mServiceListener,
+					BluetoothHeadset.HEADSET);
+		}
 	}
 
 	public static String getConnectState() {
@@ -153,9 +168,9 @@ public class BluetoothHelper extends CommonCallbacks implements
 			return "";
 		}
 		return AndroidDemoUtil.converIndeterminateArgumentsToString(bd.getName(), bd.getAddress(),
-				bd.getBondState(), bd.getType(),
-				Integer.toHexString(bd.getBluetoothClass().getDeviceClass()),
-				Integer.toHexString(bd.getBluetoothClass().getMajorDeviceClass()), isBluetoothHeadset(bd));
+				bd.getBondState(), Integer.toHexString(bd.getBluetoothClass().getDeviceClass()),
+				Integer.toHexString(bd.getBluetoothClass().getMajorDeviceClass()),
+				isBluetoothHeadset(bd));
 	}
 	
 	public static boolean isBluetoothHeadset(BluetoothDevice bluetoothDevice) {
@@ -261,15 +276,5 @@ public class BluetoothHelper extends CommonCallbacks implements
 	public void release() {
 		mSCOAudioReceiver.unregister(mContext);
 		mAudioManager.unregisterMediaButtonEventReceiver(sComponentName);
-	}
-
-	@Override
-	public void onServiceConnected(int profile, BluetoothProfile proxy) {
-		doCallbacks(OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE, profile, 0, "onServiceConnected", null);
-	}
-
-	@Override
-	public void onServiceDisconnected(int profile) {
-		doCallbacks(OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE, profile, 0, "onServiceDisconnected", null);
 	}
 }
