@@ -24,7 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainListActivity extends ListActivity {
-	private static final String TAG = AndroidDemoUtil.getClassName(MainListActivity.class);
+	private static final String TAG = MainListActivity.class.getSimpleName();
 	
 	private ListAdapter mListAdapter = null;
 	private String[] mTitleArray = null;
@@ -66,20 +66,14 @@ public class MainListActivity extends ListActivity {
 		return p1 + p2;
 	}
 
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.main, menu);
-//		return true;
-//	}
-
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Class<?> cls = null;
 		try {
-			String str = getPackageName();
-			cls = Class.forName(getPackageName() + ".activity." + mTitleArray[position]);
+			String packageName = getPackageName();
+			String classString = packageName + ".activity." + mTitleArray[position];
+			cls = Class.forName(classString);
 			Intent intent = new Intent(MainListActivity.this, cls);
 			startActivity(intent);
 		} catch (Exception e) {
@@ -90,38 +84,38 @@ public class MainListActivity extends ListActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		Log.d("gary", this + "onStart");
+		Log.d(TAG, this + "onStart");
 	}
 
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		Log.d("gary", this + "onRestart");
+		Log.d(TAG, this + "onRestart");
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Log.d("gary", this + "onResume");
+		Log.d(TAG, this + "onResume");
 		AndroidDemoUtil.showLongToast("taskID:" + getTaskId());
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Log.d("gary", this + "onPause");
+		Log.d(TAG, this + "onPause");
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		Log.d("gary", this + "onStop");
+		Log.d(TAG, this + "onStop");
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		Log.d("gary", this + "onDestroy");
+		Log.d(TAG, this + "onDestroy");
 	}
 	
 	@Override

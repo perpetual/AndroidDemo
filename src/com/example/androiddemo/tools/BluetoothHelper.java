@@ -1,6 +1,5 @@
 package com.example.androiddemo.tools;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -107,6 +106,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 		return state;
 	}
 	
+	@TargetApi(11)
 	public static String getAudioConnectState(int audioState) {
 		String state = "";
 		switch (audioState) {

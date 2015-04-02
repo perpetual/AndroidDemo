@@ -1,10 +1,9 @@
 package com.example.androiddemo.activity;
 
-import com.example.androiddemo.R;
-import com.example.androiddemo.R.layout;
-
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.example.androiddemo.R;
 
 public class TouchEventActivity extends Activity {
 
@@ -13,10 +12,7 @@ public class TouchEventActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		bindUI();
 	}
-	
-	/**
-	 * 私有工具函数
-	 */
+
 	private void bindUI() {
 		setContentView(R.layout.touch_event_layout);
 	}

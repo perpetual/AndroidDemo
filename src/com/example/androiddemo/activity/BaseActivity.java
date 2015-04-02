@@ -15,11 +15,9 @@ import com.example.androiddemo.model.IUIInitialization;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
-public abstract class BaseActivity extends Activity implements
-		OnLayoutChangeListener {
+public abstract class BaseActivity extends Activity {
 
 	protected static String TAG = BaseActivity.class.getSimpleName();
-	protected ViewGroup mDecorView = null;
 
 	protected String getLogTag() {
 		return TAG;
@@ -28,7 +26,6 @@ public abstract class BaseActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getWindow().getDecorView().addOnLayoutChangeListener(this);
 		LogUtil.d(TAG, AndroidDemoUtil.getClassName(this.getClass()) + "|onCreate");
 	}
 
@@ -71,16 +68,5 @@ public abstract class BaseActivity extends Activity implements
 	@Override
 	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
 		return super.onKeyDown(keyCode, event);
-	}
-
-	@Override
-	public void onLayoutChange(View v, int left, int top, int right,
-			int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-		LogUtil.d(TAG,
-				"onLayoutChange|v:" + AndroidDemoUtil.getClassName(v.getClass())
-						+ "|left:" + left + "|top:" + top + "|right:" + right
-						+ "|bottom:" + bottom + "|oldLeft:" + oldLeft
-						+ "|oldTop:" + oldTop + "|oldRight:" + oldRight
-						+ "|oldBottom:" + oldBottom);
 	}
 }

@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.example.androiddemo.receiver.BaseBroadcastReceiver;
-import com.example.androiddemo.tools.BluetoothHelper;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
@@ -41,13 +40,7 @@ public class MediaActivity extends SuperActivity implements BaseBroadcastReceive
 		mBaseBroadcastReceiver.register(context, intentFilter, this);
 		mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 		AndroidDemoUtil.pauseMusic(this);
-		BluetoothHelper.startBluetooth();
 		mAudioManager.registerMediaButtonEventReceiver(new ComponentName(this, BaseBroadcastReceiver.class));
-	}
-	
-	@Override
-	public void initLayout() {
-		setContentView(0);
 	}
 	
 	@Override
@@ -70,7 +63,6 @@ public class MediaActivity extends SuperActivity implements BaseBroadcastReceive
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		BluetoothHelper.stopBluetooth();
 		AndroidDemoUtil.resumeMusic(this);
 	}
 

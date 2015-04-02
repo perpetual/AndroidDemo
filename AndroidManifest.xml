@@ -39,10 +39,11 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.androiddemo.activity.BaseActivity" />
+        <activity android:name="com.example.androiddemo.activity.SuperActivity" />
         <activity android:name="com.example.androiddemo.activity.BlankActivity" />
         <activity android:name="com.example.androiddemo.activity.TabBarActivity" />
-        <activity android:name="com.example.androiddemo.Browser1" />
-        <activity android:name="com.example.androiddemo.Browser2" />
+        <activity android:name="com.example.androiddemo.activity.Browser1" />
+        <activity android:name="com.example.androiddemo.activity.Browser2" />
         <activity android:name="com.example.androiddemo.activity.FlipperActivity" />
         <activity android:name="com.example.androiddemo.activity.DemoListActivity" />
         <activity android:name="com.example.androiddemo.activity.StringFormatAcitvity" />
@@ -50,10 +51,9 @@
             android:name="com.example.androiddemo.activity.RotatableActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-        <activity android:name="com.example.androiddemo.ListViewActivity" />
+        <activity android:name="com.example.androiddemo.activity.ListViewActivity" />
         <activity android:name="com.example.androiddemo.activity.SurfaceViewActivityivity" />
         <activity android:name="com.example.androiddemo.activity.AnimationActivity" />
-        <activity android:name="com.example.androiddemo.AnimationActivity" />
         <activity android:name="com.example.androiddemo.activity.AlarmManagerActivity" />
         <activity
             android:name="com.example.androiddemo.activity.TestActivity"
@@ -62,7 +62,6 @@
         <receiver android:name="com.example.androiddemo.AlarmManagerActivity$AlarmReceiver" />
 
         <activity android:name="com.example.androiddemo.activity.ServiceActivity" />
-        <activity android:name="com.example.androiddemo.ServiceActivity" />
 
         <service android:name="com.example.androiddemo.ServiceActivity$BackgroundService" />
         <service
@@ -76,8 +75,7 @@
             android:name="com.example.androiddemo.ServiceActivity$RemoteService2"
             android:process=":background" >
             <intent-filter>
-                <action android:name="com.examcom.example.androiddemo.activity.HandlerActivity" >
-                </action>
+                <action android:name="com.example.androiddemo.activity.HandlerActivity" />
             </intent-filter>
         </service>
 
@@ -86,23 +84,20 @@
             android:clearTaskOnLaunch="true"
             android:finishOnTaskLaunch="true" />
         <activity
-            android:name="com.example.androiddemo.SecondActivity"
+            android:name="com.example.androiddemo.activity.SecondActivity"
             android:finishOnTaskLaunch="false"
             android:launchMode="singleTask" />
-        <activity android:name="com.example.androicom.example.androiddemo.activity.ScrollViewActivity" />
-        <activity android:name="com.example.androiddemo.TextViewActivity" />
+        <activity android:name="com.example.androiddemo.activity.ScrollViewActivity" />
+        <activity android:name="com.example.androiddemo.activity.TextViewActivity" />
         <activity android:name="com.example.androiddemo.activity.TouchEventActivity" />
-        <activity android:name="com.example.androiddemo.ScrollViewActivity" />
-        <activity android:name="androiddemo.activity.ResourceActivity" />
-        <activity android:name="com.example.androiddemo.IntentActivity" />
+        <activity android:name="com.example.androiddemo.activity.ResourceActivity" />
+        <activity android:name="com.example.androiddemo.activity.IntentActivity" />
         <activity android:name="com.example.androiddemo.activity.FragmentActivity" />
-        <activity android:name="com.example.androiddemo.ViewStubActivity" />
-        <activity android:name="com.example.androiddemo.FragmentActivity" />
+        <activity android:name="com.example.androiddemo.activity.ViewStubActivity" />
         <activity android:name="com.example.androiddemo.activity.ThirdActivity" />
         <activity
             android:name="com.example.androiddemo.activity.FourthActivity"
             android:finishOnTaskLaunch="true" />
-        <activity android:name="com.example.androiddemo.activity.TextViewActivity" />
         <activity android:name="com.example.androiddemo.activity.HelloJniActivity" />
         <activity android:name="com.example.androiddemo.activity.StorageActivity" />
         <activity android:name="com.example.androiddemo.activity.ScreenConfigActivity" />
