@@ -72,7 +72,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 		mSCOAudioReceiver.register(mContext,
 				AndroidDemoUtil.createIntentFilter(ACTION_SCO_AUDIO_STATE_UPDATED), this);
 		BluetoothAdapter.getDefaultAdapter().getProfileProxy(mContext, this,
-				BluetoothProfile.HEADSET);
+				BluetoothHeadset.HEADSET);
 		mSCOAudioReceiver.register(mContext, AndroidDemoUtil
 				.createIntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED), this);
 		mSCOAudioReceiver.register(mContext,
