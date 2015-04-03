@@ -76,6 +76,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 		
 		/**
 		 * 注册蓝牙SCO音频连接状态广播
+		 * 注册上就会先回调一次
 		 */
 		mSCOAudioReceiver.register(mContext,
 				AndroidDemoUtil.createIntentFilter(ACTION_SCO_AUDIO_STATE_UPDATED), this);
@@ -99,6 +100,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 		
 		/**
 		 * 在相对高版本的SDK中可以监听蓝牙耳机服务是否开启
+		 * 注册上就会回调一次
 		 */
 		if (AndroidDemoUtil.isSDKVersionAtLeast(AndroidDemoUtil.API_LEVEL_11)) {
 			mServiceListener = new BluetoothProfile.ServiceListener() {
@@ -116,6 +118,8 @@ public class BluetoothHelper extends CommonCallbacks implements
 			BluetoothAdapter.getDefaultAdapter().getProfileProxy(mContext, mServiceListener,
 					BluetoothHeadset.HEADSET);
 		}
+
+		mAudioManager.registerMediaButtonEventReceiver(sComponentName);
 	}
 
 	public static String getHeadsetConnectState() {
@@ -269,7 +273,6 @@ public class BluetoothHelper extends CommonCallbacks implements
 			}
 			am.startBluetoothSco();
 			am.setBluetoothScoOn(true);
-			am.registerMediaButtonEventReceiver(sComponentName);
 			return true;
 		}
 		return false;
