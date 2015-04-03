@@ -100,18 +100,18 @@ public class BluetoothActivity extends SuperActivity implements CommonCallbacks.
 	public void callback(int opCode, int arg1, int arg2, String str, Object object) {
 		switch (opCode) {
 		case BluetoothHelper.OP_CODE_SCO_AUDIO_STATE_UPDATE:
-			updateTextView(TEXT_VIEW_LEFT, str + "|" + BluetoothHelper.getScoAudioState(arg1), true);
+			updateTextView(TEXT_VIEW_LEFT, str + "|" + BluetoothHelper.getScoAudioConnectionState(arg1), true);
 			break;
 		case BluetoothHelper.OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE:
 			updateTextView(TEXT_VIEW_TOP, str, true);
 			break;
-		case BluetoothHelper.OP_CODE_ACTION_CONNECTION_STATE_CHANGED:
-			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + BluetoothHelper.getConnectState(), true);
+		case BluetoothHelper.OP_CODE_ACTION_HEADSET_CONNECTION_STATE_UPDATE:
+			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + BluetoothHelper.getHeadsetConnectState(), true);
 			break;
-		case BluetoothHelper.OP_CODE_ACTION_AUDIO_STATE_CHANGED:
-			updateTextView(TEXT_VIEW_RIGHT, str + "|" + BluetoothHelper.getAudioConnectState(arg1), true);
+		case BluetoothHelper.OP_CODE_ACTION_A2DP_CONNECTION_STATE_UPDATE:
+			updateTextView(TEXT_VIEW_RIGHT, str + "|" + BluetoothHelper.getA2DPConnectState(arg1), true);
 			break;
-		case BluetoothHelper.OP_CODE_ACL_CONNECTION_UPDATE:
+		case BluetoothHelper.OP_CODE_ACL_CONNECTION_STATE_UPDATE:
 			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + object, true);
 			break;
 		default:

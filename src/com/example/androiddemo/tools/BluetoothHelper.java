@@ -41,9 +41,9 @@ public class BluetoothHelper extends CommonCallbacks implements
 			: AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED;
 	public static final int OP_CODE_SCO_AUDIO_STATE_UPDATE = 0;	
 	public static final int OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE = 1;	
-	public static final int OP_CODE_ACTION_CONNECTION_STATE_CHANGED = 2;
-	public static final int OP_CODE_ACTION_AUDIO_STATE_CHANGED = 3;
-	public static final int OP_CODE_ACL_CONNECTION_UPDATE = 4;
+	public static final int OP_CODE_ACTION_HEADSET_CONNECTION_STATE_UPDATE = 2;
+	public static final int OP_CODE_ACTION_A2DP_CONNECTION_STATE_UPDATE = 3;
+	public static final int OP_CODE_ACL_CONNECTION_STATE_UPDATE = 4;
 	
 	private static final ComponentName sComponentName = new ComponentName(BluetoothReceiver.class.getPackage().getName(), BluetoothReceiver.class.getName());
 	
@@ -118,7 +118,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 		}
 	}
 
-	public static String getConnectState() {
+	public static String getHeadsetConnectState() {
 		String state = "";
 		final int stateCode = BluetoothAdapter.getDefaultAdapter().getProfileConnectionState(BluetoothProfile.HEADSET);
 		switch (BluetoothAdapter.getDefaultAdapter().getProfileConnectionState(BluetoothProfile.HEADSET)) {
@@ -147,7 +147,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 		mAudioManager.unregisterMediaButtonEventReceiver(sComponentName);
 	}
 	
-	public static String getAudioConnectState(int audioState) {
+	public static String getA2DPConnectState(int audioState) {
 		String state = "";
 		switch (audioState) {
 		case BluetoothHeadset.STATE_AUDIO_CONNECTED:
@@ -166,7 +166,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 		return state;
 	}
 	
-	public static String getScoAudioState(int scoAudioState) {
+	public static String getScoAudioConnectionState(int scoAudioState) {
 		String state = "";
 		switch (scoAudioState) {
 		case AudioManager.SCO_AUDIO_STATE_DISCONNECTED:
@@ -301,17 +301,17 @@ public class BluetoothHelper extends CommonCallbacks implements
 					intent.getAction(), intent);
 		} else if (TextUtils.equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED,
 				intent.getAction())) {
-			doCallbacks(OP_CODE_ACTION_CONNECTION_STATE_CHANGED,
+			doCallbacks(OP_CODE_ACTION_HEADSET_CONNECTION_STATE_UPDATE,
 					intent.getIntExtra(BluetoothHeadset.EXTRA_STATE, -1), 0, intent.getAction(),
 					null);
 		} else if (TextUtils
 				.equals(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED, intent.getAction())) {
-			doCallbacks(OP_CODE_ACTION_AUDIO_STATE_CHANGED,
+			doCallbacks(OP_CODE_ACTION_A2DP_CONNECTION_STATE_UPDATE,
 					intent.getIntExtra(BluetoothHeadset.EXTRA_STATE, -1), 0, intent.getAction(),
 					null);
 		} else if (TextUtils.equals(BluetoothDevice.ACTION_ACL_CONNECTED, intent.getAction())
 				|| TextUtils.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED, intent.getAction())) {
-			doCallbacks(OP_CODE_ACL_CONNECTION_UPDATE, 0, 0, intent.getAction(),
+			doCallbacks(OP_CODE_ACL_CONNECTION_STATE_UPDATE, 0, 0, intent.getAction(),
 					getBluetoothDeviceInfo((BluetoothDevice) intent
 							.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)));
 		}
