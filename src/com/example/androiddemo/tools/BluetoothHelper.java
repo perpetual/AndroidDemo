@@ -109,8 +109,6 @@ public class BluetoothHelper extends CommonCallbacks implements
 			BluetoothAdapter.getDefaultAdapter().getProfileProxy(mContext, mServiceListener,
 					BluetoothHeadset.HEADSET);
 		}
-
-		mAudioManager.registerMediaButtonEventReceiver(sComponentName);
 	}
 
 	public static String getHeadsetConnectState() {
@@ -140,7 +138,6 @@ public class BluetoothHelper extends CommonCallbacks implements
 	public void release() {
 		mSCOAudioReceiver.unregister(mContext);
 		removeAll();
-		mAudioManager.unregisterMediaButtonEventReceiver(sComponentName);
 	}
 	
 	public static String getA2DPConnectState(int audioState) {
