@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 
 import com.example.androiddemo.tools.BluetoothHelper;
 import com.example.androiddemo.tools.CommonCallbacks;
+import com.example.androiddemo.tools.MediaManager;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 
 /**
@@ -26,6 +27,7 @@ import com.example.androiddemo.utils.AndroidDemoUtil;
 public class MediaActivity extends SuperActivity implements CommonCallbacks.ICallback {
 
 	BluetoothHelper mBluetoothHelper = null;
+	MediaManager mMediaManager = null;
 	
 	/**
 	 * 私有工具函数
@@ -50,6 +52,8 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 		super.initData(context, attrs);
 		mBluetoothHelper = new BluetoothHelper(context);
 		mBluetoothHelper.add(this);
+		mMediaManager = new MediaManager(this);
+		mMediaManager.add(this);
 	}
 	
 	@Override
@@ -100,7 +104,7 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	@Override
 	public void callback(int opCode, int arg1, int arg2, String str, Object object) {
 		switch (opCode) {
-		case BluetoothHelper.OP_CODE_SCO_AUDIO_STATE_UPDATE:
+		case MediaManager.OP_CODE_SCO_AUDIO_STATE_UPDATE:
 			updateTextView(TEXT_VIEW_LEFT, str + "|" + BluetoothHelper.getScoAudioConnectionState(arg1), true);
 			break;
 		case BluetoothHelper.OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE:
@@ -124,6 +128,7 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	protected void onDestroy() {
 		super.onDestroy();
 		mBluetoothHelper.release();
+		mMediaManager.release();
 	}
 	
 	@Override

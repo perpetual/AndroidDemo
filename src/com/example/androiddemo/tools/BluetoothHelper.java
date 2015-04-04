@@ -37,9 +37,6 @@ public class BluetoothHelper extends CommonCallbacks implements
 
 	private static final String TAG = BluetoothHelper.class.getSimpleName();
 	
-	public static final String ACTION_SCO_AUDIO_STATE_UPDATED = AndroidDemoUtil.getSDKVersion() < AndroidDemoUtil.API_LEVEL_14 ? AudioManager.ACTION_SCO_AUDIO_STATE_CHANGED
-			: AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED;
-	public static final int OP_CODE_SCO_AUDIO_STATE_UPDATE = 0;	
 	public static final int OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE = 1;	
 	public static final int OP_CODE_ACTION_HEADSET_CONNECTION_STATE_UPDATE = 2;
 	public static final int OP_CODE_ACTION_A2DP_CONNECTION_STATE_UPDATE = 3;
@@ -70,16 +67,10 @@ public class BluetoothHelper extends CommonCallbacks implements
 	}
 
 	public BluetoothHelper(Context context) {
-		mSCOAudioReceiver = new BluetoothReceiver();
 		mContext = context;
+		mSCOAudioReceiver = new BluetoothReceiver();
 		mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-		
-		/**
-		 * 注册蓝牙SCO音频连接状态广播
-		 * 注册上就会先回调一次
-		 */
-		mSCOAudioReceiver.register(mContext,
-				AndroidDemoUtil.createIntentFilter(ACTION_SCO_AUDIO_STATE_UPDATED), this);
+
 		/**
 		 * 注册蓝牙耳机连接状态广播
 		 */
@@ -148,6 +139,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 
 	public void release() {
 		mSCOAudioReceiver.unregister(mContext);
+		removeAll();
 		mAudioManager.unregisterMediaButtonEventReceiver(sComponentName);
 	}
 	
@@ -298,11 +290,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 	
 	@Override
 	public void onReciveBroadcast(Context context, Intent intent) {
-		if (TextUtils.equals(ACTION_SCO_AUDIO_STATE_UPDATED, intent.getAction())) {
-			doCallbacks(OP_CODE_SCO_AUDIO_STATE_UPDATE,
-					intent.getIntExtra(AudioManager.EXTRA_SCO_AUDIO_STATE, -1), 0,
-					intent.getAction(), intent);
-		} else if (TextUtils.equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED,
+		if (TextUtils.equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED,
 				intent.getAction())) {
 			doCallbacks(OP_CODE_ACTION_HEADSET_CONNECTION_STATE_UPDATE,
 					intent.getIntExtra(BluetoothHeadset.EXTRA_STATE, -1), 0, intent.getAction(),
