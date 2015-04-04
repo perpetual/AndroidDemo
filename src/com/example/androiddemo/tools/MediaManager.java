@@ -1,13 +1,18 @@
 package com.example.androiddemo.tools;
 
+import java.io.FileDescriptor;
+
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.text.TextUtils;
 
 import com.example.androiddemo.model.OperationCode;
 import com.example.androiddemo.receiver.BaseBroadcastReceiver;
 import com.example.androiddemo.utils.AndroidDemoUtil;
+import com.example.androiddemo.utils.LogUtil;
 
 /**
  * <pre>
@@ -21,13 +26,16 @@ import com.example.androiddemo.utils.AndroidDemoUtil;
  * garyzhao		2015-4-4		Create		
  * </pre>
  */
-public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiver.IBaseBroadcastReceiver{
-
+public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiver.IBaseBroadcastReceiver, MediaPlayer.OnPreparedListener{
+	
+	private static final String TAG = MediaManager.class.getSimpleName();
 	
 	public static final String ACTION_SCO_AUDIO_STATE_UPDATED = AndroidDemoUtil.getSDKVersion() < AndroidDemoUtil.API_LEVEL_14 ? AudioManager.ACTION_SCO_AUDIO_STATE_CHANGED
 			: AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED;
 	private Context mContext = null;
 	private BaseBroadcastReceiver mBBR = null;
+	private MediaPlayer mMediaPlayer = null;
+	private int mStreamType = AudioManager.STREAM_MUSIC;
 	
 	public MediaManager(Context context) {
 		mContext = context;
@@ -43,11 +51,51 @@ public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiv
 		 * 注册耳机插拔广播
 		 */
 		mBBR.register(mContext, AndroidDemoUtil.createIntentFilter(AudioManager.ACTION_HEADSET_PLUG), this);
+		
+		mMediaPlayer = new MediaPlayer();
 	}
 	
 	public void release() {
 		removeAll();
 		mBBR.unregister(mContext);
+		mMediaPlayer.release();
+	}
+	
+	public void startPlay(int mediaResourceID, int streamType) {
+		AssetFileDescriptor afd = mContext.getResources().openRawResourceFd(mediaResourceID);
+		if (null == afd) {
+			return;
+		}
+		try {
+			FileDescriptor fd = afd.getFileDescriptor();
+			mMediaPlayer.setDataSource(fd, afd.getStartOffset(), afd.getLength());
+			mStreamType = streamType;
+			mMediaPlayer.setAudioStreamType(mStreamType);
+			mMediaPlayer.setOnPreparedListener(this);
+			mMediaPlayer.prepare();
+			mMediaPlayer.start();
+		} catch (Exception e) {
+			LogUtil.e(TAG, e.toString());
+		}
+	}
+	
+	public void restartPlayer() {
+	}
+	
+	public void stopPlayer() {
+		if (mMediaPlayer.isPlaying()) {
+			mMediaPlayer.stop();
+		}
+	}
+	
+	public void pausePlayer() {
+		if (mMediaPlayer.isPlaying()) {
+			mMediaPlayer.pause();
+		}
+	}
+	
+	public int getStreamType() {
+		return mStreamType;
 	}
 	
 	@Override
@@ -62,6 +110,10 @@ public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiv
 		} else if (TextUtils.equals(AudioManager.ACTION_HEADSET_PLUG, intent.getAction())) {
 			doCallbacks(OperationCode.OP_CODE_ACTION_HEADSET_PLUG, 0, 0, intent.getAction(), intent);
 		}
+	}
+
+	@Override
+	public void onPrepared(MediaPlayer mp) {		
 	}
 }
 

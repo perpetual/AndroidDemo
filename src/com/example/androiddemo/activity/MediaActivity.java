@@ -5,9 +5,11 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 
+import com.example.androiddemo.R;
 import com.example.androiddemo.model.OperationCode;
 import com.example.androiddemo.tools.BluetoothHelper;
 import com.example.androiddemo.tools.CommonCallbacks;
@@ -126,10 +128,12 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	
 	@Override
 	protected void doButton1Click() {
+		mMediaManager.startPlay(R.raw.canon, AudioManager.STREAM_MUSIC);
 	}
 	
 	@Override
 	protected void doButton2Click() {
+		mMediaManager.pausePlayer();
 	}
 	
 	@Override
@@ -138,6 +142,7 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	
 	@Override
 	protected void doButton4Click() {
+		mMediaManager.stopPlayer();
 	}
 	
 	@Override
