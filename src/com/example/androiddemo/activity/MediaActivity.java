@@ -83,6 +83,26 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	protected String getBottomButtonText() {
 		return "clear";
 	}
+
+	@Override
+	protected String getButton1Text() {
+		return "start player";
+	}
+
+	@Override
+	protected String getButton2Text() {
+		return "pause player";
+	}
+
+	@Override
+	protected String getButton3Text() {
+		return "restart player";
+	}
+
+	@Override
+	protected String getButton4Text() {
+		return "stop player";
+	}
 	
 	@Override
 	protected void doTopButtonClick() {
@@ -102,6 +122,27 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	@Override
 	protected void doBotttomButtonClick() {
 		updateTextView(TEXT_VIEW_BOTTOM, "", false);
+	}
+	
+	@Override
+	protected void doButton1Click() {
+	}
+	
+	@Override
+	protected void doButton2Click() {
+	}
+	
+	@Override
+	protected void doButton3Click() {
+	}
+	
+	@Override
+	protected void doButton4Click() {
+	}
+	
+	@Override
+	protected boolean canUseOperationLayout() {
+		return true;
 	}
 	
 	@Override
