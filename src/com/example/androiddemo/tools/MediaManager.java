@@ -39,6 +39,7 @@ public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiv
 		 */
 		mBBR.register(mContext,
 				AndroidDemoUtil.createIntentFilter(ACTION_SCO_AUDIO_STATE_UPDATED), this);
+		mBBR.register(mContext, AndroidDemoUtil.createIntentFilter(AudioManager.ACTION_HEADSET_PLUG), this);
 	}
 	
 	public void release() {
@@ -54,6 +55,11 @@ public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiv
 					intent.getAction(), intent);
 		} else if (TextUtils.equals(AudioManager.ACTION_AUDIO_BECOMING_NOISY, intent.getAction())) {
 			doCallbacks(OperationCode.OP_CODE_AUDIO_BECOMING_NOISY, 0, 0, intent.getAction(), intent.getExtras());
+		} else if (TextUtils.equals(AudioManager.ACTION_HEADSET_PLUG, intent.getAction())) {
+			doCallbacks(OperationCode.OP_CODE_ACTION_HEADSET_PLUG, 0, 0, intent.getAction(),
+					AndroidDemoUtil.converIndeterminateArgumentsToString("state",
+							intent.getIntExtra("state", -1), "name", intent.getStringExtra("name"), "microphone",
+							intent.getIntExtra("microphone", -1)));
 		}
 	}
 }

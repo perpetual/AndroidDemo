@@ -120,8 +120,13 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 		case OperationCode.OP_CODE_ACL_CONNECTION_STATE_UPDATE:
 			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + object, true);
 			break;
+		case OperationCode.OP_CODE_AUDIO_BECOMING_NOISY:
+			updateTextView(TEXT_VIEW_LEFT, str + "|" + object, true);
+			break;
+		case OperationCode.OP_CODE_ACTION_HEADSET_PLUG:
+			updateTextView(TEXT_VIEW_TOP, str + "|" + object, true);
+			break;
 		default:
-			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + object, true);
 			break;
 		}
 	}

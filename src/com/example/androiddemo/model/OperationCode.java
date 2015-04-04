@@ -26,5 +26,7 @@ public class OperationCode {
 	public static final int OP_CODE_SCO_AUDIO_STATE_UPDATE = 5;	
 	
 	public static final int OP_CODE_AUDIO_BECOMING_NOISY = 6;	
+	
+	public static final int OP_CODE_ACTION_HEADSET_PLUG = 7;
 }
 

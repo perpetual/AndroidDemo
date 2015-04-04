@@ -45,6 +45,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 	private Context mContext = null;
 	private AudioManager mAudioManager = null;
 	private BluetoothProfile.ServiceListener mServiceListener = null;
+	private boolean mSCOAudioStarted = false;
 	
 	public static boolean isConnectHeadset() {
 		try {
