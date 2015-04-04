@@ -16,6 +16,7 @@ import android.media.AudioManager;
 import android.text.TextUtils;
 
 import com.example.androiddemo.BluetoothReceiver;
+import com.example.androiddemo.model.OperationCode;
 import com.example.androiddemo.receiver.BaseBroadcastReceiver;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
@@ -37,10 +38,6 @@ public class BluetoothHelper extends CommonCallbacks implements
 
 	private static final String TAG = BluetoothHelper.class.getSimpleName();
 	
-	public static final int OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE = 1;	
-	public static final int OP_CODE_ACTION_HEADSET_CONNECTION_STATE_UPDATE = 2;
-	public static final int OP_CODE_ACTION_A2DP_CONNECTION_STATE_UPDATE = 3;
-	public static final int OP_CODE_ACL_CONNECTION_STATE_UPDATE = 4;
 	
 	private static final ComponentName sComponentName = new ComponentName(BluetoothReceiver.class.getPackage().getName(), BluetoothReceiver.class.getName());
 	
@@ -98,12 +95,12 @@ public class BluetoothHelper extends CommonCallbacks implements
 				
 				@Override
 				public void onServiceDisconnected(int profile) {
-					doCallbacks(OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE, profile, 0, "onServiceConnected", null);
+					doCallbacks(OperationCode.OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE, profile, 0, "onServiceConnected", null);
 				}
 				
 				@Override
 				public void onServiceConnected(int profile, BluetoothProfile proxy) {
-					doCallbacks(OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE, profile, 0, "onServiceDisconnected", null);
+					doCallbacks(OperationCode.OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE, profile, 0, "onServiceDisconnected", null);
 				}
 			};
 			BluetoothAdapter.getDefaultAdapter().getProfileProxy(mContext, mServiceListener,
@@ -289,17 +286,17 @@ public class BluetoothHelper extends CommonCallbacks implements
 	public void onReciveBroadcast(Context context, Intent intent) {
 		if (TextUtils.equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED,
 				intent.getAction())) {
-			doCallbacks(OP_CODE_ACTION_HEADSET_CONNECTION_STATE_UPDATE,
+			doCallbacks(OperationCode.OP_CODE_ACTION_HEADSET_CONNECTION_STATE_UPDATE,
 					intent.getIntExtra(BluetoothHeadset.EXTRA_STATE, -1), 0, intent.getAction(),
 					null);
 		} else if (TextUtils
 				.equals(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED, intent.getAction())) {
-			doCallbacks(OP_CODE_ACTION_A2DP_CONNECTION_STATE_UPDATE,
+			doCallbacks(OperationCode.OP_CODE_ACTION_A2DP_CONNECTION_STATE_UPDATE,
 					intent.getIntExtra(BluetoothHeadset.EXTRA_STATE, -1), 0, intent.getAction(),
 					null);
 		} else if (TextUtils.equals(BluetoothDevice.ACTION_ACL_CONNECTED, intent.getAction())
 				|| TextUtils.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED, intent.getAction())) {
-			doCallbacks(OP_CODE_ACL_CONNECTION_STATE_UPDATE, 0, 0, intent.getAction(),
+			doCallbacks(OperationCode.OP_CODE_ACL_CONNECTION_STATE_UPDATE, 0, 0, intent.getAction(),
 					getBluetoothDeviceInfo((BluetoothDevice) intent
 							.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)));
 		}

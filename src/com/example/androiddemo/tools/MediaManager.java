@@ -23,6 +23,7 @@ import com.example.androiddemo.utils.AndroidDemoUtil;
 public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiver.IBaseBroadcastReceiver{
 
 	public static final int OP_CODE_SCO_AUDIO_STATE_UPDATE = 0;	
+	public static final int OP_CODE_AUDIO_BECOMING_NOISY = 1;	
 	
 	public static final String ACTION_SCO_AUDIO_STATE_UPDATED = AndroidDemoUtil.getSDKVersion() < AndroidDemoUtil.API_LEVEL_14 ? AudioManager.ACTION_SCO_AUDIO_STATE_CHANGED
 			: AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED;
@@ -52,6 +53,8 @@ public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiv
 			doCallbacks(OP_CODE_SCO_AUDIO_STATE_UPDATE,
 					intent.getIntExtra(AudioManager.EXTRA_SCO_AUDIO_STATE, -1), 0,
 					intent.getAction(), intent);
+		} else if (TextUtils.equals(AudioManager.ACTION_AUDIO_BECOMING_NOISY, intent.getAction())) {
+			doCallbacks(OP_CODE_AUDIO_BECOMING_NOISY, 0, 0, intent.getAction(), intent.getExtras());
 		}
 	}
 }

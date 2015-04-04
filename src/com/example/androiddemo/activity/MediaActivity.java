@@ -6,6 +6,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 
+import com.example.androiddemo.model.OperationCode;
 import com.example.androiddemo.tools.BluetoothHelper;
 import com.example.androiddemo.tools.CommonCallbacks;
 import com.example.androiddemo.tools.MediaManager;
@@ -104,22 +105,23 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	@Override
 	public void callback(int opCode, int arg1, int arg2, String str, Object object) {
 		switch (opCode) {
-		case MediaManager.OP_CODE_SCO_AUDIO_STATE_UPDATE:
+		case OperationCode.OP_CODE_SCO_AUDIO_STATE_UPDATE:
 			updateTextView(TEXT_VIEW_LEFT, str + "|" + BluetoothHelper.getScoAudioConnectionState(arg1), true);
 			break;
-		case BluetoothHelper.OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE:
+		case OperationCode.OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE:
 			updateTextView(TEXT_VIEW_TOP, str, true);
 			break;
-		case BluetoothHelper.OP_CODE_ACTION_HEADSET_CONNECTION_STATE_UPDATE:
+		case OperationCode.OP_CODE_ACTION_HEADSET_CONNECTION_STATE_UPDATE:
 			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + BluetoothHelper.getHeadsetConnectState(), true);
 			break;
-		case BluetoothHelper.OP_CODE_ACTION_A2DP_CONNECTION_STATE_UPDATE:
+		case OperationCode.OP_CODE_ACTION_A2DP_CONNECTION_STATE_UPDATE:
 			updateTextView(TEXT_VIEW_RIGHT, str + "|" + BluetoothHelper.getA2DPConnectState(arg1), true);
 			break;
-		case BluetoothHelper.OP_CODE_ACL_CONNECTION_STATE_UPDATE:
+		case OperationCode.OP_CODE_ACL_CONNECTION_STATE_UPDATE:
 			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + object, true);
 			break;
 		default:
+			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + object, true);
 			break;
 		}
 	}
