@@ -39,6 +39,9 @@ public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiv
 		 */
 		mBBR.register(mContext,
 				AndroidDemoUtil.createIntentFilter(ACTION_SCO_AUDIO_STATE_UPDATED), this);
+		/**
+		 * 注册耳机插拔广播
+		 */
 		mBBR.register(mContext, AndroidDemoUtil.createIntentFilter(AudioManager.ACTION_HEADSET_PLUG), this);
 	}
 	
@@ -52,14 +55,12 @@ public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiv
 		if (TextUtils.equals(ACTION_SCO_AUDIO_STATE_UPDATED, intent.getAction())) {
 			doCallbacks(OperationCode.OP_CODE_SCO_AUDIO_STATE_UPDATE,
 					intent.getIntExtra(AudioManager.EXTRA_SCO_AUDIO_STATE, -1), 0,
-					intent.getAction(), intent);
+					intent.getAction(), null);
 		} else if (TextUtils.equals(AudioManager.ACTION_AUDIO_BECOMING_NOISY, intent.getAction())) {
-			doCallbacks(OperationCode.OP_CODE_AUDIO_BECOMING_NOISY, 0, 0, intent.getAction(), intent.getExtras());
+			doCallbacks(OperationCode.OP_CODE_AUDIO_BECOMING_NOISY, 0, 0, intent.getAction(),
+					intent.getExtras());
 		} else if (TextUtils.equals(AudioManager.ACTION_HEADSET_PLUG, intent.getAction())) {
-			doCallbacks(OperationCode.OP_CODE_ACTION_HEADSET_PLUG, 0, 0, intent.getAction(),
-					AndroidDemoUtil.converIndeterminateArgumentsToString("state",
-							intent.getIntExtra("state", -1), "name", intent.getStringExtra("name"), "microphone",
-							intent.getIntExtra("microphone", -1)));
+			doCallbacks(OperationCode.OP_CODE_ACTION_HEADSET_PLUG, 0, 0, intent.getAction(), intent);
 		}
 	}
 }

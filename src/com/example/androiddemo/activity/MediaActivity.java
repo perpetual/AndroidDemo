@@ -2,7 +2,9 @@ package com.example.androiddemo.activity;
 
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 
@@ -112,19 +114,22 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 			updateTextView(TEXT_VIEW_TOP, str, true);
 			break;
 		case OperationCode.OP_CODE_ACTION_HEADSET_CONNECTION_STATE_UPDATE:
-			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + BluetoothHelper.getHeadsetConnectState(), true);
+			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + BluetoothHelper.getHeadsetConnectState(arg1), true);
 			break;
 		case OperationCode.OP_CODE_ACTION_A2DP_CONNECTION_STATE_UPDATE:
 			updateTextView(TEXT_VIEW_RIGHT, str + "|" + BluetoothHelper.getA2DPConnectState(arg1), true);
 			break;
 		case OperationCode.OP_CODE_ACL_CONNECTION_STATE_UPDATE:
-			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + object, true);
+			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + BluetoothHelper.getBluetoothDeviceInfo((BluetoothDevice)object), true);
 			break;
 		case OperationCode.OP_CODE_AUDIO_BECOMING_NOISY:
 			updateTextView(TEXT_VIEW_LEFT, str + "|" + object, true);
 			break;
 		case OperationCode.OP_CODE_ACTION_HEADSET_PLUG:
-			updateTextView(TEXT_VIEW_TOP, str + "|" + object, true);
+			Intent intent = (Intent)object;
+			updateTextView(TEXT_VIEW_TOP, str + "|" + AndroidDemoUtil.converIndeterminateArgumentsToString("state",
+					intent.getIntExtra("state", -1), "name", intent.getStringExtra("name"), "microphone",
+					intent.getIntExtra("microphone", -1)), true);
 			break;
 		default:
 			break;

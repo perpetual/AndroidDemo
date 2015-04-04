@@ -109,27 +109,27 @@ public class BluetoothHelper extends CommonCallbacks implements
 		}
 	}
 
-	public static String getHeadsetConnectState() {
-		String state = "";
-		final int stateCode = BluetoothAdapter.getDefaultAdapter().getProfileConnectionState(BluetoothProfile.HEADSET);
+	public static String getHeadsetConnectState(int state) {
+		String stateString = "";
+		final int stateCode = state < 0 ? BluetoothAdapter.getDefaultAdapter().getProfileConnectionState(BluetoothProfile.HEADSET) : state;
 		switch (BluetoothAdapter.getDefaultAdapter().getProfileConnectionState(BluetoothProfile.HEADSET)) {
 		case BluetoothHeadset.STATE_CONNECTED:
-			state = "STATE_CONNECTED";
+			stateString = "STATE_CONNECTED";
 			break;
 		case BluetoothHeadset.STATE_CONNECTING:
-			state = "STATE_CONNECTING";
+			stateString = "STATE_CONNECTING";
 			break;
 		case BluetoothHeadset.STATE_DISCONNECTED:
-			state = "STATE_DISCONNECTED";
+			stateString = "STATE_DISCONNECTED";
 			break;
 		case BluetoothHeadset.STATE_DISCONNECTING:
-			state = "STATE_DISCONNECTING";
+			stateString = "STATE_DISCONNECTING";
 			break;
 		default:
-			state = String.valueOf(stateCode);
+			stateString = String.valueOf(stateCode);
 			break;
 		}
-		return state;
+		return stateString;
 	}
 	
 
@@ -285,8 +285,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 	
 	@Override
 	public void onReciveBroadcast(Context context, Intent intent) {
-		if (TextUtils.equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED,
-				intent.getAction())) {
+		if (TextUtils.equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED, intent.getAction())) {
 			doCallbacks(OperationCode.OP_CODE_ACTION_HEADSET_CONNECTION_STATE_UPDATE,
 					intent.getIntExtra(BluetoothHeadset.EXTRA_STATE, -1), 0, intent.getAction(),
 					null);
@@ -297,9 +296,8 @@ public class BluetoothHelper extends CommonCallbacks implements
 					null);
 		} else if (TextUtils.equals(BluetoothDevice.ACTION_ACL_CONNECTED, intent.getAction())
 				|| TextUtils.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED, intent.getAction())) {
-			doCallbacks(OperationCode.OP_CODE_ACL_CONNECTION_STATE_UPDATE, 0, 0, intent.getAction(),
-					getBluetoothDeviceInfo((BluetoothDevice) intent
-							.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)));
+			doCallbacks(OperationCode.OP_CODE_ACL_CONNECTION_STATE_UPDATE, 0, 0,
+					intent.getAction(), intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE));
 		}
 	}
 }
