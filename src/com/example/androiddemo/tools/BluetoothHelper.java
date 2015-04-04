@@ -62,7 +62,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 						.getProfileConnectionState(BluetoothProfile.HEADSET);
 				return BluetoothProfile.STATE_CONNECTED == connectionState;
 			} else {
-				return isBluetoothCanUse(getHeadsetClass());
+				return isBluetoothCanUse(getBluetoothAudioDeviceClass());
 			}
 		} catch (Exception e) {
 		}
@@ -206,18 +206,18 @@ public class BluetoothHelper extends CommonCallbacks implements
 		if (null == bluetoothDevice) {
 			return false;
 		}
-		return bluetoothDevice.getBluetoothClass().getDeviceClass() == BluetoothClass.Device.AUDIO_VIDEO_WEARABLE_HEADSET;
+		return bluetoothDevice.getBluetoothClass().getDeviceClass() == getBluetoothAudioDeviceClass();
 	}
 
-	public static int getHeadsetClass() {
-		return BluetoothClass.Device.AUDIO_VIDEO_WEARABLE_HEADSET;
+	public static int getBluetoothAudioDeviceClass() {
+		return BluetoothClass.Device.Major.AUDIO_VIDEO;
 	}
 	
 	private static boolean isBluetoothCanUse() {
 		return isBluetoothCanUse(-1);
 	}
 		
-	private static boolean isBluetoothCanUse(int bluetoothDeviceClass) {
+	private static boolean isBluetoothCanUse(int bluetoothMajorDeviceClass) {
 		BluetoothAdapter adp = BluetoothAdapter.getDefaultAdapter();
 		if (adp == null) {
 			LogUtil.d(TAG, "dkbt BluetoothAdapter.getDefaultAdapter() == null");
@@ -237,10 +237,10 @@ public class BluetoothHelper extends CommonCallbacks implements
 		for (Iterator<BluetoothDevice> it = devs; it.hasNext();) {
 			BluetoothDevice dev = it.next();
 			if (dev.getBondState() == BluetoothDevice.BOND_BONDED) {
-				if (bluetoothDeviceClass < 0) {
+				if (bluetoothMajorDeviceClass < 0) {
 					hasBond = true;
 					break;
-				} else if (dev.getBluetoothClass().getDeviceClass() == bluetoothDeviceClass) {
+				} else if (dev.getBluetoothClass().getMajorDeviceClass() == bluetoothMajorDeviceClass) {
 					hasBond = true;
 					break;
 				}
