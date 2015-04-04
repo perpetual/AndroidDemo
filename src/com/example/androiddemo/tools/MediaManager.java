@@ -20,7 +20,7 @@ import com.example.androiddemo.utils.AndroidDemoUtil;
  * garyzhao		2015-4-4		Create		
  * </pre>
  */
-public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiver.IBaseBroadcastReceiver, CommonCallbacks.ICallback {
+public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiver.IBaseBroadcastReceiver{
 
 	public static final int OP_CODE_SCO_AUDIO_STATE_UPDATE = 0;	
 	
@@ -53,11 +53,6 @@ public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiv
 					intent.getIntExtra(AudioManager.EXTRA_SCO_AUDIO_STATE, -1), 0,
 					intent.getAction(), intent);
 		}
-	}
-
-	@Override
-	public void callback(int opCode, int arg1, int arg2, String str, Object object) {
-		
 	}
 }
 
