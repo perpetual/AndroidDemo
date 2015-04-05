@@ -8,7 +8,9 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.text.TextUtils;
+import android.widget.MediaController.MediaPlayerControl;
 
+import com.example.androiddemo.R;
 import com.example.androiddemo.model.OperationCode;
 import com.example.androiddemo.receiver.BaseBroadcastReceiver;
 import com.example.androiddemo.utils.AndroidDemoUtil;
@@ -26,7 +28,10 @@ import com.example.androiddemo.utils.LogUtil;
  * garyzhao		2015-4-4		Create		
  * </pre>
  */
-public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiver.IBaseBroadcastReceiver, MediaPlayer.OnPreparedListener{
+public class MediaManager extends CommonCallbacks implements
+		BaseBroadcastReceiver.IBaseBroadcastReceiver, MediaPlayer.OnPreparedListener,
+		MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener,
+		MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayerControl {
 	
 	private static final String TAG = MediaManager.class.getSimpleName();
 	
@@ -52,7 +57,7 @@ public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiv
 		 */
 		mBBR.register(mContext, AndroidDemoUtil.createIntentFilter(AudioManager.ACTION_HEADSET_PLUG), this);
 		
-		mMediaPlayer = new MediaPlayer();
+		initPlayer(R.raw.canon, AudioManager.STREAM_MUSIC);
 	}
 	
 	public void release() {
@@ -61,36 +66,28 @@ public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiv
 		mMediaPlayer.release();
 	}
 	
-	public void startPlay(int mediaResourceID, int streamType) {
+	public void initPlayer(int mediaResourceID, int streamType) {
 		AssetFileDescriptor afd = mContext.getResources().openRawResourceFd(mediaResourceID);
 		if (null == afd) {
 			return;
 		}
 		try {
+			mMediaPlayer = new MediaPlayer();
 			FileDescriptor fd = afd.getFileDescriptor();
 			mMediaPlayer.setDataSource(fd, afd.getStartOffset(), afd.getLength());
 			mStreamType = streamType;
 			mMediaPlayer.setAudioStreamType(mStreamType);
 			mMediaPlayer.setOnPreparedListener(this);
+			mMediaPlayer.setOnCompletionListener(this);
 			mMediaPlayer.prepare();
-			mMediaPlayer.start();
 		} catch (Exception e) {
 			LogUtil.e(TAG, e.toString());
 		}
 	}
 	
-	public void restartPlayer() {
-	}
-	
 	public void stopPlayer() {
 		if (mMediaPlayer.isPlaying()) {
 			mMediaPlayer.stop();
-		}
-	}
-	
-	public void pausePlayer() {
-		if (mMediaPlayer.isPlaying()) {
-			mMediaPlayer.pause();
 		}
 	}
 	
@@ -113,7 +110,105 @@ public class MediaManager extends CommonCallbacks implements BaseBroadcastReceiv
 	}
 
 	@Override
-	public void onPrepared(MediaPlayer mp) {		
+	public void onPrepared(MediaPlayer mp) {
+		doCallbacks(-1, 0, 0, "MediaPlayer", null);
+	}
+
+	@Override
+	public void onCompletion(MediaPlayer mp) {
+		doCallbacks(-1, 0, 0, "onCompletion", null);
+	}
+
+	@Override
+	public void onBufferingUpdate(MediaPlayer mp, int percent) {
+		doCallbacks(-1, 0, 0, "onBufferingUpdate", null);
+	}
+
+	@Override
+	public void onSeekComplete(MediaPlayer mp) {
+		doCallbacks(-1, 0, 0, "onSeekComplete", null);
+	}
+
+	@Override
+	public boolean onInfo(MediaPlayer mp, int what, int extra) {
+		doCallbacks(-1, 0, 0, "onInfo", null);
+		return false;
+	}
+
+	@Override
+	public boolean onError(MediaPlayer mp, int what, int extra) {
+		doCallbacks(-1, 0, 0, "onInfo", null);
+		return false;
+	}
+
+	@Override
+	public void start() {
+		if (null != mMediaPlayer) {
+			mMediaPlayer.start();	
+		}
+	}
+
+	@Override
+	public void pause() {
+		if (mMediaPlayer.isPlaying()) {
+			mMediaPlayer.pause();
+		}
+	}
+
+	@Override
+	public int getDuration() {
+		if (null == mMediaPlayer) {
+			return 0;
+		}
+		return mMediaPlayer.getDuration();
+	}
+
+	@Override
+	public int getCurrentPosition() {
+		if (null == mMediaPlayer) {
+			return 0;
+		}
+		return mMediaPlayer.getCurrentPosition();
+	}
+
+	@Override
+	public void seekTo(int pos) {		
+	}
+
+	@Override
+	public boolean isPlaying() {
+		if (null == mMediaPlayer) {
+			return false;
+		}
+		return mMediaPlayer.isPlaying();
+	}
+
+	@Override
+	public int getBufferPercentage() {
+		return 0;
+	}
+
+	@Override
+	public boolean canPause() {
+		return true;
+	}
+
+	@Override
+	public boolean canSeekBackward() {
+		return false;
+	}
+
+	@Override
+	public boolean canSeekForward() {
+		return false;
+	}
+
+	@Override
+	public int getAudioSessionId() {
+		if (null == mMediaPlayer) {
+			return 0;
+		}
+		return mMediaPlayer.getAudioSessionId();
 	}
 }
 

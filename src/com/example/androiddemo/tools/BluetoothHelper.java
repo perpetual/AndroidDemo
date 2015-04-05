@@ -44,6 +44,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 	private BluetoothReceiver mSCOAudioReceiver = null;
 	private Context mContext = null;
 	private AudioManager mAudioManager = null;
+	BluetoothProfile mBluetoothProxy = null; 
 	private BluetoothProfile.ServiceListener mServiceListener = null;
 	private boolean mSCOAudioStarted = false;
 	
@@ -101,6 +102,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 				
 				@Override
 				public void onServiceConnected(int profile, BluetoothProfile proxy) {
+					mBluetoothProxy = proxy;
 					doCallbacks(OperationCode.OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE, profile, 0, "onServiceDisconnected", null);
 				}
 			};
@@ -135,6 +137,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 
 	public void release() {
 		mSCOAudioReceiver.unregister(mContext);
+		BluetoothAdapter.getDefaultAdapter().closeProfileProxy(BluetoothHeadset.HEADSET, mBluetoothProxy);
 		removeAll();
 	}
 	

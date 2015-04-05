@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.widget.MediaController;
 
 import com.example.androiddemo.R;
 import com.example.androiddemo.model.OperationCode;
@@ -33,6 +34,7 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 
 	BluetoothHelper mBluetoothHelper = null;
 	MediaManager mMediaManager = null;
+	MediaController mMediaController = null;
 	
 	/**
 	 * 私有工具函数
@@ -59,11 +61,15 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 		mBluetoothHelper.add(this);
 		mMediaManager = new MediaManager(this);
 		mMediaManager.add(this);
+		mMediaController = new MediaController(context);
 	}
 	
 	@Override
 	public void initView() {
 		super.initView();
+		mMediaController.setMediaPlayer(mMediaManager);
+//		mMediaController.setAnchorView(getMainView());
+		mMediaController.show();
 	}
 	
 	@Override
@@ -128,12 +134,12 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	
 	@Override
 	protected void doButton1Click() {
-		mMediaManager.startPlay(R.raw.canon, AudioManager.STREAM_MUSIC);
+		mMediaManager.start();
 	}
 	
 	@Override
 	protected void doButton2Click() {
-		mMediaManager.pausePlayer();
+		mMediaManager.pause();
 	}
 	
 	@Override

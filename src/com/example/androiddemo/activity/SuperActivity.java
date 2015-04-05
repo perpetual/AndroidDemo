@@ -41,6 +41,7 @@ public abstract class SuperActivity extends BaseActivity implements IUIInitializ
 	private Button mButton2 = null;
 	private Button mButton3 = null;
 	private Button mButton4 = null;
+	private View mRootView = null;
 	
 
 	protected String getTopButtonText() {
@@ -171,6 +172,10 @@ public abstract class SuperActivity extends BaseActivity implements IUIInitializ
 	
 	protected boolean canUseOperationLayout() { return false; }
 	
+	protected View getMainView() {
+		return mRootView;
+	}
+	
 	/**
 	 * 这里写重载函数
 	 */
@@ -196,6 +201,7 @@ public abstract class SuperActivity extends BaseActivity implements IUIInitializ
 	
 	@Override
 	public void bindView() {
+		mRootView = findViewById(R.id.main_view);
 		mTopTextView = (TextView)findViewById(R.id.top_text_view);
 		mLeftTextView = (TextView)findViewById(R.id.left_text_view);
 		mRightTextView = (TextView)findViewById(R.id.right_text_view);
