@@ -79,6 +79,9 @@ public class MediaManager extends CommonCallbacks implements
 			mMediaPlayer.setAudioStreamType(mStreamType);
 			mMediaPlayer.setOnPreparedListener(this);
 			mMediaPlayer.setOnCompletionListener(this);
+			mMediaPlayer.setOnErrorListener(this);
+			mMediaPlayer.setOnInfoListener(this);
+			mMediaPlayer.setOnSeekCompleteListener(this);
 			mMediaPlayer.prepare();
 		} catch (Exception e) {
 			LogUtil.e(TAG, e.toString());
@@ -139,19 +142,19 @@ public class MediaManager extends CommonCallbacks implements
 
 	@Override
 	public boolean onInfo(MediaPlayer mp, int what, int extra) {
-		doCallbacks(-1, 0, 0, "onInfo", null);
+		doCallbacks(-1, 0, 0, "onInfo", AndroidDemoUtil.converIndeterminateArgumentsToString("what", what, "extra", extra));
 		return false;
 	}
 
 	@Override
 	public boolean onError(MediaPlayer mp, int what, int extra) {
-		doCallbacks(-1, 0, 0, "onInfo", null);
+		doCallbacks(-1, 0, 0, "onError", AndroidDemoUtil.converIndeterminateArgumentsToString("what", what, "extra", extra));
 		return false;
 	}
 
 	@Override
 	public void start() {
-		if (null != mMediaPlayer) {
+		if (null != mMediaPlayer && !mMediaPlayer.isPlaying()) {
 			mMediaPlayer.start();	
 		}
 	}
