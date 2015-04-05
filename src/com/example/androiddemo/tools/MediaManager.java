@@ -95,6 +95,14 @@ public class MediaManager extends CommonCallbacks implements
 		return mStreamType;
 	}
 	
+	public void volumeUp() {
+		AndroidDemoUtil.getAudioManager().adjustStreamVolume(getStreamType(), AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI | AudioManager.FLAG_PLAY_SOUND);
+	}
+	
+	public void volumeDown() {
+		AndroidDemoUtil.getAudioManager().adjustStreamVolume(getStreamType(), AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI | AudioManager.FLAG_PLAY_SOUND);
+	}
+	
 	@Override
 	public void onReciveBroadcast(Context context, Intent intent) {
 		if (TextUtils.equals(ACTION_SCO_AUDIO_STATE_UPDATED, intent.getAction())) {
@@ -168,11 +176,14 @@ public class MediaManager extends CommonCallbacks implements
 		if (null == mMediaPlayer) {
 			return 0;
 		}
-		return mMediaPlayer.getCurrentPosition();
+		int pos = mMediaPlayer.getCurrentPosition();
+		LogUtil.d(TAG, "getCurrentPosition", pos);
+		return pos;
 	}
 
 	@Override
-	public void seekTo(int pos) {		
+	public void seekTo(int pos) {
+		mMediaPlayer.seekTo(pos);
 	}
 
 	@Override
@@ -195,12 +206,12 @@ public class MediaManager extends CommonCallbacks implements
 
 	@Override
 	public boolean canSeekBackward() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean canSeekForward() {
-		return false;
+		return true;
 	}
 
 	@Override

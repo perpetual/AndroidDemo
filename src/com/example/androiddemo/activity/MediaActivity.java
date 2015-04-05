@@ -68,8 +68,7 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	public void initView() {
 		super.initView();
 		mMediaController.setMediaPlayer(mMediaManager);
-//		mMediaController.setAnchorView(getMainView());
-		mMediaController.show();
+		mMediaController.setAnchorView(getMainView());
 	}
 	
 	@Override
@@ -84,12 +83,12 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	
 	@Override
 	protected String getTopButtonText() {
-		return "clear";
+		return "show media controller";
 	}
 	
 	@Override
 	protected String getBottomButtonText() {
-		return "clear";
+		return "hide media controller";
 	}
 
 	@Override
@@ -114,7 +113,7 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	
 	@Override
 	protected void doTopButtonClick() {
-		updateTextView(TEXT_VIEW_TOP, "", false);
+		mMediaController.show();
 	}
 	
 	@Override
@@ -129,7 +128,7 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 
 	@Override
 	protected void doBotttomButtonClick() {
-		updateTextView(TEXT_VIEW_BOTTOM, "", false);
+		mMediaController.hide();
 	}
 	
 	@Override
@@ -202,7 +201,18 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		updateTextView(TEXT_VIEW_BOTTOM, "keyCode:" + keyCode + "|event:" + event.toString(), true);
-		return super.onKeyDown(keyCode, event);
+		boolean handled = true;
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_VOLUME_DOWN:
+			mMediaManager.volumeDown();
+			break;
+		case KeyEvent.KEYCODE_VOLUME_UP:
+			mMediaManager.volumeUp();
+			break;
+		default:
+			handled = false;
+			break;
+		}
+		return handled || super.onKeyDown(keyCode, event);
 	}
 }
