@@ -1,12 +1,12 @@
 package com.example.androiddemo.service;
 
-import com.example.androiddemo.utils.AndroidDemoUtil;
-
 import android.app.Service;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.IBinder;
-import android.util.Log;
+
+import com.example.androiddemo.utils.AndroidDemoUtil;
+import com.example.androiddemo.utils.LogUtil;
 
 public class BaseService extends Service {
 
@@ -15,61 +15,66 @@ public class BaseService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Log.d(TAG, "onCreate");
+		LogUtil.d(TAG, "onCreate");
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d(TAG, "onStartCommand");
+		LogUtil.d(TAG, "onStartCommand", "intent", intent, "flags", flags, "startId", startId);
 		return super.onStartCommand(intent, flags, startId);
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		Log.d(TAG, "onDestroy");
+		LogUtil.d(TAG, "onDestroy");
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		Log.d(TAG, "onConfigurationChanged");
+		LogUtil.d(TAG, "onConfigurationChanged", "newConfig", newConfig);
 	}
 
 	@Override
 	public void onLowMemory() {
 		super.onLowMemory();
-		Log.d(TAG, "onLowMemory");
+		LogUtil.d(TAG, "onLowMemory");
 	}
 
 	@Override
 	public void onTrimMemory(int level) {
 		super.onTrimMemory(level);
-		Log.d(TAG, "onTrimMemory");
+		LogUtil.d(TAG, "onTrimMemory", "level", level);
 	}
 
 	@Override
 	public boolean onUnbind(Intent intent) {
-		Log.d(TAG, "onUnbind");
+		LogUtil.d(TAG, "onUnbind", "intent", intent);
 		return super.onUnbind(intent);
 	}
 
 	@Override
 	public void onRebind(Intent intent) {
 		super.onRebind(intent);
-		Log.d(TAG, "onRebind");
+		LogUtil.d(TAG, "onRebind", "intent", intent);
 	}
 
 	@Override
 	public void onTaskRemoved(Intent rootIntent) {
 		super.onTaskRemoved(rootIntent);
-		Log.d(TAG, "onTaskRemoved");
+		LogUtil.d(TAG, "onTaskRemoved", "rootIntent", rootIntent);
 	}
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		Log.d(TAG, "onBind");
+		LogUtil.d(TAG, "onBind", "intent", intent);
 		return null;
 	}
 
+	@Override
+	public boolean stopService(Intent name) {
+		LogUtil.d(TAG, "stopService", "name", name);
+		return super.stopService(name);
+	}
 }

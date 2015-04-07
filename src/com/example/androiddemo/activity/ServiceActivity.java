@@ -1,6 +1,5 @@
 package com.example.androiddemo.activity;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -21,150 +20,10 @@ import com.example.androiddemo.IRemoteService;
 import com.example.androiddemo.IRemoteService2;
 import com.example.androiddemo.R;
 import com.example.androiddemo.model.Person;
-import com.example.androiddemo.service.BaseService;
+import com.example.androiddemo.service.BackgroundDemoService;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 
-public class ServiceActivity extends Activity {
-	public static class BackgroundService extends BaseService {
-		private static final String TAG = AndroidDemoUtil
-				.getClassName(BackgroundService.class);
-
-		private NotificationManager mNotificationMananger = null;
-		public static final String EXTRAS_KEY = "counter";
-		private ThreadGroup mMyThreads = new ThreadGroup("ServiceWorker");
-
-		@Override
-		public void onCreate() {
-			super.onCreate();
-			Log.d(TAG,
-					TAG + ":Current process id:" + android.os.Process.myPid());
-		}
-
-		private void displayNotificationMessage(String message) {
-			PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-					new Intent(this, FirstActivity.class), 0);
-			Notification notification = new Notification(
-					R.drawable.ic_launcher, message, System.currentTimeMillis());
-			notification.setLatestEventInfo(this, "Background Service",
-					message, pendingIntent);
-			// Notification.Builder notificationBuilder = new
-			// Notification.Builder(this);
-			// notificationBuilder.setWhen(System.currentTimeMillis());
-			// notificationBuilder.setSmallIcon(R.drawable.ic_launcher);
-			// notificationBuilder.setContentText("Background  service is running");
-			// notificationBuilder.setContentTitle("Background Service");
-			// notificationBuilder.setContentText(message);
-			// notificationBuilder.setContentIntent(pendingIntent);
-			// notification = notificationBuilder.build();
-			notification.flags = Notification.FLAG_NO_CLEAR;
-			mNotificationMananger.notify(0, notification);
-		}
-
-		@Override
-		public int onStartCommand(Intent intent, int flags, int startId) {
-			super.onStartCommand(intent, flags, startId);
-			int counter = intent.getExtras().getInt(EXTRAS_KEY);
-			new Thread(mMyThreads, new ServiceRunnable(counter)).start();
-			return START_STICKY;
-		}
-
-		@Override
-		public boolean stopService(Intent name) {
-			return super.stopService(name);
-		}
-
-		@Override
-		public IBinder onBind(Intent intent) {
-			return null;
-		}
-
-		@Override
-		public void onDestroy() {
-			mMyThreads.interrupt();
-			mNotificationMananger.cancelAll();
-			super.onDestroy();
-		}
-
-	}
-
-	public static class RemoteService extends Service {
-
-		private final String TAG = AndroidDemoUtil
-				.getClassName(RemoteService.class);
-
-		public class RemoteServiceImpl extends IRemoteService.Stub {
-
-			@Override
-			public double getQuote(String ticker) throws RemoteException {
-				return 3.14;
-			}
-		}
-
-		@Override
-		public IBinder onBind(Intent intent) {
-			return new RemoteServiceImpl();
-		}
-
-	}
-
-	public static class RemoteService2 extends Service {
-
-		private NotificationManager mNotificationMananger = null;
-
-		private void displayNotificationMessage(String message) {
-			Intent intent = new Intent(this, FirstActivity.class);
-//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//			intent.addCategory(Intent.CATEGORY_LAUNCHER);
-//			intent.setAction(Intent.ACTION_MAIN);
-			PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-					intent, PendingIntent.FLAG_UPDATE_CURRENT);
-			Notification notification = new Notification(
-					R.drawable.ic_launcher, message, System.currentTimeMillis());
-			notification.setLatestEventInfo(this, "Background Service",
-					message, pendingIntent);
-			// Notification.Builder notificationBuilder = new
-			// Notification.Builder(this);
-			// notificationBuilder.setWhen(System.currentTimeMillis());
-			// notificationBuilder.setSmallIcon(R.drawable.ic_launcher);
-			// notificationBuilder.setContentText("Background  service is running");
-			// notificationBuilder.setContentTitle("Background Service");
-			// notificationBuilder.setContentText(message);
-			// notificationBuilder.setContentIntent(pendingIntent);
-			// notification = notificationBuilder.build();
-			notification.flags = Notification.FLAG_NO_CLEAR;
-			mNotificationMananger.notify(0, notification);
-		}
-
-		private class RemoteService2Impl extends IRemoteService2.Stub {
-
-			@Override
-			public String getQuote(String ticker, Person requester)
-					throws RemoteException {
-				return ticker + ":" + requester.mName;
-			}
-		}
-
-		@Override
-		public void onCreate() {
-			super.onCreate();
-
-			mNotificationMananger = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-			displayNotificationMessage("RemoteService2 is running");
-		}
-
-		@Override
-		public IBinder onBind(Intent intent) {
-			return new RemoteService2Impl();
-		}
-
-		@Override
-		public void onDestroy() {
-			mNotificationMananger.cancelAll();
-			super.onDestroy();
-		}
-	}
+public class ServiceActivity extends SuperActivity {
 
 	private static final String TAG = AndroidDemoUtil
 			.getClassName(ServiceActivity.class);
@@ -174,7 +33,7 @@ public class ServiceActivity extends Activity {
 	private ServiceConnection mServiceConnect2 = null;
 	private IRemoteService mRemoteService = null;
 	private IRemoteService2 mRemoteService2 = null;
-	// UI�ؼ�
+
 	private Button mStartBtn = null;
 	private Button mStopBtn = null;
 	private ToggleButton mBindBtn = null;
@@ -200,7 +59,6 @@ public class ServiceActivity extends Activity {
 	
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 	}
 	
@@ -216,11 +74,11 @@ public class ServiceActivity extends Activity {
 	}
 
 	/**
-	 * ˽�й��ߺ���
+	 * 私有工具函数
 	 */
 	private void initData() {
 
-		mServiceIntent = new Intent(this, BackgroundService.class);
+		mServiceIntent = new Intent(this, BackgroundDemoService.class);
 
 		mServiceConnect = new ServiceConnection() {
 
@@ -269,7 +127,7 @@ public class ServiceActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				mServiceIntent.putExtra(BackgroundService.EXTRAS_KEY,
+				mServiceIntent.putExtra(BackgroundDemoService.EXTRAS_KEY,
 						++mCounter);
 				startService(mServiceIntent);
 			}
@@ -369,29 +227,6 @@ public class ServiceActivity extends Activity {
 
 		if (mBindBtn.isChecked()) {
 			unbindService(mServiceConnect);
-		}
-	}
-}
-
-class ServiceRunnable implements Runnable {
-
-	private static final String TAG = AndroidDemoUtil
-			.getClassName(ServiceRunnable.class);
-	private int mCounter = -1;
-
-	public ServiceRunnable(int counter) {
-		mCounter = counter;
-	}
-
-	@Override
-	public void run() {
-
-		try {
-			Log.d(TAG, "" + Thread.currentThread().getId()
-					+ "Sleeping for 2 seconds. counter = " + mCounter);
-			Thread.sleep(2000);
-			Log.d(TAG, "Waking up");
-		} catch (Exception e) {
 		}
 	}
 }
