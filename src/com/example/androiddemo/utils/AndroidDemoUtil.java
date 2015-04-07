@@ -451,10 +451,6 @@ public class AndroidDemoUtil {
 	public static boolean isSDKVersionAtLeast(int apiLevel) {
 		return getSDKVersion() >= apiLevel;
 	}
-	
-	public static AudioManager getAudioManager() {
-		return (AudioManager) APPLICATION_CONTEXT.getSystemService(Context.AUDIO_SERVICE);
-	}
 
 	public static String converIndeterminateArgumentsToString(Object... objects) {
 		return converArrayToString(objects);

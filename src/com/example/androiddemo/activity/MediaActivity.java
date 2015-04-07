@@ -5,17 +5,16 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.widget.MediaController;
 
-import com.example.androiddemo.R;
 import com.example.androiddemo.model.OperationCode;
 import com.example.androiddemo.tools.BluetoothHelper;
 import com.example.androiddemo.tools.CommonCallbacks;
 import com.example.androiddemo.tools.MediaManager;
 import com.example.androiddemo.utils.AndroidDemoUtil;
+import com.example.androiddemo.utils.SystemServiceUtil;
 
 /**
  * 
@@ -42,7 +41,7 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	private void startBluetooth() {
 		boolean isBluetoothEnabled = BluetoothAdapter.getDefaultAdapter().isEnabled();
 		int bluetoothState = BluetoothAdapter.getDefaultAdapter().getState();
-		boolean isBluetoothScoAvailableOffCall = AndroidDemoUtil.getAudioManager()
+		boolean isBluetoothScoAvailableOffCall = SystemServiceUtil.getAudioManager()
 				.isBluetoothScoAvailableOffCall();
 		updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.converIndeterminateArgumentsToString(
 				"isEnabled", isBluetoothEnabled, "bluetoothState", bluetoothState, "isBluetoothScoAvailableOffCall",

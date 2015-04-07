@@ -15,6 +15,7 @@ import com.example.androiddemo.model.OperationCode;
 import com.example.androiddemo.receiver.BaseBroadcastReceiver;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
+import com.example.androiddemo.utils.SystemServiceUtil;
 
 /**
  * <pre>
@@ -99,11 +100,15 @@ public class MediaManager extends CommonCallbacks implements
 	}
 	
 	public void volumeUp() {
-		AndroidDemoUtil.getAudioManager().adjustStreamVolume(getStreamType(), AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI | AudioManager.FLAG_PLAY_SOUND);
+		SystemServiceUtil.getAudioManager()
+				.adjustStreamVolume(getStreamType(), AudioManager.ADJUST_RAISE,
+						AudioManager.FLAG_SHOW_UI | AudioManager.FLAG_PLAY_SOUND);
 	}
 	
 	public void volumeDown() {
-		AndroidDemoUtil.getAudioManager().adjustStreamVolume(getStreamType(), AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI | AudioManager.FLAG_PLAY_SOUND);
+		SystemServiceUtil.getAudioManager()
+				.adjustStreamVolume(getStreamType(), AudioManager.ADJUST_LOWER,
+						AudioManager.FLAG_SHOW_UI | AudioManager.FLAG_PLAY_SOUND);
 	}
 	
 	@Override

@@ -20,6 +20,7 @@ import com.example.androiddemo.model.OperationCode;
 import com.example.androiddemo.receiver.BaseBroadcastReceiver;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
+import com.example.androiddemo.utils.SystemServiceUtil;
 
 /**
  * <pre>
@@ -252,7 +253,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 	@TargetApi(8)
 	public static boolean startBluetoothSCO() {
 
-		AudioManager am = AndroidDemoUtil.getAudioManager();
+		AudioManager am = SystemServiceUtil.getAudioManager();
 
 		if (Integer.valueOf(android.os.Build.VERSION.SDK) >= AndroidDemoUtil.API_LEVEL_8) {
 			boolean isConnectHeadset = isConnectHeadset();
@@ -278,7 +279,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 	public static void stopBluetoothSCO() {
 		if (Integer.valueOf(android.os.Build.VERSION.SDK) >= AndroidDemoUtil.API_LEVEL_8) {
 
-			AudioManager am = AndroidDemoUtil.getAudioManager();
+			AudioManager am = SystemServiceUtil.getAudioManager();
 			if (!PhoneStatusWatcher.isCalling()) {
 				am.unregisterMediaButtonEventReceiver(sComponentName);
 				am.stopBluetoothSco();
