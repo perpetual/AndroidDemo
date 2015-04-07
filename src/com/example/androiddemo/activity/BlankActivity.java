@@ -38,7 +38,6 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 	private CheckBox mCheckBox = null;
 	private Button mAddContactsBtn = null;
 	private Button mNewContactsBtn = null;
-	private Button mAsyncTaskBtn = null;
 	private Button mTestBtn = null;
 	private Button mConsumeMemoryBtn = null;
 	private TextView mTextView = null;
@@ -65,9 +64,6 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 				break;
 			case R.id.new_contacts_btn:
 				newContact();
-				break;
-			case R.id.async_task_btn:
-				asyncTaskTest();
 				break;
 			case R.id.test_btn:
 				int keycode = KeyEvent.KEYCODE_0;
@@ -115,8 +111,6 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 		mAddContactsBtn.setOnClickListener(this);
 		mNewContactsBtn = (Button) findViewById(R.id.new_contacts_btn);
 		mNewContactsBtn.setOnClickListener(this);
-		mAsyncTaskBtn = (Button) findViewById(R.id.async_task_btn);
-		mAsyncTaskBtn.setOnClickListener(this);
 		mTestBtn = (Button) findViewById(R.id.test_btn);
 		mTestBtn.setOnClickListener(this);
 		mConsumeMemoryBtn = (Button) findViewById(R.id.consume_memory_btn);
@@ -176,10 +170,6 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
          intent.setType("vnd.android.cursor.dir/contact");
          intent.setType("vnd.android.cursor.dir/raw_contact");
          startActivity(intent);
-	}
-
-	private void asyncTaskTest() {
-		new AsyncTaskDemo().execute(new Integer[] { 0, 1, 2, 3 });
 	}
 
 	private void mapTest() {
