@@ -1,4 +1,4 @@
-package com.example.androiddemo.model;
+package com.example.androiddemo.service;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -32,7 +32,6 @@ public class Person implements Parcelable {
 
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.example.androiddemo.IRemoteService;
-import com.example.androiddemo.IRemoteService2;
 import com.example.androiddemo.service.BackgroundDemoService;
+import com.example.androiddemo.service.IRemoteDemoService;
+import com.example.androiddemo.service.IRemoteDemoService2;
+import com.example.androiddemo.service.RemoteDemoService1;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
@@ -18,12 +20,12 @@ public class ServiceActivity extends SuperActivity {
 
 	private static final String TAG = AndroidDemoUtil
 			.getClassName(ServiceActivity.class);
-	private Intent mServiceIntent = null;
+	private Intent mLocalServiceIntent = null;
 	private int mCounter = 0;
-	private ServiceConnection mServiceConnect = null;
-	private ServiceConnection mServiceConnect2 = null;
-	private IRemoteService mRemoteService = null;
-	private IRemoteService2 mRemoteService2 = null;
+	private ServiceConnection mRemoteServiceConnection = null;
+	private ServiceConnection mRemoteServiceConnection2 = null;
+	private IRemoteDemoService mRemoteDemoService = null;
+	private IRemoteDemoService2 mRemoteDemoService2 = null;
 
 	@Override
 	protected void onResume() {
@@ -51,14 +53,14 @@ public class ServiceActivity extends SuperActivity {
 	public void initData(Context context, AttributeSet attrs) {
 		AndroidDemoUtil.getThreadSignature();
 		
-		mServiceIntent = new Intent(this, BackgroundDemoService.class);
+		mLocalServiceIntent = new Intent(this, BackgroundDemoService.class);
 
-		mServiceConnect = new ServiceConnection() {
+		mRemoteServiceConnection = new ServiceConnection() {
 
 			@Override
 			public void onServiceDisconnected(ComponentName name) {
 				Log.d(TAG, "onServiceDisconnected");
-				mRemoteService = null;
+				mRemoteDemoService = null;
 				updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.converIndeterminateArgumentsToString(
 						"onServiceDisconnected1", "ComponentName", name), true);
 			}
@@ -66,18 +68,24 @@ public class ServiceActivity extends SuperActivity {
 			@Override
 			public void onServiceConnected(ComponentName name, IBinder service) {
 				Log.d(TAG, "onServiceConnected");
-				mRemoteService = IRemoteService.Stub.asInterface(service);
+				mRemoteDemoService = IRemoteDemoService.Stub.asInterface(service);
+				double getQuote = 0.0;
+				try {
+					getQuote = mRemoteDemoService.getQuote("xxx");
+				} catch (RemoteException e) {
+					LogUtil.d(TAG, e);
+				}
 				updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.converIndeterminateArgumentsToString(
-						"onServiceConnected1", "ComponentName", name), true);
+						"onServiceConnected1", "ComponentName", name, "getQuote", getQuote), true);
 			}
 		};
 
-		mServiceConnect2 = new ServiceConnection() {
+		mRemoteServiceConnection2 = new ServiceConnection() {
 
 			@Override
 			public void onServiceDisconnected(ComponentName name) {
 				Log.d(TAG, "onServiceDisconnected");
-				mRemoteService2 = null;
+				mRemoteDemoService2 = null;
 				updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.converIndeterminateArgumentsToString(
 						"onServiceDisconnected2", "ComponentName", name), true);
 			}
@@ -98,9 +106,9 @@ public class ServiceActivity extends SuperActivity {
 	
 	@Override
 	protected void doTopButtonClick() {
-		mServiceIntent.putExtra(BackgroundDemoService.EXTRAS_KEY,
+		mLocalServiceIntent.putExtra(BackgroundDemoService.EXTRAS_KEY,
 				++mCounter);
-		startService(mServiceIntent);
+		startService(mLocalServiceIntent);
 	}
 	
 	
@@ -116,24 +124,30 @@ public class ServiceActivity extends SuperActivity {
 	
 	@Override
 	protected String getLeftButtonText() {
-		return "bind service";
+		return "start remote service";
 	}
 	
 	@Override
 	protected void doLeftButtonClick() {
-		bindService(new Intent(IRemoteService.class.getName()), mServiceConnect, BIND_AUTO_CREATE);
+		if (null == mRemoteDemoService) {
+			Intent intent = new Intent(this, RemoteDemoService1.class);
+			bindService(intent, mRemoteServiceConnection, BIND_AUTO_CREATE);
+		}
 	}
 	
 	@Override
 	protected String getRightButtonText() {
-		return "unbind service";
+		return "stop remote service";
 	}
 	
 	@Override
 	protected void doRightButtonClick() {
-		unbindService(mServiceConnect);
+		if (null != mRemoteDemoService) {
+			unbindService(mRemoteServiceConnection);
+			mRemoteDemoService = null;
+		}
 	}
-	
+
 //	private void bindUI() {
 //		mCallBtn = (Button) findViewById(R.id.call_service);
 //		mCallBtn.setOnClickListener(new OnClickListener() {
@@ -195,7 +209,7 @@ public class ServiceActivity extends SuperActivity {
 //	}
 
 	private void stopService() {
-		boolean ret = stopService(mServiceIntent);
+		boolean ret = stopService(mLocalServiceIntent);
 		updateButton(TEXT_VIEW_TOP, AndroidDemoUtil.converIndeterminateArgumentsToString("Stop successful", ret));
 	}
 }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import com.example.androiddemo.R;
 import com.example.androiddemo.activity.FirstActivity;
 import com.example.androiddemo.activity.ServiceActivity;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 import com.example.androiddemo.utils.SystemServiceUtil;
 
@@ -60,26 +61,7 @@ public class BackgroundDemoService extends BaseService {
 		super.onCreate();
 		LogUtil.d(TAG, "onCreate", "Current process id", android.os.Process.myPid(), "currentThread", Thread.currentThread().getId());
 		mNotificationMananger = SystemServiceUtil.getNotificationManager();
-		displayNotificationMessage("notification demo");
-	}
-
-	private void displayNotificationMessage(String message) {
-		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
-				ServiceActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-		Notification notification = new Notification(R.drawable.ic_launcher, message,
-				System.currentTimeMillis());
-		notification.setLatestEventInfo(this, "Background Service", message, pendingIntent);
-		// Notification.Builder notificationBuilder = new
-		// Notification.Builder(this);
-		// notificationBuilder.setWhen(System.currentTimeMillis());
-		// notificationBuilder.setSmallIcon(R.drawable.ic_launcher);
-		// notificationBuilder.setContentText("Background  service is running");
-		// notificationBuilder.setContentTitle("Background Service");
-		// notificationBuilder.setContentText(message);
-		// notificationBuilder.setContentIntent(pendingIntent);
-		// notification = notificationBuilder.build();
-		notification.flags = Notification.FLAG_NO_CLEAR;
-		mNotificationMananger.notify(0, notification);
+		AndroidDemoUtil.showDemoNotification(ServiceActivity.class);
 	}
 
 	@Override

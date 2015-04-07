@@ -9,10 +9,16 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.androiddemo.R;
+import com.example.androiddemo.activity.ServiceActivity;
+
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.media.AudioManager;
@@ -477,5 +483,29 @@ public class AndroidDemoUtil {
 			return buffer.toString();
 		}
 
+	}
+	
+	public static void showDemoNotification(Class<?> cls) {
+		if (null == cls) {
+			SystemServiceUtil.getNotificationManager().cancel(333);
+			return;
+		}
+		PendingIntent pendingIntent = PendingIntent.getActivity(APPLICATION_CONTEXT, 0, new Intent(
+				APPLICATION_CONTEXT, cls), PendingIntent.FLAG_UPDATE_CURRENT);
+		Notification notification = new Notification(R.drawable.ic_launcher, "notification demo",
+				System.currentTimeMillis());
+		notification.setLatestEventInfo(APPLICATION_CONTEXT, "Background Service", "notification demo",
+				pendingIntent);
+		// Notification.Builder notificationBuilder = new
+		// Notification.Builder(this);
+		// notificationBuilder.setWhen(System.currentTimeMillis());
+		// notificationBuilder.setSmallIcon(R.drawable.ic_launcher);
+		// notificationBuilder.setContentText("Background  service is running");
+		// notificationBuilder.setContentTitle("Background Service");
+		// notificationBuilder.setContentText(message);
+		// notificationBuilder.setContentIntent(pendingIntent);
+		// notification = notificationBuilder.build();
+		notification.flags = Notification.FLAG_NO_CLEAR;
+		SystemServiceUtil.getNotificationManager().notify(333, notification);
 	}
 }

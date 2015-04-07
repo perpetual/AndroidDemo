@@ -7,10 +7,8 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 
-import com.example.androiddemo.IRemoteService2;
 import com.example.androiddemo.R;
 import com.example.androiddemo.activity.FirstActivity;
-import com.example.androiddemo.model.Person;
 
 /**
  * 
@@ -55,7 +53,7 @@ public class RemoteDemoService2 extends BaseService {
 		mNotificationMananger.notify(0, notification);
 	}
 
-	private class RemoteService2Impl extends IRemoteService2.Stub {
+	private class RemoteService2Impl extends IRemoteDemoService2.Stub {
 
 		@Override
 		public String getQuote(String ticker, Person requester)
