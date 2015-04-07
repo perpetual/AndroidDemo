@@ -63,16 +63,16 @@
 
         <activity android:name="com.example.androiddemo.activity.ServiceActivity" />
 
-        <service android:name="com.example.androiddemo.ServiceActivity$BackgroundService" />
+        <service android:name="com.example.androiddemo.service.BackgroundDemoService" />
         <service
-            android:name="com.example.androiddemo.ServiceActivity$RemoteService"
+            android:name="com.example.androiddemo.service.RemoteDemoService1"
             android:process=":background" >
             <intent-filter>
                 <action android:name="com.example.androiddemo.IRemoteService" />
             </intent-filter>
         </service>
         <service
-            android:name="com.example.androiddemo.ServiceActivity$RemoteService2"
+            android:name="com.example.androiddemo.service.RemoteDemoService2"
             android:process=":background" >
             <intent-filter>
                 <action android:name="com.example.androiddemo.activity.HandlerActivity" />
