@@ -61,7 +61,8 @@
 
         <receiver android:name="com.example.androiddemo.AlarmManagerActivity$AlarmReceiver" />
 
-        <activity android:name="com.example.androiddemo.activity.ServiceActivity" />
+        <activity android:name="com.example.androiddemo.activity.ServiceActivity" 
+            android:launchMode="singleTop"/>
 
         <service android:name="com.example.androiddemo.service.BackgroundDemoService" />
         <service

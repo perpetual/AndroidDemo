@@ -4,10 +4,12 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.util.Log;
 
 import com.example.androiddemo.R;
 import com.example.androiddemo.activity.FirstActivity;
+import com.example.androiddemo.activity.ServiceActivity;
+import com.example.androiddemo.utils.LogUtil;
+import com.example.androiddemo.utils.SystemServiceUtil;
 
 /**
  * 
@@ -37,10 +39,11 @@ public class BackgroundDemoService extends BaseService {
 		public void run() {
 
 			try {
-				Log.d(TAG, "" + Thread.currentThread().getId()
-						+ "Sleeping for 2 seconds. counter = " + mCounter);
+				LogUtil.d(TAG, "Current process id", android.os.Process.myPid(), "currentThread",
+						Thread.currentThread().getId(), "Sleeping for 2 seconds. counter = ",
+						mCounter);
 				Thread.sleep(2000);
-				Log.d(TAG, "Waking up");
+				LogUtil.d(TAG, "Waking up");
 			} catch (Exception e) {
 			}
 		}
@@ -53,12 +56,14 @@ public class BackgroundDemoService extends BaseService {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Log.d(TAG, TAG + ":Current process id:" + android.os.Process.myPid());
+		LogUtil.d(TAG, "onCreate", "Current process id", android.os.Process.myPid(), "currentThread", Thread.currentThread().getId());
+		mNotificationMananger = SystemServiceUtil.getNotificationManager();
+		displayNotificationMessage("notification demo");
 	}
 
 	private void displayNotificationMessage(String message) {
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
-				FirstActivity.class), 0);
+				ServiceActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 		Notification notification = new Notification(R.drawable.ic_launcher, message,
 				System.currentTimeMillis());
 		notification.setLatestEventInfo(this, "Background Service", message, pendingIntent);
@@ -78,6 +83,7 @@ public class BackgroundDemoService extends BaseService {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
+		LogUtil.d(TAG, "onStartCommand", "intent", intent, "flags", flags, "startId", startId);
 		int counter = intent.getExtras().getInt(EXTRAS_KEY);
 		new Thread(mMyThreads, new ServiceRunnable(counter)).start();
 		return START_STICKY;
@@ -85,6 +91,7 @@ public class BackgroundDemoService extends BaseService {
 
 	@Override
 	public void onDestroy() {
+		LogUtil.d(TAG, "onDestroy");
 		mMyThreads.interrupt();
 		mNotificationMananger.cancelAll();
 		super.onDestroy();

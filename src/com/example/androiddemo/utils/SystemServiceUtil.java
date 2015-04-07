@@ -1,5 +1,6 @@
 package com.example.androiddemo.utils;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.media.AudioManager;
 
@@ -19,6 +20,10 @@ public class SystemServiceUtil {
 
 	public static AudioManager getAudioManager() {
 		return (AudioManager) AndroidDemoUtil.APPLICATION_CONTEXT.getSystemService(Context.AUDIO_SERVICE);
+	}
+	
+	public static NotificationManager getNotificationManager() {
+		return (NotificationManager) AndroidDemoUtil.APPLICATION_CONTEXT.getSystemService(Context.NOTIFICATION_SERVICE);
 	}
 }
 
