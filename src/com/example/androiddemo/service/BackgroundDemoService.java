@@ -45,7 +45,7 @@ public class BackgroundDemoService extends BaseService {
 				LogUtil.d(TAG, "Current process id", android.os.Process.myPid(), "currentThread",
 						Thread.currentThread().getId(), "Sleeping for 2 seconds. counter = ",
 						mCounter, "StartId", mStartId);
-				stopSelfResult(mStartId);
+//				stopSelfResult(mStartId);
 			} catch (Exception e) {
 			}
 		}
