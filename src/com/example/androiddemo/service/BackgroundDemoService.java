@@ -30,20 +30,22 @@ public class BackgroundDemoService extends BaseService {
 	private class ServiceRunnable implements Runnable {
 
 		private int mCounter = -1;
+		private int mStartId = 0;
 
-		public ServiceRunnable(int counter) {
+		public ServiceRunnable(int counter, int startId) {
 			mCounter = counter;
+			mStartId = startId;
 		}
 
 		@Override
 		public void run() {
 
 			try {
+				Thread.sleep(2000);
 				LogUtil.d(TAG, "Current process id", android.os.Process.myPid(), "currentThread",
 						Thread.currentThread().getId(), "Sleeping for 2 seconds. counter = ",
-						mCounter);
-				Thread.sleep(2000);
-				LogUtil.d(TAG, "Waking up");
+						mCounter, "StartId", mStartId);
+				stopSelfResult(mStartId);
 			} catch (Exception e) {
 			}
 		}
@@ -85,7 +87,7 @@ public class BackgroundDemoService extends BaseService {
 		super.onStartCommand(intent, flags, startId);
 		LogUtil.d(TAG, "onStartCommand", "intent", intent, "flags", flags, "startId", startId);
 		int counter = intent.getExtras().getInt(EXTRAS_KEY);
-		new Thread(mMyThreads, new ServiceRunnable(counter)).start();
+		new Thread(mMyThreads, new ServiceRunnable(counter, startId)).start();
 		return START_STICKY;
 	}
 
