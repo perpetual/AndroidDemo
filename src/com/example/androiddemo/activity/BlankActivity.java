@@ -2,18 +2,10 @@ package com.example.androiddemo.activity;
 
 import java.util.ArrayList;
 
-import com.example.androiddemo.R;
-import com.example.androiddemo.R.id;
-import com.example.androiddemo.R.layout;
-import com.example.androiddemo.R.string;
-import com.example.androiddemo.utils.AndroidDemoUtil;
-
-import android.app.Dialog;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +20,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.androiddemo.R;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 public class BlankActivity extends BaseActivity implements OnClickListener {
 	static {
@@ -184,7 +179,7 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void asyncTaskTest() {
-		new AsyncTaskTest().execute(new Integer[] { 0, 1, 2, 3 });
+		new AsyncTaskDemo().execute(new Integer[] { 0, 1, 2, 3 });
 	}
 
 	private void mapTest() {
@@ -207,37 +202,4 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 	private void consumeMemory() {
 
 	}
-}
-
-class AsyncTaskTest extends AsyncTask<Integer, String, Long> {
-
-	@Override
-	protected Long doInBackground(Integer... params) {
-		Log.d("gary", "doInBackground:" + Thread.currentThread().getId());
-		String[] strings = new String[] { "11", "22", "33", "44" };
-		for (Integer i : params) {
-			publishProgress(strings[i]);
-		}
-		return 333L;
-	}
-
-	@Override
-	protected void onProgressUpdate(String... values) {
-		super.onProgressUpdate(values);
-		Log.d("gary", "onProgressUpdate:" + Thread.currentThread().getId() + ":" + values[0]);
-	}
-
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		Log.d("gary", "onPreExecute:" + Thread.currentThread().getId());
-	}
-
-	@Override
-	protected void onPostExecute(Long result) {
-		super.onPostExecute(result);
-		Log.d("gary", "onPostExecute:" + Thread.currentThread().getId() + ":" + result);
-	}
-	
-	
 }
