@@ -9,14 +9,12 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.androiddemo.R;
-import com.example.androiddemo.activity.ServiceActivity;
-
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -24,11 +22,14 @@ import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.PowerManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import com.example.androiddemo.R;
 
 public class AndroidDemoUtil {
 	private static final String TAG = AndroidDemoUtil
@@ -508,6 +509,39 @@ public class AndroidDemoUtil {
 		notification.flags = Notification.FLAG_NO_CLEAR;
 		SystemServiceUtil.getNotificationManager().notify(333, notification);
 	}
+
+	public static int getCurrentProcessID() {
+		return android.os.Process.myPid();
+	}
 	
+	public static String getCurrentProcessName() {
+		return getProcessName(getCurrentProcessID());
+	}
 	
+	public static String getProcessName(int pid) {
+
+		ActivityManager activityManager = SystemServiceUtil.getActivityManager();
+		List<RunningAppProcessInfo> runningAppInfoList = activityManager.getRunningAppProcesses();
+
+		if (runningAppInfoList == null) {
+			return null;
+		}
+
+		for (RunningAppProcessInfo process : runningAppInfoList) {
+			if (process.pid == pid) {
+				LogUtil.d(TAG, "getProcessName", process.processName);
+				return process.processName;
+			}
+		}
+		return null;
+
+	}
+	
+	public static String getPackageName() {
+		return APPLICATION_CONTEXT.getPackageName();
+	}
+	
+	public static boolean isMainProcess() {
+		return TextUtils.equals(getPackageName(), getProcessName(getCurrentProcessID()));
+	}
 }

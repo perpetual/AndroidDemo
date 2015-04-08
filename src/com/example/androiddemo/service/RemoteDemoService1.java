@@ -41,21 +41,18 @@ public class RemoteDemoService1 extends BaseService {
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		LogUtil.d(TAG, "RemoteDemoService1", "onBind", "intent", intent);
+		LogUtil.d(TAG, "RemoteDemoService1", "onBind", "intent", intent, AndroidDemoUtil.getCurrentProcessName());
 		if (null == mRemoteDemoServiceBinder) {
 			mRemoteDemoServiceBinder = new RemoteDemoServiceBinder();
 		}
-		AndroidDemoUtil.showDemoNotification(ServiceActivity.class);
-		RemoteDemoManager.getInstance().setServiceBind(true);
 		return mRemoteDemoServiceBinder;
 	}
 
 	@Override
 	public boolean onUnbind(Intent intent) {
-		LogUtil.d(TAG, "RemoteDemoService1", "onUnbind", "intent", intent);
+		LogUtil.d(TAG, "RemoteDemoService1", "onUnbind", "intent", intent, AndroidDemoUtil.getCurrentProcessName());
 		AndroidDemoUtil.showDemoNotification(null);
 		boolean ret = super.onUnbind(intent);
-		RemoteDemoManager.getInstance().setServiceBind(false);
 		return ret;
 	}
 }

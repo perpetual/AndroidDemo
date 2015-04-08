@@ -64,7 +64,8 @@
         <activity android:name="com.example.androiddemo.activity.ServiceActivity" 
             android:launchMode="singleTop"/>
 
-        <service android:name="com.example.androiddemo.service.BackgroundDemoService" />
+        <service android:name="com.example.androiddemo.service.BackgroundDemoService"
+            android:process=":background" />
         <service
             android:name="com.example.androiddemo.service.RemoteDemoService1"
             android:process=":background" >

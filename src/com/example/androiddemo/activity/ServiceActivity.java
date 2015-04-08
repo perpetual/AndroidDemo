@@ -104,7 +104,7 @@ public class ServiceActivity extends SuperActivity {
 	@Override
 	protected void doLeftButtonClick() {
 		if (RemoteDemoManager.getInstance().isServiceBind()) {
-			
+			RemoteDemoManager.getInstance().unbindService();
 		} else {
 			RemoteDemoManager.getInstance().bindService();
 		}
@@ -112,14 +112,18 @@ public class ServiceActivity extends SuperActivity {
 	
 	@Override
 	protected String getRightButtonText() {
-		return "stop remote service";
+		return "use remote service";
 	}
 	
 	@Override
 	protected void doRightButtonClick() {
-		if (RemoteDemoManager.getInstance().isServiceBind()) {
-			RemoteDemoManager.getInstance().unbindService();
-		} else {
+		try {
+			updateTextView(
+					TEXT_VIEW_TOP,
+					String.valueOf(RemoteDemoManager.getInstance().getRemoteDemoService1()
+							.getQuote("")), true);
+		} catch (RemoteException e) {
+			updateTextView(TEXT_VIEW_BOTTOM, e.toString(), false);
 		}
 	}
 
