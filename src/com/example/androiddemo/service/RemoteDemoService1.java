@@ -40,7 +40,6 @@ public class RemoteDemoService1 extends BaseService {
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		LogUtil.d(TAG, "onBind", intent);
 		if (null == mRemoteDemoServiceBinder) {
 			mRemoteDemoServiceBinder = new RemoteDemoServiceBinder();
 		}
@@ -50,6 +49,7 @@ public class RemoteDemoService1 extends BaseService {
 
 	@Override
 	public boolean onUnbind(Intent intent) {
+		AndroidDemoUtil.showDemoNotification(null);
 		return super.onUnbind(intent);
 	}
 }

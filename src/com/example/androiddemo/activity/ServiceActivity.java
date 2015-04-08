@@ -22,7 +22,7 @@ public class ServiceActivity extends SuperActivity {
 			.getClassName(ServiceActivity.class);
 	private Intent mLocalServiceIntent = null;
 	private int mCounter = 0;
-	private ServiceConnection mRemoteServiceConnection = null;
+	private static ServiceConnection mRemoteServiceConnection = null;
 	private ServiceConnection mRemoteServiceConnection2 = null;
 	private IRemoteDemoService mRemoteDemoService = null;
 	private IRemoteDemoService2 mRemoteDemoService2 = null;
@@ -130,7 +130,7 @@ public class ServiceActivity extends SuperActivity {
 	@Override
 	protected void doLeftButtonClick() {
 		if (null == mRemoteDemoService) {
-			Intent intent = new Intent(this, RemoteDemoService1.class);
+			Intent intent = new Intent(AndroidDemoUtil.APPLICATION_CONTEXT, RemoteDemoService1.class);
 			bindService(intent, mRemoteServiceConnection, BIND_AUTO_CREATE);
 		}
 	}
