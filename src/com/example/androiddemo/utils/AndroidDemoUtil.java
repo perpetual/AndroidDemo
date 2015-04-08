@@ -508,4 +508,6 @@ public class AndroidDemoUtil {
 		notification.flags = Notification.FLAG_NO_CLEAR;
 		SystemServiceUtil.getNotificationManager().notify(333, notification);
 	}
+	
+	
 }

@@ -8,6 +8,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import com.example.androiddemo.activity.ServiceActivity;
+import com.example.androiddemo.tools.RemoteDemoManager;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
@@ -40,16 +41,21 @@ public class RemoteDemoService1 extends BaseService {
 	
 	@Override
 	public IBinder onBind(Intent intent) {
+		LogUtil.d(TAG, "RemoteDemoService1", "onBind", "intent", intent);
 		if (null == mRemoteDemoServiceBinder) {
 			mRemoteDemoServiceBinder = new RemoteDemoServiceBinder();
 		}
 		AndroidDemoUtil.showDemoNotification(ServiceActivity.class);
+		RemoteDemoManager.getInstance().setServiceBind(true);
 		return mRemoteDemoServiceBinder;
 	}
 
 	@Override
 	public boolean onUnbind(Intent intent) {
+		LogUtil.d(TAG, "RemoteDemoService1", "onUnbind", "intent", intent);
 		AndroidDemoUtil.showDemoNotification(null);
-		return super.onUnbind(intent);
+		boolean ret = super.onUnbind(intent);
+		RemoteDemoManager.getInstance().setServiceBind(false);
+		return ret;
 	}
 }

@@ -13,6 +13,7 @@ import com.example.androiddemo.service.BackgroundDemoService;
 import com.example.androiddemo.service.IRemoteDemoService;
 import com.example.androiddemo.service.IRemoteDemoService2;
 import com.example.androiddemo.service.RemoteDemoService1;
+import com.example.androiddemo.tools.RemoteDemoManager;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
@@ -22,9 +23,7 @@ public class ServiceActivity extends SuperActivity {
 			.getClassName(ServiceActivity.class);
 	private Intent mLocalServiceIntent = null;
 	private int mCounter = 0;
-	private static ServiceConnection mRemoteServiceConnection = null;
 	private ServiceConnection mRemoteServiceConnection2 = null;
-	private IRemoteDemoService mRemoteDemoService = null;
 	private IRemoteDemoService2 mRemoteDemoService2 = null;
 
 	@Override
@@ -54,31 +53,6 @@ public class ServiceActivity extends SuperActivity {
 		AndroidDemoUtil.getThreadSignature();
 		
 		mLocalServiceIntent = new Intent(this, BackgroundDemoService.class);
-
-		mRemoteServiceConnection = new ServiceConnection() {
-
-			@Override
-			public void onServiceDisconnected(ComponentName name) {
-				Log.d(TAG, "onServiceDisconnected");
-				mRemoteDemoService = null;
-				updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.converIndeterminateArgumentsToString(
-						"onServiceDisconnected1", "ComponentName", name), true);
-			}
-
-			@Override
-			public void onServiceConnected(ComponentName name, IBinder service) {
-				Log.d(TAG, "onServiceConnected");
-				mRemoteDemoService = IRemoteDemoService.Stub.asInterface(service);
-				double getQuote = 0.0;
-				try {
-					getQuote = mRemoteDemoService.getQuote("xxx");
-				} catch (RemoteException e) {
-					LogUtil.d(TAG, e);
-				}
-				updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.converIndeterminateArgumentsToString(
-						"onServiceConnected1", "ComponentName", name, "getQuote", getQuote), true);
-			}
-		};
 
 		mRemoteServiceConnection2 = new ServiceConnection() {
 
@@ -129,9 +103,10 @@ public class ServiceActivity extends SuperActivity {
 	
 	@Override
 	protected void doLeftButtonClick() {
-		if (null == mRemoteDemoService) {
-			Intent intent = new Intent(AndroidDemoUtil.APPLICATION_CONTEXT, RemoteDemoService1.class);
-			bindService(intent, mRemoteServiceConnection, BIND_AUTO_CREATE);
+		if (RemoteDemoManager.getInstance().isServiceBind()) {
+			
+		} else {
+			RemoteDemoManager.getInstance().bindService();
 		}
 	}
 	
@@ -142,9 +117,9 @@ public class ServiceActivity extends SuperActivity {
 	
 	@Override
 	protected void doRightButtonClick() {
-		if (null != mRemoteDemoService) {
-			unbindService(mRemoteServiceConnection);
-			mRemoteDemoService = null;
+		if (RemoteDemoManager.getInstance().isServiceBind()) {
+			RemoteDemoManager.getInstance().unbindService();
+		} else {
 		}
 	}
 

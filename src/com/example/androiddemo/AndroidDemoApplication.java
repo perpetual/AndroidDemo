@@ -1,9 +1,9 @@
 package com.example.androiddemo;
 
-import com.example.androiddemo.utils.AndroidDemoUtil;
-
 import android.app.Application;
-import android.util.Log;
+
+import com.example.androiddemo.utils.AndroidDemoUtil;
+import com.example.androiddemo.utils.LogUtil;
 
 /**
  * <pre>
@@ -18,10 +18,12 @@ import android.util.Log;
  * </pre>
  */
 public class AndroidDemoApplication extends Application {
+	private static final String TAG = AndroidDemoApplication.class.getSimpleName();
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Log.d("AndroidDemoApplication", "AndroidDemoApplication:onCreate");
+		LogUtil.d(TAG, "AndroidDemoApplication:onCreate");
 		AndroidDemoUtil.APPLICATION_CONTEXT = getApplicationContext();
 		AndroidDemoUtil.RESOURCES = getResources();
 	}
