@@ -85,7 +85,7 @@ public class RemoteDemoManager {
 
 			@Override
 			public void onServiceDisconnected(ComponentName name) {
-				Log.d(TAG, "onServiceDisconnected");
+				LogUtil.d(TAG, "onServiceDisconnected");
 				mRemoteDemoService1 = null;
 				AndroidDemoUtil.showDemoNotification(null);
 			}
@@ -94,13 +94,8 @@ public class RemoteDemoManager {
 			public void onServiceConnected(ComponentName name, IBinder service) {
 				Log.d(TAG, "onServiceConnected");
 				mRemoteDemoService1 = IRemoteDemoService.Stub.asInterface(service);
+				LogUtil.d(TAG, "onServiceConnected", "service", service, "mRemoteDemoService1", mRemoteDemoService1);
 				AndroidDemoUtil.showDemoNotification(ServiceActivity.class);
-				double getQuote = 0.0;
-				try {
-					getQuote = mRemoteDemoService1.getQuote("xxx");
-				} catch (RemoteException e) {
-					LogUtil.d(TAG, e);
-				}
 			}
 		};
 		

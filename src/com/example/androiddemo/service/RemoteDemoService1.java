@@ -34,7 +34,7 @@ public class RemoteDemoService1 extends BaseService {
 
 		@Override
 		public double getQuote(String ticker) throws RemoteException {
-			LogUtil.d(TAG, "getQuote", ticker);
+			LogUtil.d(TAG, "getQuote", ticker, RemoteDemoService1.this);
 			return 3.14;
 		}
 	}
@@ -53,6 +53,7 @@ public class RemoteDemoService1 extends BaseService {
 		LogUtil.d(TAG, "RemoteDemoService1", "onUnbind", "intent", intent, AndroidDemoUtil.getCurrentProcessName());
 		AndroidDemoUtil.showDemoNotification(null);
 		boolean ret = super.onUnbind(intent);
+		mRemoteDemoServiceBinder = null;
 		return ret;
 	}
 }
