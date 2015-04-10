@@ -29,12 +29,10 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	private static final String TAG = AndroidDemoUtil.getClassName(BlankActivity.class);
 	private CheckBox mCheckBox = null;
 	private Button mAddContactsBtn = null;
 	private Button mNewContactsBtn = null;
@@ -43,12 +41,12 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 	private TextView mTextView = null;
 	private EditText mEditText = null;
 	private LinearLayout mList = null;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Intent intent = getIntent();
 		super.onCreate(savedInstanceState);
-		Log.d("gary", this + "onCreate");
+		Log.d(TAG, this + "onCreate");
 		bindUI();
 		updateUI();
 		getWindow().setBackgroundDrawable(null);
@@ -84,13 +82,13 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		Log.d("gary", this + "onSaveInstanceState");
+		Log.d(TAG, this + "onSaveInstanceState");
 	}
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-		Log.d("gary", this + "onRestoreInstanceState");
+		Log.d(TAG, this + "onRestoreInstanceState");
 	}
 
 	/**

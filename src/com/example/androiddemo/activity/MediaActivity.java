@@ -194,11 +194,6 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	}
 	
 	@Override
-	protected String getLogTag() {
-		return MediaActivity.class.getSimpleName();
-	}
-	
-	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		boolean handled = true;
 		switch (keyCode) {

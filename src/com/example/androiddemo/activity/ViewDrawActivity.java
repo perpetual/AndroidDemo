@@ -1,5 +1,7 @@
 package com.example.androiddemo.activity;
 
+import android.widget.TextView;
+
 import com.example.androiddemo.R;
 
 
@@ -15,12 +17,9 @@ import com.example.androiddemo.R;
  * Gary		2014-10-15		Create
  * </pre>
  */
-public class ViewDrawActivity extends SuperActivity {
+public class ViewDrawActivity extends BaseActivity {
 
-	@Override
-	protected String getLogTag() {
-		return getClass().getSimpleName();
-	}
+	private TextView mTextView = null;
 	
 	@Override
 	public void initLayout() {
@@ -28,7 +27,12 @@ public class ViewDrawActivity extends SuperActivity {
 	}
 
 	@Override
+	public void bindView() {
+		mTextView = (TextView)findViewById(R.id.text_view);
+	}
+	
+	@Override
 	public void initView() {
-		super.initView();
+
 	}
 }

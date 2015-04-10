@@ -13,7 +13,7 @@ import com.example.androiddemo.model.IUIInitialization;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 
 
-public abstract class SuperActivity extends BaseActivity implements IUIInitialization, View.OnClickListener{
+public abstract class SuperActivity extends BaseActivity implements View.OnClickListener {
 
 	public static final int TEXT_VIEW_TOP = R.id.top_text_view;
 	public static final int TEXT_VIEW_LEFT = R.id.left_text_view;
@@ -178,22 +178,7 @@ public abstract class SuperActivity extends BaseActivity implements IUIInitializ
 	
 	/**
 	 * 这里写重载函数
-	 */
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		initData(this, null);
-		initLayout();
-		bindView();
-		initView();
-		refreshView();
-	}
-	
-	@Override
-	public void initData(Context context, AttributeSet attrs) {
-		
-	}
-	
+	 */	
 	@Override
 	public void initLayout() {
 		setContentView(R.layout.super_layout);
