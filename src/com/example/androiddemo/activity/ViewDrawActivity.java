@@ -1,8 +1,5 @@
 package com.example.androiddemo.activity;
 
-import android.widget.TextView;
-
-import com.example.androiddemo.R;
 
 
 /**
@@ -17,22 +14,30 @@ import com.example.androiddemo.R;
  * Gary		2014-10-15		Create
  * </pre>
  */
-public class ViewDrawActivity extends BaseActivity {
-
-	private TextView mTextView = null;
-	
-	@Override
-	public void initLayout() {
-		setContentView(R.layout.view_draw_layout);
-	}
+public class ViewDrawActivity extends SuperActivity {
 
 	@Override
-	public void bindView() {
-		mTextView = (TextView)findViewById(R.id.text_view);
+	protected String getLeftButtonText() {
+		return "透明";
 	}
 	
 	@Override
-	public void initView() {
-
+	protected String getRightButtonText() {
+		return "恢复";
+	}
+	
+	@Override
+	protected void doLeftButtonClick() {
+		getCustomView().setAlpha(0.5f);
+	}
+	
+	@Override
+	protected void doRightButtonClick() {
+		getCustomView().setAlpha(1.f);
+	}
+	
+	@Override
+	protected boolean canUseImageLayout() {
+		return true;
 	}
 }

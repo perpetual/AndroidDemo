@@ -10,7 +10,7 @@
         android:orientation="vertical" >
         
         <ViewStub 
-            android:id="@+id/view_stub"
+            android:id="@+id/operation_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout="@layout/common_operation_layout"/>
@@ -86,6 +86,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="bottom" />
+        
+        
+        <ViewStub 
+            android:id="@+id/image_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/common_image_layout"/>
     </LinearLayout>
 
 </ScrollView>

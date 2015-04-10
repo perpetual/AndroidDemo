@@ -1,16 +1,14 @@
 package com.example.androiddemo.activity;
 
-import android.content.Context;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.androiddemo.R;
-import com.example.androiddemo.model.IUIInitialization;
 import com.example.androiddemo.utils.AndroidDemoUtil;
+import com.example.androiddemo.view.CustomView;
 
 
 public abstract class SuperActivity extends BaseActivity implements View.OnClickListener {
@@ -36,12 +34,14 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 	private Button mLeftButton = null;
 	private Button mRightButton = null;
 	private Button mBottomButton = null;
-	private View mViewStub = null;
+	private View mOperationArea = null;
+	private View mImageArea = null;
 	private Button mButton1 = null;
 	private Button mButton2 = null;
 	private Button mButton3 = null;
 	private Button mButton4 = null;
-	private View mRootView = null;
+	private CustomView mCustionView = null;
+	private LinearLayout mRootView = null;
 	
 
 	protected String getTopButtonText() {
@@ -169,11 +169,17 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 	protected void doButton2Click() {}
 	protected void doButton3Click() {}
 	protected void doButton4Click() {}
-	
+
 	protected boolean canUseOperationLayout() { return false; }
 	
-	protected View getMainView() {
+	protected boolean canUseImageLayout() { return false; }
+	
+	protected LinearLayout getMainView() {
 		return mRootView;
+	}
+	
+	protected CustomView getCustomView() {
+		return mCustionView;
 	}
 	
 	/**
@@ -186,7 +192,7 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 	
 	@Override
 	public void bindView() {
-		mRootView = findViewById(R.id.main_view);
+		mRootView = (LinearLayout)findViewById(R.id.main_view);
 		mTopTextView = (TextView)findViewById(R.id.top_text_view);
 		mLeftTextView = (TextView)findViewById(R.id.left_text_view);
 		mRightTextView = (TextView)findViewById(R.id.right_text_view);
@@ -196,14 +202,22 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 		mRightButton = (Button)findViewById(R.id.right_button);
 		mBottomButton = (Button)findViewById(R.id.bottom_button);
 		if (canUseOperationLayout()) {
-			mViewStub = findViewById(R.id.view_stub);
-			mViewStub.setVisibility(View.VISIBLE);
-			if (null == mViewStub.getParent()) {
-				mViewStub = findViewById(R.id.view_stub);
+			mOperationArea = findViewById(R.id.operation_area);
+			mOperationArea.setVisibility(View.VISIBLE);
+			if (null == mOperationArea.getParent()) {
+				mOperationArea = findViewById(R.id.operation_area);
 				mButton1 = (Button)findViewById(R.id.button1);
 				mButton2 = (Button)findViewById(R.id.button2);
 				mButton3 = (Button)findViewById(R.id.button3);
 				mButton4 = (Button)findViewById(R.id.button4);
+			}
+		}
+		if (canUseImageLayout()) {
+			mImageArea = findViewById(R.id.image_area);
+			mImageArea.setVisibility(View.VISIBLE);
+			if (null == mImageArea.getParent()) {
+				mImageArea = findViewById(R.id.image_area);
+				mCustionView = (CustomView)findViewById(R.id.custom_view);
 			}
 		}
 	}
@@ -222,9 +236,6 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 		}
 	}
 	
-	@Override
-	public void updateView() {
-	}
 	
 	@Override
 	public void refreshView() {

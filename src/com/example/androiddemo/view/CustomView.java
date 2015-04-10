@@ -5,14 +5,20 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
+import android.widget.ImageView;
 
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
-public class CustomView extends View implements OnLayoutChangeListener {
+public class CustomView extends ImageView implements OnLayoutChangeListener {
 
-	private static final String TAG = "xxx";
+	private static final String TAG = CustomView.class.getSimpleName();
 
+	public CustomView(Context context) {
+		super(context);
+		addOnLayoutChangeListener(this);
+	}
+	
 	public CustomView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		addOnLayoutChangeListener(this);
@@ -59,4 +65,10 @@ public class CustomView extends View implements OnLayoutChangeListener {
 				+ getHeight());
 	}
 
+	@Override
+	protected boolean onSetAlpha(int alpha) {
+		boolean b = super.onSetAlpha(alpha);
+		LogUtil.w(TAG, "onSetAlpha" + "|" + alpha + "|" + b);
+		return b;
+	}
 }
