@@ -1,59 +1,57 @@
 package com.example.androiddemo.utils;
 
-import android.provider.Telephony.Sms.Conversations;
 import android.util.Log;
 
 public class LogUtil {
 
-	public static void v(String TAG, String msg) {
-		Log.v(TAG, msg);
+	public static void v(String tag, Object... datas) {
+		log(Log.VERBOSE, tag, datas);
 	}
 
-	public static void v(String TAG, int value) {
-		LogUtil.v(TAG, String.valueOf(value));
-	}
-	
 	public static void d(String tag, Object... datas) {
+		log(Log.DEBUG, tag, datas);
+	}
 
+	public static void i(String tag, Object... datas) {
+		log(Log.INFO, tag, datas);
+	}
+
+	public static void w(String tag, Object... datas) {
+		log(Log.WARN, tag, datas);
+	}
+
+	public static void e(String tag, Object... datas) {
+		log(Log.ERROR, tag, datas);
+	}
+
+	
+	private static void log(final int type, String tag, Object... datas) {
 		if (tag == null || datas == null)
 			return;
 
-		String data = null;
+		String data = AndroidDemoUtil.converArrayToString(datas);
 
-		if (data == null) {
-			data = AndroidDemoUtil.converArrayToString(datas);
+		switch (type) {
+		case Log.VERBOSE:
+			Log.v(tag, data);
+			break;
+		case Log.DEBUG:
+			Log.d(tag, data);
+			break;
+		case Log.INFO:
+			Log.i(tag, data);
+			break;
+		case Log.WARN:
+			Log.w(tag, data);
+			break;
+		case Log.ERROR:
+			Log.e(tag, data);
+			break;
+		case Log.ASSERT:
+			Log.e(tag, data);
+			break;
+		default:
+			break;
 		}
-		d(tag, data);
-	}
-	
-	public static void d(String TAG, String msg) {
-		Log.d(TAG, msg);
-	}
-
-	public static void d(String TAG, int value) {
-		LogUtil.d(TAG, String.valueOf(value));
-	}
-
-	public static void i(String TAG, String msg) {
-		Log.i(TAG, msg);
-	}
-
-	public static void i(String TAG, int value) {
-		LogUtil.i(TAG, String.valueOf(value));
-	}
-
-	public static void e(String TAG, String msg) {
-		Log.e(TAG, msg);
-	}
-
-	public static void w(String TAG, int value) {
-		LogUtil.w(TAG, String.valueOf(value));
-	}
-	public static void w(String TAG, String msg) {
-		Log.w(TAG, msg);
-	}
-
-	public static void e(String TAG, int value) {
-		LogUtil.e(TAG, String.valueOf(value));
 	}
 }
