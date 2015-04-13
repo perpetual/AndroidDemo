@@ -39,12 +39,11 @@ public class BluetoothHelper extends CommonCallbacks implements
 
 	private static final String TAG = BluetoothHelper.class.getSimpleName();
 	
-	
-	private static final ComponentName sComponentName = new ComponentName(BluetoothReceiver.class.getPackage().getName(), BluetoothReceiver.class.getName());
+	private static final ComponentName sComponentName = new ComponentName(BluetoothReceiver.class
+			.getPackage().getName(), BluetoothReceiver.class.getName());
 	
 	private BluetoothReceiver mSCOAudioReceiver = null;
 	private Context mContext = null;
-	private AudioManager mAudioManager = null;
 	BluetoothProfile mBluetoothProxy = null; 
 	private BluetoothProfile.ServiceListener mServiceListener = null;
 	private boolean mSCOAudioStarted = false;
@@ -69,7 +68,6 @@ public class BluetoothHelper extends CommonCallbacks implements
 	public BluetoothHelper(Context context) {
 		mContext = context;
 		mSCOAudioReceiver = new BluetoothReceiver();
-		mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 
 		/**
 		 * 注册蓝牙耳机连接状态广播
