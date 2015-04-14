@@ -87,7 +87,7 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	
 	@Override
 	protected String getBottomButtonText() {
-		return "hide media controller";
+		return SystemServiceUtil.getAudioManager().isSpeakerphoneOn() ? "speaker on" : "speaker off";
 	}
 
 	@Override
@@ -127,7 +127,12 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 
 	@Override
 	protected void doBotttomButtonClick() {
-		mMediaController.hide();
+		SystemServiceUtil.getAudioManager().setSpeakerphoneOn(!SystemServiceUtil.getAudioManager().isSpeakerphoneOn());
+		if (SystemServiceUtil.getAudioManager().isSpeakerphoneOn()) {
+			updateButton(BUTTON_BOTTOM, "speaker on");
+		} else {
+			updateButton(BUTTON_BOTTOM, "speaker off");
+		}
 	}
 	
 	@Override
