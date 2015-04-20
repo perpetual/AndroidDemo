@@ -1,10 +1,15 @@
 package com.example.androiddemo.service;
 
+import java.io.FileDescriptor;
+
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.IInterface;
+import android.os.Parcel;
 import android.os.RemoteException;
+import android.os.IBinder.DeathRecipient;
 import android.util.Log;
 
 import com.example.androiddemo.activity.ServiceActivity;
@@ -43,7 +48,48 @@ public class RemoteDemoService1 extends BaseService {
 	public IBinder onBind(Intent intent) {
 		LogUtil.d(TAG, "RemoteDemoService1", "onBind", "intent", intent, AndroidDemoUtil.getCurrentProcessName());
 		if (null == mRemoteDemoServiceBinder) {
-			mRemoteDemoServiceBinder = new RemoteDemoServiceBinder();
+			mRemoteDemoServiceBinder = new RemoteDemoServiceBinder() {
+				
+				@Override
+				public boolean unlinkToDeath(DeathRecipient recipient, int flags) {
+					return false;
+				}
+				
+				@Override
+				public IInterface queryLocalInterface(String descriptor) {
+					return null;
+				}
+				
+				@Override
+				public boolean pingBinder() {
+					return false;
+				}
+				
+				@Override
+				public void linkToDeath(DeathRecipient recipient, int flags) {
+					
+				}
+				
+				@Override
+				public boolean isBinderAlive() {
+					return false;
+				}
+				
+				@Override
+				public String getInterfaceDescriptor() {
+					return null;
+				}
+				
+				@Override
+				public void dumpAsync(FileDescriptor fd, String[] args) {
+					
+				}
+				
+				@Override
+				public void dump(FileDescriptor fd, String[] args) {
+					
+				}
+			};
 		}
 		return mRemoteDemoServiceBinder;
 	}
