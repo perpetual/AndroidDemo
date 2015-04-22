@@ -10,9 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.example.androiddemo.service.BackgroundDemoService;
-import com.example.androiddemo.service.IRemoteDemoService;
 import com.example.androiddemo.service.IRemoteDemoService2;
-import com.example.androiddemo.service.RemoteDemoService1;
 import com.example.androiddemo.tools.RemoteDemoManager;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;

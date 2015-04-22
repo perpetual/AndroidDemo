@@ -1,17 +1,20 @@
 package com.example.androiddemo.tools;
 
+import java.io.FileDescriptor;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.IInterface;
 import android.os.Looper;
 import android.os.RemoteException;
-import android.util.Log;
 
 import com.example.androiddemo.activity.ServiceActivity;
-import com.example.androiddemo.service.IRemoteDemoService;
+import com.example.androiddemo.service.IRemoteDemoService1;
 import com.example.androiddemo.service.IRemoteDemoService2;
 import com.example.androiddemo.service.RemoteDemoService1;
 import com.example.androiddemo.utils.AndroidDemoUtil;
@@ -29,15 +32,16 @@ import com.example.androiddemo.utils.LogUtil;
  * garyzhao		2015-4-8		Create		
  * </pre>
  */
-public class RemoteDemoManager {
+public class RemoteDemoManager implements IBinder.DeathRecipient {
 	private static final String TAG = RemoteDemoManager.class.getSimpleName();
 	private static RemoteDemoManager sInstance = null;
 	private Handler mMainHandler = null;
 	private boolean mIsBind = false;
-	private IRemoteDemoService mRemoteDemoService1 = null;
+	private IRemoteDemoService1 mRemoteDemoService1 = null;
 	private IRemoteDemoService2 mRemoteDemoService2 = null;
 	private ServiceConnection mRemoteDemoServiceConnection1 = null;
 	private ServiceConnection mRemoteDemoServiceConnection2 = null;
+	private Binder mMyBinder = null;
 	
 	public static RemoteDemoManager getInstance() {
 		if (null == sInstance) {
@@ -71,7 +75,7 @@ public class RemoteDemoManager {
 		return mIsBind;
 	}
 	
-	public IRemoteDemoService getRemoteDemoService1() {
+	public IRemoteDemoService1 getRemoteDemoService1() {
 		return mRemoteDemoService1;
 	}
 	
@@ -86,15 +90,21 @@ public class RemoteDemoManager {
 			@Override
 			public void onServiceDisconnected(ComponentName name) {
 				LogUtil.d(TAG, "onServiceDisconnected");
+				mRemoteDemoService1.asBinder().unlinkToDeath(RemoteDemoManager.this, 0);
 				mRemoteDemoService1 = null;
 				AndroidDemoUtil.showDemoNotification(null);
 			}
 
 			@Override
 			public void onServiceConnected(ComponentName name, IBinder service) {
-				Log.d(TAG, "onServiceConnected");
-				mRemoteDemoService1 = IRemoteDemoService.Stub.asInterface(service);
-				LogUtil.d(TAG, "onServiceConnected", "service", service, "mRemoteDemoService1", mRemoteDemoService1);
+				mRemoteDemoService1 = IRemoteDemoService1.Stub.asInterface(service);
+				try {
+					mRemoteDemoService1.asBinder().linkToDeath(RemoteDemoManager.this, 0);
+					mRemoteDemoService1.setRemoteBinder(mMyBinder);
+				} catch (RemoteException e) {
+					LogUtil.w(TAG, "linkToDeath", e.getMessage());
+				}
+				LogUtil.d(TAG, "onServiceConnected", "name", name, "service", service, "mRemoteDemoService1", mRemoteDemoService1);
 				AndroidDemoUtil.showDemoNotification(ServiceActivity.class);
 			}
 		};
@@ -109,6 +119,59 @@ public class RemoteDemoManager {
 			public void onServiceConnected(ComponentName name, IBinder service) {				
 			}
 		};
+		
+		mMyBinder = new Binder() {
+
+			@Override
+			public boolean unlinkToDeath(DeathRecipient recipient, int flags) {
+				LogUtil.d(TAG, "unlinkToDeath", "recipient", recipient, "flags", flags);
+				return false;
+			}
+			
+			@Override
+			public IInterface queryLocalInterface(String descriptor) {
+				LogUtil.d(TAG, "queryLocalInterface", "descriptor", descriptor);
+				return null;
+			}
+			
+			@Override
+			public boolean pingBinder() {
+				LogUtil.d(TAG, "pingBinder");
+				return false;
+			}
+			
+			@Override
+			public void linkToDeath(DeathRecipient recipient, int flags) {		
+				LogUtil.d(TAG, "linkToDeath", "recipient", recipient, "flags", flags);
+			}
+			
+			@Override
+			public boolean isBinderAlive() {
+				LogUtil.d(TAG, "isBinderAlive");
+				return false;
+			}
+			
+			@Override
+			public String getInterfaceDescriptor() {
+				LogUtil.d(TAG, "getInterfaceDescriptor");
+				return null;
+			}
+			
+			@Override
+			public void dumpAsync(FileDescriptor fd, String[] args) {
+				LogUtil.d(TAG, "dumpAsync", "fd", fd, "args", args);
+			}
+			
+			@Override
+			public void dump(FileDescriptor fd, String[] args) {
+				LogUtil.d(TAG, "dump", "fd", fd, "args", args);
+			}
+		};
+	}
+
+	@Override
+	public void binderDied() {
+		LogUtil.d(TAG, "binderDied");
 	}
 }
 
