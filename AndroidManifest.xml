@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.hardware.sensor.proximity"/>
 
     <application
         android:name="AndroidDemoApplication"
@@ -56,8 +57,7 @@
         <activity android:name="com.example.androiddemo.activity.AnimationActivity" />
         <activity android:name="com.example.androiddemo.activity.AlarmManagerActivity" />
         <activity
-            android:name="com.example.androiddemo.activity.TestActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:name="com.example.androiddemo.activity.TestActivity" />
 
         <receiver android:name="com.example.androiddemo.AlarmManagerActivity$AlarmReceiver" />
 
@@ -84,7 +84,8 @@
         <activity
             android:name="com.example.androiddemo.activity.FirstActivity"
             android:clearTaskOnLaunch="true"
-            android:finishOnTaskLaunch="true" />
+            android:finishOnTaskLaunch="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.example.androiddemo.activity.SecondActivity"
             android:finishOnTaskLaunch="false"
@@ -106,6 +107,7 @@
         <activity android:name="com.example.androiddemo.activity.ViewDrawActivity" />
         <activity android:name="com.example.androiddemo.activity.DebugActivity" />
         <activity android:name="com.example.androiddemo.activity.MediaActivity" />
+        <activity android:name="com.example.androiddemo.activity.SensorListActivity"/>
 
         <receiver android:name="com.example.androiddemo.BluetoothReceiver" >
             <intent-filter android:priority="2147483647" >

@@ -1,35 +1,25 @@
 package com.example.androiddemo.activity;
 
-import com.example.androiddemo.R;
-import com.example.androiddemo.R.layout;
-import com.example.androiddemo.utils.AndroidDemoUtil;
+import com.example.androiddemo.utils.LogUtil;
 
-import android.os.Bundle;
-import android.widget.LinearLayout;
+import android.content.Intent;
 
-public class TestActivity extends BaseActivity {
 
-	private LinearLayout mRootView = null;
+public class TestActivity extends SuperActivity {
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		AndroidDemoUtil.APPLICATION_CONTEXT = getApplicationContext();
+	protected String getTopButtonText() {
+		return "start first activity";
 	}
 	
 	@Override
-	protected void onResume() {
-		super.onResume();
+	protected void doTopButtonClick() {
+		startActivity(new Intent(this, FirstActivity.class));
 	}
 	
-	protected void buttonClickAction() {
-	}
-
-	protected String getDisplayString() {
-		return this.toString() + "|taskId:" + 252;
-	}
-	
-	public void initLayout() {
-		setContentView(R.layout.test_layout);
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		LogUtil.d(TAG, "onActivityResult");
 	}
 }
