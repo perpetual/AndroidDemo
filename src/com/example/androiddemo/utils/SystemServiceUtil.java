@@ -3,6 +3,7 @@ package com.example.androiddemo.utils;
 import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.hardware.SensorManager;
 import android.media.AudioManager;
 
 /**
@@ -30,6 +31,11 @@ public class SystemServiceUtil {
 	public static ActivityManager getActivityManager() {
 		return (ActivityManager) AndroidDemoUtil.APPLICATION_CONTEXT
 				.getSystemService(Context.ACTIVITY_SERVICE);
+	}
+	
+	public static SensorManager getSensorManager() {
+		return (SensorManager) AndroidDemoUtil.APPLICATION_CONTEXT
+				.getSystemService(Context.SENSOR_SERVICE);
 	}
 }
 
