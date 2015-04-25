@@ -2,18 +2,11 @@ package com.example.androiddemo.service;
 
 import java.io.FileDescriptor;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.IInterface;
-import android.os.Parcel;
 import android.os.RemoteException;
-import android.os.IBinder.DeathRecipient;
-import android.util.Log;
 
-import com.example.androiddemo.activity.ServiceActivity;
-import com.example.androiddemo.tools.RemoteDemoManager;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
@@ -35,12 +28,17 @@ public class RemoteDemoService1 extends BaseService {
 	private final String TAG = RemoteDemoService1.class.getSimpleName();
 	private IBinder mRemoteDemoServiceBinder = null;
 	
-	public class RemoteDemoServiceBinder extends IRemoteDemoService.Stub {
+	public class RemoteDemoServiceBinder extends IRemoteDemoService1.Stub {
 
 		@Override
 		public double getQuote(String ticker) throws RemoteException {
 			LogUtil.d(TAG, "getQuote", ticker, RemoteDemoService1.this);
 			return 3.14;
+		}
+
+		@Override
+		public void setRemoteBinder(IBinder binder) throws RemoteException {
+			mRemoteDemoServiceBinder = binder;
 		}
 	}
 	

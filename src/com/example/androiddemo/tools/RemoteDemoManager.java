@@ -7,11 +7,10 @@ import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.os.RemoteException;
 import android.util.Log;
 
 import com.example.androiddemo.activity.ServiceActivity;
-import com.example.androiddemo.service.IRemoteDemoService;
+import com.example.androiddemo.service.IRemoteDemoService1;
 import com.example.androiddemo.service.IRemoteDemoService2;
 import com.example.androiddemo.service.RemoteDemoService1;
 import com.example.androiddemo.utils.AndroidDemoUtil;
@@ -34,7 +33,7 @@ public class RemoteDemoManager {
 	private static RemoteDemoManager sInstance = null;
 	private Handler mMainHandler = null;
 	private boolean mIsBind = false;
-	private IRemoteDemoService mRemoteDemoService1 = null;
+	private IRemoteDemoService1 mRemoteDemoService1 = null;
 	private IRemoteDemoService2 mRemoteDemoService2 = null;
 	private ServiceConnection mRemoteDemoServiceConnection1 = null;
 	private ServiceConnection mRemoteDemoServiceConnection2 = null;
@@ -71,7 +70,7 @@ public class RemoteDemoManager {
 		return mIsBind;
 	}
 	
-	public IRemoteDemoService getRemoteDemoService1() {
+	public IRemoteDemoService1 getRemoteDemoService1() {
 		return mRemoteDemoService1;
 	}
 	
@@ -93,7 +92,7 @@ public class RemoteDemoManager {
 			@Override
 			public void onServiceConnected(ComponentName name, IBinder service) {
 				Log.d(TAG, "onServiceConnected");
-				mRemoteDemoService1 = IRemoteDemoService.Stub.asInterface(service);
+				mRemoteDemoService1 = IRemoteDemoService1.Stub.asInterface(service);
 				LogUtil.d(TAG, "onServiceConnected", "service", service, "mRemoteDemoService1", mRemoteDemoService1);
 				AndroidDemoUtil.showDemoNotification(ServiceActivity.class);
 			}
