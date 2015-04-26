@@ -32,12 +32,47 @@ public class AccelerometerActivity extends SuperActivity implements ICallback{
 			Object object) {
 		switch (opCode) {
 		case OperationCode.OP_CODE_SENSOR_STATE_CHANGED:
-			updateTextView(TEXT_VIEW_TOP, str, true);
+			updateTextView(TEXT_VIEW_TOP, str, false);
 			break;
-
+		case OperationCode.OP_CODE_ACCURACY_CHANGED_CHANGED:
+			updateTextView(TEXT_VIEW_BOTTOM, str, true);
+			break;
+		case OperationCode.OP_CODE_SHAKE:
+			updateTextView(TEXT_VIEW_BOTTOM, str, true);
+			break;
 		default:
 			break;
 		}
+	}
+	
+	@Override
+	protected String getLeftButtonText() {
+		return "start";
+	}
+	
+	@Override
+	protected void doLeftButtonClick() {
+		AccelerometerManager.getInstance().start();
+	}
+	
+	@Override
+	protected String getRightButtonText() {
+		return "stop";
+	}
+	
+	@Override
+	protected void doRightButtonClick() {
+		AccelerometerManager.getInstance().stop();
+	}
+	
+	@Override
+	protected String getBottomButtonText() {
+		return "clear";
+	}
+	
+	@Override
+	protected void doBotttomButtonClick() {
+		updateTextView(TEXT_VIEW_BOTTOM, "", false);
 	}
 	
 	@Override

@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.os.Vibrator;
 
 /**
  * <pre>
@@ -21,21 +22,28 @@ import android.media.AudioManager;
 public class SystemServiceUtil {
 
 	public static AudioManager getAudioManager() {
-		return (AudioManager) AndroidDemoUtil.APPLICATION_CONTEXT.getSystemService(Context.AUDIO_SERVICE);
+		return (AudioManager) AndroidDemoUtil.APPLICATION_CONTEXT
+				.getSystemService(Context.AUDIO_SERVICE);
 	}
-	
+
 	public static NotificationManager getNotificationManager() {
-		return (NotificationManager) AndroidDemoUtil.APPLICATION_CONTEXT.getSystemService(Context.NOTIFICATION_SERVICE);
+		return (NotificationManager) AndroidDemoUtil.APPLICATION_CONTEXT
+				.getSystemService(Context.NOTIFICATION_SERVICE);
 	}
-	
+
 	public static ActivityManager getActivityManager() {
 		return (ActivityManager) AndroidDemoUtil.APPLICATION_CONTEXT
 				.getSystemService(Context.ACTIVITY_SERVICE);
 	}
-	
+
 	public static SensorManager getSensorManager() {
 		return (SensorManager) AndroidDemoUtil.APPLICATION_CONTEXT
 				.getSystemService(Context.SENSOR_SERVICE);
+	}
+
+	public static Vibrator getVibratorService() {
+		return (Vibrator) AndroidDemoUtil.APPLICATION_CONTEXT
+				.getSystemService(Context.VIBRATOR_SERVICE);
 	}
 }
 
