@@ -2,6 +2,7 @@ package com.example.androiddemo.activity;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.view.View;
 import android.widget.ListView;
@@ -32,7 +33,7 @@ public class SensorListActivity extends SuperListActivity<Sensor> {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		switch (mListAdapter.getItem(position).getType()) {
 		case Sensor.TYPE_ACCELEROMETER:
-			
+			startActivity(new Intent(this, AccelerometerActivity.class));
 			break;
 
 		default:

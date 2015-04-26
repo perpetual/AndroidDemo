@@ -30,7 +30,7 @@ public class ServiceActivity extends SuperActivity {
 
 	private void stopService() {
 		boolean ret = stopService(mLocalServiceIntent);
-		updateButton(TEXT_VIEW_TOP, AndroidDemoUtil.converIndeterminateArgumentsToString("Stop successful", ret));
+		updateButton(TEXT_VIEW_TOP, AndroidDemoUtil.argumentsToString("Stop successful", ret));
 	}
 	
 	@Override
@@ -67,14 +67,14 @@ public class ServiceActivity extends SuperActivity {
 			public void onServiceDisconnected(ComponentName name) {
 				Log.d(TAG, "onServiceDisconnected");
 				mRemoteDemoService2 = null;
-				updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.converIndeterminateArgumentsToString(
+				updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.argumentsToString(
 						"onServiceDisconnected2", "ComponentName", name), true);
 			}
 
 			@Override
 			public void onServiceConnected(ComponentName name, IBinder service) {
 				Log.d(TAG, "onServiceConnected");
-				updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.converIndeterminateArgumentsToString(
+				updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.argumentsToString(
 						"onServiceConnected2", "ComponentName", name), true);
 			}
 		};

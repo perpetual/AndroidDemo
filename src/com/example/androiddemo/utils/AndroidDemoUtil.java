@@ -459,7 +459,7 @@ public class AndroidDemoUtil {
 		return getSDKVersion() >= apiLevel;
 	}
 
-	public static String converIndeterminateArgumentsToString(Object... objects) {
+	public static String argumentsToString(Object... objects) {
 		return converArrayToString(objects);
 	}
 		

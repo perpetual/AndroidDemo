@@ -43,7 +43,7 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 		int bluetoothState = BluetoothAdapter.getDefaultAdapter().getState();
 		boolean isBluetoothScoAvailableOffCall = SystemServiceUtil.getAudioManager()
 				.isBluetoothScoAvailableOffCall();
-		updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.converIndeterminateArgumentsToString(
+		updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.argumentsToString(
 				"isEnabled", isBluetoothEnabled, "bluetoothState", bluetoothState, "isBluetoothScoAvailableOffCall",
 				isBluetoothScoAvailableOffCall), true);
 		BluetoothHelper.startBluetoothSCO();
@@ -177,7 +177,7 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 			break;
 		case OperationCode.OP_CODE_ACTION_HEADSET_PLUG:
 			Intent intent = (Intent)object;
-			updateTextView(TEXT_VIEW_TOP, str + "|" + AndroidDemoUtil.converIndeterminateArgumentsToString("state",
+			updateTextView(TEXT_VIEW_TOP, str + "|" + AndroidDemoUtil.argumentsToString("state",
 					intent.getIntExtra("state", -1), "name", intent.getStringExtra("name"), "microphone",
 					intent.getIntExtra("microphone", -1)), true);
 			break;

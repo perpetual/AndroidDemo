@@ -147,13 +147,13 @@ public class MediaManager extends CommonCallbacks implements
 
 	@Override
 	public boolean onInfo(MediaPlayer mp, int what, int extra) {
-		doCallbacks(-1, 0, 0, "onInfo", AndroidDemoUtil.converIndeterminateArgumentsToString("what", what, "extra", extra));
+		doCallbacks(-1, 0, 0, "onInfo", AndroidDemoUtil.argumentsToString("what", what, "extra", extra));
 		return false;
 	}
 
 	@Override
 	public boolean onError(MediaPlayer mp, int what, int extra) {
-		doCallbacks(-1, 0, 0, "onError", AndroidDemoUtil.converIndeterminateArgumentsToString("what", what, "extra", extra));
+		doCallbacks(-1, 0, 0, "onError", AndroidDemoUtil.argumentsToString("what", what, "extra", extra));
 		return false;
 	}
 

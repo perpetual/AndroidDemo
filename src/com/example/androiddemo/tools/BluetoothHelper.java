@@ -187,7 +187,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 		if (null == bd) {
 			return "";
 		}
-		return AndroidDemoUtil.converIndeterminateArgumentsToString(bd.getName(), bd.getAddress(),
+		return AndroidDemoUtil.argumentsToString(bd.getName(), bd.getAddress(),
 				"BondState", bd.getBondState(), "DeviceClass", Integer.toHexString(bd.getBluetoothClass().getDeviceClass()),
 				"MajorDeviceClass", Integer.toHexString(bd.getBluetoothClass().getMajorDeviceClass()),
 				"isBluetoothHeadset", isBluetoothHeadset(bd));
