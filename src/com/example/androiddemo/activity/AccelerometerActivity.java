@@ -39,6 +39,8 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 	private TextView mVibrationIntervalTextView = null;
 	private SeekBar mVibrationIntervalSeekBar = null;
 	
+	private ShakeAnimation mShakeAnimation = null;
+	
 	@Override
 	public void initData(Context context, AttributeSet attrs) {
 		super.initData(context, attrs);
@@ -73,6 +75,7 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 		mVibrationIntervalSeekBar.setProgress(AccelerometerManager.sVibrationInterval - sViberationMinInterval);
 		mVibrationIntervalSeekBar.setOnSeekBarChangeListener(this);
 		mVibrationIntervalSeekBar.setKeyProgressIncrement(100);
+		mShakeAnimation = new ShakeAnimation(getCustomView());
 	}
 	
 	@Override
@@ -133,7 +136,7 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 	@Override
 	protected void doBotttomButtonClick() {
 		getCustomView().clearAnimation();
-		getCustomView().startAnimation(new ShakeAnimation(getCustomView()));
+		getCustomView().startAnimation(mShakeAnimation);
 	}
 	
 	@Override

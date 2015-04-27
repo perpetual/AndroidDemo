@@ -35,7 +35,7 @@ public class MainListActivity extends ListActivity {
 		Log.d(TAG, TAG + ":process id:" + android.os.Process.myPid());
 		initData();
 		initView();
-		directJumpTo();
+//		directJumpTo();
 	}
 	
 	private void directJumpTo() {
