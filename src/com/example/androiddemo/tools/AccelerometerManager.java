@@ -32,16 +32,15 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 	private static final String TAG = "AccelerometerManager";
 	
 	private static final float sAlpha = 0.8f;
-	private static final int sCorrectionCount = 20;	//修正次数
+	private static final int sCorrectionCount = 10;	//修正次数
 	private static final float sCorrectionLimit = 0.05f;	//修正限度
 	private static final float sShakeAmplitudeLimit = 27f;	//摇动幅度限制
-	private static final float sCollectionAmplitudeLimit = 0f;	//采集幅度限制
+	private static final float sCollectionAmplitudeLimit = 2f;	//采集幅度限制
 	private static final int sCollectionLimit = 3000;		//采集个数限制
 	
 	private static AccelerometerManager accelerometerManager = null;
 	private Sensor mAccelerometerSensor = null;
 	private Float[] mGravity = new Float[]{0f, 0f, 0f};
-	private Float mLastGravity = 0f;
 	private List<Float> mHistoryGravityArray = new ArrayList<Float>(sCorrectionCount);
 	private Float[] mLinearAcceleration = new Float[]{0f, 0f, 0f};
 	private boolean mHasCorrected = false;	//是否修正
@@ -105,6 +104,7 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 					} else {
 						vibratorArray = new long[]{1000, 2000};
 					}
+					LogUtil.d(TAG, "mAccelerationCollectionList", mAccelerationCollectionList);
 					SystemServiceUtil.getVibratorService().vibrate(vibratorArray, -1);
 				}
 				mAccelerationCollectionList.clear();
@@ -125,8 +125,8 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 	}
 	
 	private void reset() {
-		mLastGravity = 0f;
 		mHistoryGravityArray.clear();
+		mAccelerationCollectionList.clear();
 		mHasCorrected = false;
 		Arrays.fill(mLinearAcceleration, Float.valueOf(0));
 		Arrays.fill(mGravity, Float.valueOf(0));
@@ -140,18 +140,26 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 		if (mHasCorrected) {
 			return true;
 		}
-		float newGravity = (float) MathUtil.getScaleFloatValue(false, gravityArray[0], gravityArray[1], gravityArray[2]);
+		float newInstantaneousGravity = (float) MathUtil.getScaleFloatValue(false, gravityArray[0], gravityArray[1], gravityArray[2]);
+		float gravitySum = 0;
+		Float lastAverageGravity = 0f;
+		Float currentAverageGravity = 0f;
+		for (float gravity : mHistoryGravityArray) {
+			gravitySum += gravity;
+		}
+		if (mHistoryGravityArray.size() > 1) {
+			lastAverageGravity = gravitySum / mHistoryGravityArray.size();
+		}
 		if (mHistoryGravityArray.size() >= sCorrectionCount) {
 			mHistoryGravityArray = mHistoryGravityArray.subList(mHistoryGravityArray.size() - sCorrectionCount + 1, mHistoryGravityArray.size());
 		}
+		mHistoryGravityArray.add(newInstantaneousGravity);
+		gravitySum = 0;
 		for (float gravity : mHistoryGravityArray) {
-			mLastGravity += gravity;
+			gravitySum += gravity;
 		}
-		if (mHistoryGravityArray.size() > 1) {
-			mLastGravity /= mHistoryGravityArray.size();
-		}
-		mHistoryGravityArray.add(newGravity);
-		return mHasCorrected = Math.abs(newGravity - mLastGravity) < sCorrectionLimit;
+		currentAverageGravity = gravitySum / mHistoryGravityArray.size();
+		return mHasCorrected = Math.abs(currentAverageGravity - lastAverageGravity) < sCorrectionLimit;
 	}
 	
 	@Override
