@@ -38,8 +38,13 @@ public class MainListActivity extends ListActivity {
 		Log.d(TAG, TAG + ":process id:" + android.os.Process.myPid());
 		initData();
 		initView();
-		
-
+		directJumpTo();
+	}
+	
+	private void directJumpTo() {
+		Intent intent = new Intent(this, AccelerometerActivity.class);
+		startActivity(intent);
+		finish();
 	}
 	
 	private int parse(String str) {
