@@ -8,7 +8,7 @@
         android:id="@+id/amplitude_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="振幅阈值：(5~60)" />
+        android:text="振幅阈值：(3~60)" />
 
     <TextView
         android:id="@+id/amplitude_threshold_text_view"
