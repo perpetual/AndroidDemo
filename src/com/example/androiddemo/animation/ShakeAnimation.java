@@ -19,7 +19,7 @@ import android.view.animation.TranslateAnimation;
 public class ShakeAnimation extends TranslateAnimation {
 
 	public ShakeAnimation(View view) {
-		super(view.getWidth(), view.getWidth() + 10, view.getHeight(), view.getHeight());
+		super(view.getWidth(), view.getWidth() + 15, view.getHeight(), view.getHeight());
 		setInterpolator(new CycleInterpolator(2f));
 		setDuration(300);
 	}
