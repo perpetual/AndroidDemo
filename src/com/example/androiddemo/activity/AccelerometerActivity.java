@@ -7,6 +7,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.example.androiddemo.R;
+import com.example.androiddemo.animation.ShakeAnimation;
 import com.example.androiddemo.model.OperationCode;
 import com.example.androiddemo.tools.AccelerometerManager;
 import com.example.androiddemo.tools.CommonCallbacks.ICallback;
@@ -126,12 +127,18 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 	
 	@Override
 	protected String getBottomButtonText() {
-		return "clear";
+		return "shake";
 	}
 	
 	@Override
 	protected void doBotttomButtonClick() {
-		updateTextView(TEXT_VIEW_BOTTOM, "", false);
+		getCustomView().clearAnimation();
+		getCustomView().startAnimation(new ShakeAnimation(getCustomView()));
+	}
+	
+	@Override
+	protected int getCustomViewAreaLayoutResource() {
+		return R.layout.common_custom_view_layout;
 	}
 	
 	@Override

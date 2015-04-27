@@ -1,6 +1,8 @@
 package com.example.androiddemo.animation;
 
-import android.view.animation.Animation;
+import android.view.View;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.TranslateAnimation;
 
 /**
  * <pre>
@@ -14,7 +16,12 @@ import android.view.animation.Animation;
  * garyzhao		2015-4-27		Create		
  * </pre>
  */
-public class ShakeAnimation extends Animation {
+public class ShakeAnimation extends TranslateAnimation {
 
+	public ShakeAnimation(View view) {
+		super(view.getWidth(), view.getWidth() + 10, view.getHeight(), view.getHeight());
+		setInterpolator(new CycleInterpolator(2f));
+		setDuration(300);
+	}
 }
 

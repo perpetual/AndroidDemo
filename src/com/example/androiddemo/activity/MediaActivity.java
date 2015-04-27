@@ -32,9 +32,9 @@ import com.example.androiddemo.utils.SystemServiceUtil;
  */
 public class MediaActivity extends SuperActivity implements CommonCallbacks.ICallback {
 
-	BluetoothHelper mBluetoothHelper = null;
-	MediaManager mMediaManager = null;
-	MediaController mMediaController = null;
+	private BluetoothHelper mBluetoothHelper = null;
+	private MediaManager mMediaManager = null;
+	private MediaController mMediaController = null;
 	
 	/**
 	 * 私有工具函数

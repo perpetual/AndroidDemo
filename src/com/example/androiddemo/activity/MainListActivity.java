@@ -39,7 +39,7 @@ public class MainListActivity extends ListActivity {
 	}
 	
 	private void directJumpTo() {
-		Intent intent = new Intent(this, AnimationActivity.class);
+		Intent intent = new Intent(this, AccelerometerActivity.class);
 		startActivity(intent);
 		finish();
 	}

@@ -68,12 +68,12 @@ public class AnimationActivity extends SuperActivity {
 	@Override
 	public void initData(Context context, AttributeSet attrs) {
 		mCircleAnimation = new BreatheAniamation();
-		mShakeAnimation = new ShakeAnimation();
 	}
 	
 	@Override
 	public void initView() {
 		super.initView();
+		mShakeAnimation = new ShakeAnimation(getCustomView());
 		mRotate3dAnimation = new Rotate3dAnimation(0, 180, getCustomView().getWidth() / 2,
 				getCustomView().getHeight() / 4, 0, true);
 	}

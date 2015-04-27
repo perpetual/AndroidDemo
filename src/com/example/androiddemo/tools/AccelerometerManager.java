@@ -183,7 +183,6 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 				AndroidDemoUtil.argumentsToString(getRawValue(event),
 						getGravity(), getLinearAcceleration()), null);
 		float scalAcceleration = MathUtil.getScaleFloatValue(false, mLinearAcceleration[0], mLinearAcceleration[1], mLinearAcceleration[2]);
-		LogUtil.d(TAG, "onSensorChanged", scalAcceleration);
 		if (scalAcceleration > sMinShakeAmplitudeThreshold) {
 			LogUtil.d(TAG, "onSensorChanged", scalAcceleration);
 			if (mAccelerationCollectionList.size() >= sCollectionLimit) {

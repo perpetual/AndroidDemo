@@ -197,37 +197,40 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 	
 	@Override
 	public void bindView() {
-		mRootView = (LinearLayout)findViewById(R.id.main_view);
-		mTopTextView = (TextView)findViewById(R.id.top_text_view);
-		mLeftTextView = (TextView)findViewById(R.id.left_text_view);
-		mRightTextView = (TextView)findViewById(R.id.right_text_view);
-		mBottomTextView = (TextView)findViewById(R.id.bottom_text_view);
-		mTopButton = (Button)findViewById(R.id.top_button);
-		mLeftButton = (Button)findViewById(R.id.left_button);
-		mRightButton = (Button)findViewById(R.id.right_button);
-		mBottomButton = (Button)findViewById(R.id.bottom_button);
+		mRootView = (LinearLayout) findViewById(R.id.main_view);
+		mTopTextView = (TextView) findViewById(R.id.top_text_view);
+		mLeftTextView = (TextView) findViewById(R.id.left_text_view);
+		mRightTextView = (TextView) findViewById(R.id.right_text_view);
+		mBottomTextView = (TextView) findViewById(R.id.bottom_text_view);
+		mTopButton = (Button) findViewById(R.id.top_button);
+		mLeftButton = (Button) findViewById(R.id.left_button);
+		mRightButton = (Button) findViewById(R.id.right_button);
+		mBottomButton = (Button) findViewById(R.id.bottom_button);
 		if (getOperationAreaLayoutResource() > 0) {
 			mOperationArea = findViewById(R.id.operation_area);
 			if (null != mOperationArea && mOperationArea instanceof ViewStub) {
-				((ViewStub)mOperationArea).setLayoutResource(getOperationAreaLayoutResource());
+				((ViewStub) mOperationArea).setLayoutResource(getOperationAreaLayoutResource());
 				mOperationArea.setVisibility(View.VISIBLE);
-				if (null == mOperationArea.getParent()) {
+				if (null == mOperationArea.getParent()
+						&& R.layout.common_operation_layout == getOperationAreaLayoutResource()) {
 					mOperationArea = findViewById(R.id.operation_area);
-					mButton1 = (Button)findViewById(R.id.button1);
-					mButton2 = (Button)findViewById(R.id.button2);
-					mButton3 = (Button)findViewById(R.id.button3);
-					mButton4 = (Button)findViewById(R.id.button4);
-				}				
+					mButton1 = (Button) findViewById(R.id.button1);
+					mButton2 = (Button) findViewById(R.id.button2);
+					mButton3 = (Button) findViewById(R.id.button3);
+					mButton4 = (Button) findViewById(R.id.button4);
+				}
 			}
 		}
+
 		if (getCustomViewAreaLayoutResource() > 0) {
 			mCustomViewArea = findViewById(R.id.custom_view_area);
 			if (null != mCustomViewArea && mCustomViewArea instanceof ViewStub) {
-				((ViewStub)mCustomViewArea).setLayoutResource(getCustomViewAreaLayoutResource());
+				((ViewStub) mCustomViewArea).setLayoutResource(getCustomViewAreaLayoutResource());
 				mCustomViewArea.setVisibility(View.VISIBLE);
-				if (null == mCustomViewArea.getParent()) {
+				if (null == mCustomViewArea.getParent()
+						&& R.layout.common_custom_view_layout == getCustomViewAreaLayoutResource()) {
 					mCustomViewArea = findViewById(R.id.custom_view_area);
-					mCustionView = (CustomView)findViewById(R.id.custom_view);
+					mCustionView = (CustomView) findViewById(R.id.custom_view);
 				}
 			}
 		}
@@ -239,7 +242,7 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 		updateButton(BUTTON_LEFT, getLeftButtonText());
 		updateButton(BUTTON_RIGHT, getRightButtonText());
 		updateButton(BUTTON_BOTTOM, getBottomButtonText());
-		if (getOperationAreaLayoutResource() > 0) {
+		if (R.layout.common_operation_layout == getOperationAreaLayoutResource()) {
 			updateButton(BUTTON1, getButton1Text());
 			updateButton(BUTTON2, getButton2Text());
 			updateButton(BUTTON3, getButton3Text());
