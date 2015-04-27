@@ -7,6 +7,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.example.androiddemo.R;
+import com.example.androiddemo.animation.BreatheAniamation;
 import com.example.androiddemo.animation.ShakeAnimation;
 import com.example.androiddemo.model.OperationCode;
 import com.example.androiddemo.tools.AccelerometerManager;
@@ -40,11 +41,13 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 	private SeekBar mVibrationIntervalSeekBar = null;
 	
 	private ShakeAnimation mShakeAnimation = null;
+	private BreatheAniamation mFlickerAnimation = null;
 	
 	@Override
 	public void initData(Context context, AttributeSet attrs) {
 		super.initData(context, attrs);
 		AccelerometerManager.getInstance().add(this);
+		mFlickerAnimation = new BreatheAniamation();
 	}
 
 	@Override
@@ -161,6 +164,17 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 		return R.layout.accelerometer_operation_layout;
 	}
 
+	@Override
+	protected String getTopButtonText() {
+		return "Flicker";
+	}
+	
+	@Override
+	protected void doTopButtonClick() {
+		getCustomView().clearAnimation();
+		getCustomView().startAnimation(mFlickerAnimation);
+	}
+	
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 		switch (seekBar.getId()) {

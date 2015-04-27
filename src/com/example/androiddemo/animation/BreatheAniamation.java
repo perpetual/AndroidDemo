@@ -1,8 +1,9 @@
 package com.example.androiddemo.animation;
 
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 
 /**
  * <pre>
@@ -20,11 +21,11 @@ public class BreatheAniamation extends AlphaAnimation {
 
 	public BreatheAniamation() {
 		super(1.0f, 0.2f);
-		setDuration(2000);
+		setDuration(200);
 		setRepeatMode(Animation.REVERSE);
-		AccelerateInterpolator interpolator = new AccelerateInterpolator();
+		Interpolator interpolator = new LinearInterpolator();
 		setInterpolator(interpolator);
-		setRepeatCount(Animation.INFINITE);
+		setRepeatCount(5);
 	}
 }
 
