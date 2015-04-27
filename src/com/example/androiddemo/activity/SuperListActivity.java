@@ -5,10 +5,14 @@ import java.util.List;
 import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.example.androiddemo.model.IUIInitialization;
 import com.example.androiddemo.tools.SuperListAdapter;
+import com.example.androiddemo.utils.AndroidDemoUtil;
+import com.example.androiddemo.utils.LogUtil;
 
 /**
  * <pre>
@@ -31,15 +35,13 @@ public abstract class SuperListActivity<T> extends ListActivity implements IUIIn
 	
 	private void updateData() {
 		mListAdapter.updateData(getDataSource());
-		if (null == getListAdapter()) {
-			setListAdapter(mListAdapter);
-		}
 	}	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		TAG = this.getClass().getSimpleName();
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "onCreate");
 		initData(this, null);
 		initLayout();
 		bindView();
@@ -61,7 +63,9 @@ public abstract class SuperListActivity<T> extends ListActivity implements IUIIn
 	}
 
 	@Override
-	public void initView() {		
+	public void initView() {	
+		setListAdapter(mListAdapter);
+		LogUtil.d(TAG, "xxx", getListAdapter(), mListAdapter);
 	}
 
 	@Override
@@ -72,5 +76,60 @@ public abstract class SuperListActivity<T> extends ListActivity implements IUIIn
 	@Override
 	public void refreshView() {
 		updateView();
+	}
+	
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		Log.d(TAG, "onPostCreate1");
+	}
+	
+	@Override
+	public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+		super.onPostCreate(savedInstanceState, persistentState);
+		Log.d(TAG, "onPostCreate2");
+	}
+	
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+		Log.d(TAG, "onPostResume");
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Log.d(TAG, this + "onStart");
+	}
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		Log.d(TAG, this + "onRestart");
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.d(TAG, this + "onResume");
+		AndroidDemoUtil.showLongToast("taskID:" + getTaskId());
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.d(TAG, this + "onPause");
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		Log.d(TAG, this + "onStop");
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.d(TAG, this + "onDestroy");
 	}
 }

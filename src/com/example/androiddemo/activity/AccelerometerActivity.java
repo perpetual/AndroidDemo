@@ -1,7 +1,9 @@
 package com.example.androiddemo.activity;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.AttributeSet;
+import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -79,6 +81,9 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 		mVibrationIntervalSeekBar.setOnSeekBarChangeListener(this);
 		mVibrationIntervalSeekBar.setKeyProgressIncrement(100);
 		mShakeAnimation = new ShakeAnimation(getCustomView());
+		WindowManager.LayoutParams params = getWindow().getAttributes();
+		params.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+		getWindow().addFlags(params.flags);
 	}
 	
 	@Override
@@ -105,6 +110,8 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 			break;
 		case OperationCode.OP_CODE_SHAKE:
 			updateTextView(TEXT_VIEW_LEFT, str, false);
+			updateTextView(TEXT_VIEW_RIGHT, String.valueOf(arg2), false);
+			updateTextView(TEXT_VIEW_BOTTOM, null == object ? "" : object.toString(), false);
 			break;
 		default:
 			break;
@@ -148,14 +155,14 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 	}
 	
 	@Override
-	protected void onResume() {
-		super.onResume();
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		AccelerometerManager.getInstance().start();
 	}
 	
 	@Override
-	protected void onPause() {
-		super.onPause();
+	protected void onDestroy() {
+		super.onDestroy();
 		AccelerometerManager.getInstance().stop();
 	}
 	

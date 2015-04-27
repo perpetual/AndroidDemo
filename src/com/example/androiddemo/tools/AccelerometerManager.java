@@ -44,11 +44,15 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 	private static AccelerometerManager accelerometerManager = null;
 	private Sensor mAccelerometerSensor = null;
 	private Sensor mLinearAccelerometerSensor = null;
+	private Float[] mHistoryLinearAcceleration = null;
 	private Float[] mGravity = new Float[]{0f, 0f, 0f};
 	private List<Float> mHistoryGravityArray = new ArrayList<Float>(sCorrectionCount);
 	private Float[] mLinearAcceleration = new Float[]{0f, 0f, 0f};
 	private boolean mHasCorrected = false;	//是否修正
 	private Runnable mRunnable = null;
+	private Runnable mSleepRunnable = null;
+	private boolean mIsSleep = false;
+	private int mStepCount = 0;
 	private List<Float> mAccelerationCollectionList = new ArrayList<Float>();
 	
 	public static class ValuePair {
@@ -85,34 +89,46 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 
 			@Override
 			public void run() {
-				int lastPos = Integer.MIN_VALUE;
-				int count = 0;
-				for (int i = 0; i < mAccelerationCollectionList.size(); ++i) {
-					float sample = mAccelerationCollectionList.get(i);
-					if (sample > sMaxShakeAmplitudeThreshold) {
-						if (lastPos + 1 != i && lastPos + 2 != i) {
-							++count;
-						}
-						lastPos = i;
-					}
-				}
+//				int lastPos = Integer.MIN_VALUE;
+//				int count = 0;
+//				for (int i = 0; i < mAccelerationCollectionList.size(); ++i) {
+//					float sample = mAccelerationCollectionList.get(i);
+//					if (sample > sMaxShakeAmplitudeThreshold) {
+//						if (lastPos + 1 != i && lastPos + 2 != i) {
+//							++count;
+//						}
+//						lastPos = i;
+//					}
+//				}
+//
+//				SystemServiceUtil.getVibratorService().cancel();
+//				if (count > 0) {
+//					doCallbacks(OperationCode.OP_CODE_SHAKE, count, 0,
+//							AndroidDemoUtil.argumentsToString(count), null);
+//					long[] vibratorArray = new long[count * 2];
+//					if (count < 3) {
+//						for (int i = 0; i < vibratorArray.length; ++i) {
+//							vibratorArray[i] = 0 == i % 2 ? sVibrationInterval : sVibrationDuration;
+//						}						
+//					} else {
+//						vibratorArray = new long[]{sVibrationInterval, sVibrationDuration};
+//					}
+//					LogUtil.d(TAG, "mAccelerationCollectionList", mAccelerationCollectionList);
+//					SystemServiceUtil.getVibratorService().vibrate(vibratorArray, -1);
+//				}
+//				mAccelerationCollectionList.clear();
 
-				SystemServiceUtil.getVibratorService().cancel();
-				if (count > 0) {
-					doCallbacks(OperationCode.OP_CODE_SHAKE, count, 0,
-							AndroidDemoUtil.argumentsToString(count), null);
-					long[] vibratorArray = new long[count * 2];
-					if (count < 3) {
-						for (int i = 0; i < vibratorArray.length; ++i) {
-							vibratorArray[i] = 0 == i % 2 ? sVibrationInterval : sVibrationDuration;
-						}						
-					} else {
-						vibratorArray = new long[]{sVibrationInterval, sVibrationDuration};
-					}
-					LogUtil.d(TAG, "mAccelerationCollectionList", mAccelerationCollectionList);
-					SystemServiceUtil.getVibratorService().vibrate(vibratorArray, -1);
-				}
-				mAccelerationCollectionList.clear();
+				doCallbacks(OperationCode.OP_CODE_SHAKE, 0, 0,
+						AndroidDemoUtil.argumentsToString(mStepCount), null);
+				mStepCount = 0;
+			}
+		};
+		
+		mSleepRunnable = new Runnable() {
+			
+			@Override
+			public void run() {
+				mIsSleep = false;
 			}
 		};
 	}
@@ -169,30 +185,49 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 	
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		mGravity[0] = sAlpha * mGravity[0] + (1 - sAlpha) * event.values[0];
-		mGravity[1] = sAlpha * mGravity[1] + (1 - sAlpha) * event.values[1];
-		mGravity[2] = sAlpha * mGravity[2] + (1 - sAlpha) * event.values[2];
-		if (!updateHistoryGravity(mGravity)) {
-			return;
-		}
+//		mGravity[0] = sAlpha * mGravity[0] + (1 - sAlpha) * event.values[0];
+//		mGravity[1] = sAlpha * mGravity[1] + (1 - sAlpha) * event.values[1];
+//		mGravity[2] = sAlpha * mGravity[2] + (1 - sAlpha) * event.values[2];
+//		if (!updateHistoryGravity(mGravity)) {
+//			return;
+//		}
 		mLinearAcceleration[0] = event.values[0] - mGravity[0];
 		mLinearAcceleration[1] = event.values[1] - mGravity[1];
 		mLinearAcceleration[2] = event.values[2] - mGravity[2];
-		doCallbacks(OperationCode.OP_CODE_SENSOR_STATE_CHANGED,
-				mAccelerometerSensor.getType(), 0,
-				AndroidDemoUtil.argumentsToString(getRawValue(event),
-						getGravity(), getLinearAcceleration()), null);
-		float scalAcceleration = MathUtil.getScaleFloatValue(false, mLinearAcceleration[0], mLinearAcceleration[1], mLinearAcceleration[2]);
-		if (scalAcceleration > sMinShakeAmplitudeThreshold) {
-			LogUtil.d(TAG, "onSensorChanged", scalAcceleration);
-			if (mAccelerationCollectionList.size() >= sCollectionLimit) {
-				mAccelerationCollectionList.remove(0);
-			}
-			mAccelerationCollectionList.add(scalAcceleration);
-			if (scalAcceleration > sMaxShakeAmplitudeThreshold) {
+		if (null == mHistoryLinearAcceleration) {
+			mHistoryLinearAcceleration = Arrays.copyOf(mLinearAcceleration, mLinearAcceleration.length);
+		} else {
+			float cos = (mLinearAcceleration[0] * mHistoryLinearAcceleration[0]
+					+ mLinearAcceleration[1] * mHistoryLinearAcceleration[1] + mLinearAcceleration[2]
+					* mHistoryLinearAcceleration[2])
+					/ (MathUtil.getScaleFloatValue(false, mLinearAcceleration[0],
+							mLinearAcceleration[1], mLinearAcceleration[2]) * MathUtil
+							.getScaleFloatValue(false, mHistoryLinearAcceleration[0],
+									mHistoryLinearAcceleration[1], mHistoryLinearAcceleration[2]));
+			System.arraycopy(mLinearAcceleration, 0, mHistoryLinearAcceleration, 0, mLinearAcceleration.length);
+			if (cos <= 0.82 && mIsSleep) {
+				LogUtil.d("xxx", cos);
+				++mStepCount;
+				mIsSleep = true;
+				ThreadUtils.runOnMainThread(mSleepRunnable, 300);
 				ThreadUtils.runOnMainThread(mRunnable, 1500);
 			}
 		}
+//		doCallbacks(OperationCode.OP_CODE_SENSOR_STATE_CHANGED,
+//				mAccelerometerSensor.getType(), 0,
+//				AndroidDemoUtil.argumentsToString(getRawValue(event),
+//						getGravity(), getLinearAcceleration()), null);
+//		float scalAcceleration = MathUtil.getScaleFloatValue(false, mLinearAcceleration[0], mLinearAcceleration[1], mLinearAcceleration[2]);
+//		if (scalAcceleration > sMinShakeAmplitudeThreshold) {
+//			LogUtil.d(TAG, "onSensorChanged", scalAcceleration);
+//			if (mAccelerationCollectionList.size() >= sCollectionLimit) {
+//				mAccelerationCollectionList.remove(0);
+//			}
+//			mAccelerationCollectionList.add(scalAcceleration);
+//			if (scalAcceleration > sMaxShakeAmplitudeThreshold) {
+//				ThreadUtils.runOnMainThread(mRunnable, 1500);
+//			}
+//		}
 	}
 
 	@Override

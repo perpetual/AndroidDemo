@@ -46,7 +46,6 @@ public class BlankActivity extends BaseActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		Intent intent = getIntent();
 		super.onCreate(savedInstanceState);
-		Log.d(TAG, this + "onCreate");
 		bindUI();
 		updateUI();
 		getWindow().setBackgroundDrawable(null);
