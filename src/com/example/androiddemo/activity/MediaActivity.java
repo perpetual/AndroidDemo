@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.widget.MediaController;
 
+import com.example.androiddemo.R;
 import com.example.androiddemo.model.OperationCode;
 import com.example.androiddemo.tools.BluetoothHelper;
 import com.example.androiddemo.tools.CommonCallbacks;
@@ -108,6 +109,11 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	@Override
 	protected String getButton4Text() {
 		return "stop player";
+	}
+	
+	@Override
+	protected int getOperationAreaLayoutResource() {
+		return R.layout.common_operation_layout;
 	}
 	
 	@Override

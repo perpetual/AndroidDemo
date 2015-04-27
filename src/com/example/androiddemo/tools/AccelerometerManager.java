@@ -34,12 +34,16 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 	private static final float sAlpha = 0.8f;
 	private static final int sCorrectionCount = 10;	//修正次数
 	private static final float sCorrectionLimit = 0.05f;	//修正限度
-	private static final float sShakeAmplitudeLimit = 27f;	//摇动幅度限制
-	private static final float sCollectionAmplitudeLimit = 2f;	//采集幅度限制
 	private static final int sCollectionLimit = 3000;		//采集个数限制
+	
+	public static int sMaxShakeAmplitudeThreshold = 27;	//摇动幅度限制
+	public static int sMinShakeAmplitudeThreshold = 3;	//采集幅度限制
+	public static int sVibrationInterval = 500;	//振动间隔
+	public static int sVibrationDuration = 500;	//振动时长
 	
 	private static AccelerometerManager accelerometerManager = null;
 	private Sensor mAccelerometerSensor = null;
+	private Sensor mLinearAccelerometerSensor = null;
 	private Float[] mGravity = new Float[]{0f, 0f, 0f};
 	private List<Float> mHistoryGravityArray = new ArrayList<Float>(sCorrectionCount);
 	private Float[] mLinearAcceleration = new Float[]{0f, 0f, 0f};
@@ -76,6 +80,7 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 	private AccelerometerManager() {
 		mAccelerometerSensor = SystemServiceUtil.getSensorManager()
 				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+//		mAccelerometerSensor = SystemServiceUtil.getSensorManager().getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 		mRunnable = new Runnable() {
 
 			@Override
@@ -84,7 +89,7 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 				int count = 0;
 				for (int i = 0; i < mAccelerationCollectionList.size(); ++i) {
 					float sample = mAccelerationCollectionList.get(i);
-					if (sample > sShakeAmplitudeLimit) {
+					if (sample > sMaxShakeAmplitudeThreshold) {
 						if (lastPos + 1 != i && lastPos + 2 != i) {
 							++count;
 						}
@@ -99,10 +104,10 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 					long[] vibratorArray = new long[count * 2];
 					if (count < 3) {
 						for (int i = 0; i < vibratorArray.length; ++i) {
-							vibratorArray[i] = 500;
+							vibratorArray[i] = 0 == i % 2 ? sVibrationInterval : sVibrationDuration;
 						}						
 					} else {
-						vibratorArray = new long[]{1000, 2000};
+						vibratorArray = new long[]{sVibrationInterval, sVibrationDuration};
 					}
 					LogUtil.d(TAG, "mAccelerationCollectionList", mAccelerationCollectionList);
 					SystemServiceUtil.getVibratorService().vibrate(vibratorArray, -1);
@@ -179,13 +184,13 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 						getGravity(), getLinearAcceleration()), null);
 		float scalAcceleration = MathUtil.getScaleFloatValue(false, mLinearAcceleration[0], mLinearAcceleration[1], mLinearAcceleration[2]);
 		LogUtil.d(TAG, "onSensorChanged", scalAcceleration);
-		if (scalAcceleration > sCollectionAmplitudeLimit) {
+		if (scalAcceleration > sMinShakeAmplitudeThreshold) {
 			LogUtil.d(TAG, "onSensorChanged", scalAcceleration);
 			if (mAccelerationCollectionList.size() >= sCollectionLimit) {
 				mAccelerationCollectionList.remove(0);
 			}
 			mAccelerationCollectionList.add(scalAcceleration);
-			if (scalAcceleration > sShakeAmplitudeLimit) {
+			if (scalAcceleration > sMaxShakeAmplitudeThreshold) {
 				ThreadUtils.runOnMainThread(mRunnable, 1500);
 			}
 		}
@@ -193,10 +198,8 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		doCallbacks(OperationCode.OP_CODE_ACCURACY_CHANGED_CHANGED,
-				mAccelerometerSensor.getType(), 0,
-				AndroidDemoUtil.argumentsToString(sensor.toString(), sensor),
-				null);
+		doCallbacks(OperationCode.OP_CODE_ACCURACY_CHANGED_CHANGED, mAccelerometerSensor.getType(),
+				0, AndroidDemoUtil.argumentsToString(sensor.toString(), accuracy), null);
 	}	
 }
 

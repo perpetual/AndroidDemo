@@ -2,6 +2,7 @@ package com.example.androiddemo.activity;
 
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -182,6 +183,10 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 		return mCustionView;
 	}
 	
+	protected int getOperationAreaLayoutResource() {
+		return 0;
+	}
+	
 	/**
 	 * 这里写重载函数
 	 */	
@@ -201,15 +206,18 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 		mLeftButton = (Button)findViewById(R.id.left_button);
 		mRightButton = (Button)findViewById(R.id.right_button);
 		mBottomButton = (Button)findViewById(R.id.bottom_button);
-		if (canUseOperationLayout()) {
+		if (getOperationAreaLayoutResource() > 0) {
 			mOperationArea = findViewById(R.id.operation_area);
-			mOperationArea.setVisibility(View.VISIBLE);
-			if (null == mOperationArea.getParent()) {
-				mOperationArea = findViewById(R.id.operation_area);
-				mButton1 = (Button)findViewById(R.id.button1);
-				mButton2 = (Button)findViewById(R.id.button2);
-				mButton3 = (Button)findViewById(R.id.button3);
-				mButton4 = (Button)findViewById(R.id.button4);
+			if (null != mOperationArea && mOperationArea instanceof ViewStub) {
+				((ViewStub)mOperationArea).setLayoutResource(getOperationAreaLayoutResource());
+				mOperationArea.setVisibility(View.VISIBLE);
+				if (null == mOperationArea.getParent()) {
+					mOperationArea = findViewById(R.id.operation_area);
+					mButton1 = (Button)findViewById(R.id.button1);
+					mButton2 = (Button)findViewById(R.id.button2);
+					mButton3 = (Button)findViewById(R.id.button3);
+					mButton4 = (Button)findViewById(R.id.button4);
+				}				
 			}
 		}
 		if (canUseImageLayout()) {
