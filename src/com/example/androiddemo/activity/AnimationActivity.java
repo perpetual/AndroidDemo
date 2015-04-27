@@ -1,135 +1,81 @@
 package com.example.androiddemo.activity;
 
-import android.app.Activity;
-import android.graphics.Camera;
-import android.graphics.Matrix;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Transformation;
-import android.widget.Button;
+import android.content.Context;
+import android.util.AttributeSet;
 
 import com.example.androiddemo.R;
+import com.example.androiddemo.animation.BreatheAniamation;
+import com.example.androiddemo.animation.Rotate3dAnimation;
+import com.example.androiddemo.animation.ShakeAnimation;
 
 
-public class AnimationActivity extends Activity {
+public class AnimationActivity extends SuperActivity {
 
-	private View mAnimationView = null;
-	private View mCircleAnimationView = null;
-	private Button mTestButton = null;
-	private AlphaAnimation mCircleAnimation = null;
+	private BreatheAniamation mCircleAnimation = null;
+	private Rotate3dAnimation mRotate3dAnimation = null;
+	private ShakeAnimation mShakeAnimation = null;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.animation_layout);
-		bindView();
-		initView();
-		updateView();
-	}
-
-	private void initView() {
-		initCircleAniamation();
-	}
-	/**
-	 * ˽�й��ߺ���
-	 */
-	private void bindView() {
-		mTestButton = (Button) findViewById(R.id.test_btn);
-		mTestButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				startRotate3dAnimation();
-			}
-		});
-		mAnimationView = findViewById(R.id.animation_view);
-		mCircleAnimationView = findViewById(R.id.circle_animation_view);
-	}
-
-	private void updateView() {
-		mCircleAnimationView.startAnimation(mCircleAnimation);
-	}
-	
-	private void initCircleAniamation() {
-		mCircleAnimation = new AlphaAnimation(1.0f, 0.2f);
-		mCircleAnimation.setDuration(2000);
-		mCircleAnimation.setRepeatMode(Animation.REVERSE);
-		AccelerateInterpolator interpolator = new AccelerateInterpolator();
-		mCircleAnimation.setInterpolator(interpolator);
-		mCircleAnimation.setRepeatCount(Animation.INFINITE);
+	private void startBreatheAnimation() {
+		getCustomView().clearAnimation();
+		getCustomView().startAnimation(mCircleAnimation);
 	}
 	
 	private void startRotate3dAnimation() {
-		Rotate3dAnimation rotate3dAnimation = new Rotate3dAnimation(0, 180,
-				mAnimationView.getWidth() / 2, mAnimationView.getHeight() / 4, 0, true);
-		rotate3dAnimation.setDuration(3000);
-		mAnimationView.startAnimation(rotate3dAnimation);
+		getCustomView().clearAnimation();
+		getCustomView().startAnimation(mRotate3dAnimation);
 	}
-}
-
-class Rotate3dAnimation extends Animation {
-	// ��ʼ�Ƕ�
-	private final float mFromDegrees;
-	// �����Ƕ�
-	private final float mToDegrees;
-	// ���ĵ�
-	private final float mCenterX;
-	private final float mCenterY;
-	private final float mDepthZ;
-	// �Ƿ���ҪŤ��
-	private final boolean mReverse;
-	// ����ͷ
-	private Camera mCamera;
-
-	public Rotate3dAnimation(float fromDegrees, float toDegrees, float centerX,
-			float centerY, float depthZ, boolean reverse) {
-		mFromDegrees = fromDegrees;
-		mToDegrees = toDegrees;
-		mCenterX = centerX;
-		mCenterY = centerY;
-		mDepthZ = depthZ;
-		mReverse = reverse;
+	
+	private void startShakeAnimation() {
+		getCustomView().clearAnimation();
+		getCustomView().startAnimation(mShakeAnimation);
 	}
-
+	
 	@Override
-	public void initialize(int width, int height, int parentWidth,
-			int parentHeight) {
-		super.initialize(width, height, parentWidth, parentHeight);
-		mCamera = new Camera();
+	protected String getLeftButtonText() {
+		return "Breathe animation";
 	}
-
-	// ����Transformation
+	
 	@Override
-	protected void applyTransformation(float interpolatedTime, Transformation t) {
-		final float fromDegrees = mFromDegrees;
-		// �����м�Ƕ�
-		float degrees = fromDegrees
-				+ ((mToDegrees - fromDegrees) * interpolatedTime);
-
-		final float centerX = mCenterX;
-		final float centerY = mCenterY;
-		final Camera camera = mCamera;
-
-		final Matrix matrix = t.getMatrix();
-
-		camera.save();
-		if (mReverse) {
-			camera.translate(0.0f, 0.0f, mDepthZ * interpolatedTime);
-		} else {
-			camera.translate(0.0f, 0.0f, mDepthZ * (1.0f - interpolatedTime));
-		}
-		camera.rotateY(degrees);
-		// ȡ�ñ任��ľ���
-		camera.getMatrix(matrix);
-		camera.restore();
-
-		matrix.preTranslate(-centerX, -centerY);
-		matrix.postTranslate(centerX, centerY);
+	protected void doLeftButtonClick() {
+		startBreatheAnimation();
 	}
+	
+	@Override
+	protected String getRightButtonText() {
+		return "Rotate3D animation";
+	}
+	
+	@Override
+	protected void doRightButtonClick() {
+		startRotate3dAnimation();
+	}
+	
+	@Override
+	protected String getTopButtonText() {
+		return "Shake animation";
+	}
+	
+	@Override
+	protected void doTopButtonClick() {
+		startShakeAnimation();
+	}
+	
+	@Override
+	protected int getCustomViewAreaLayoutResource() {
+		return R.layout.common_custom_view_layout;
+	}
+	
+	@Override
+	public void initData(Context context, AttributeSet attrs) {
+		mCircleAnimation = new BreatheAniamation();
+		mShakeAnimation = new ShakeAnimation();
+	}
+	
+	@Override
+	public void initView() {
+		super.initView();
+		mRotate3dAnimation = new Rotate3dAnimation(0, 180, getCustomView().getWidth() / 2,
+				getCustomView().getHeight() / 4, 0, true);
+	}
+
 }

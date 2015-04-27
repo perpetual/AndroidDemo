@@ -156,11 +156,6 @@ public class MediaActivity extends SuperActivity implements CommonCallbacks.ICal
 	}
 	
 	@Override
-	protected boolean canUseOperationLayout() {
-		return true;
-	}
-	
-	@Override
 	public void callback(int opCode, int arg1, int arg2, String str, Object object) {
 		switch (opCode) {
 		case OperationCode.OP_CODE_SCO_AUDIO_STATE_UPDATE:

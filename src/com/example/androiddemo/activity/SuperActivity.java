@@ -36,7 +36,7 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 	private Button mRightButton = null;
 	private Button mBottomButton = null;
 	private View mOperationArea = null;
-	private View mImageArea = null;
+	private View mCustomViewArea = null;
 	private Button mButton1 = null;
 	private Button mButton2 = null;
 	private Button mButton3 = null;
@@ -170,20 +170,20 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 	protected void doButton2Click() {}
 	protected void doButton3Click() {}
 	protected void doButton4Click() {}
-
-	protected boolean canUseOperationLayout() { return false; }
-	
-	protected boolean canUseImageLayout() { return false; }
 	
 	protected LinearLayout getMainView() {
 		return mRootView;
 	}
 	
-	protected CustomView getCustomView() {
+	protected final CustomView getCustomView() {
 		return mCustionView;
 	}
 	
 	protected int getOperationAreaLayoutResource() {
+		return 0;
+	}
+	
+	protected int getCustomViewAreaLayoutResource() {
 		return 0;
 	}
 	
@@ -220,12 +220,15 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 				}				
 			}
 		}
-		if (canUseImageLayout()) {
-			mImageArea = findViewById(R.id.image_area);
-			mImageArea.setVisibility(View.VISIBLE);
-			if (null == mImageArea.getParent()) {
-				mImageArea = findViewById(R.id.image_area);
-				mCustionView = (CustomView)findViewById(R.id.custom_view);
+		if (getCustomViewAreaLayoutResource() > 0) {
+			mCustomViewArea = findViewById(R.id.custom_view_area);
+			if (null != mCustomViewArea && mCustomViewArea instanceof ViewStub) {
+				((ViewStub)mCustomViewArea).setLayoutResource(getCustomViewAreaLayoutResource());
+				mCustomViewArea.setVisibility(View.VISIBLE);
+				if (null == mCustomViewArea.getParent()) {
+					mCustomViewArea = findViewById(R.id.custom_view_area);
+					mCustionView = (CustomView)findViewById(R.id.custom_view);
+				}
 			}
 		}
 	}
@@ -236,14 +239,13 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 		updateButton(BUTTON_LEFT, getLeftButtonText());
 		updateButton(BUTTON_RIGHT, getRightButtonText());
 		updateButton(BUTTON_BOTTOM, getBottomButtonText());
-		if (canUseOperationLayout()) {
+		if (getOperationAreaLayoutResource() > 0) {
 			updateButton(BUTTON1, getButton1Text());
 			updateButton(BUTTON2, getButton2Text());
 			updateButton(BUTTON3, getButton3Text());
 			updateButton(BUTTON4, getButton4Text());
 		}
-	}
-	
+	}	
 	
 	@Override
 	public void refreshView() {

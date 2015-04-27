@@ -35,9 +35,4 @@ public class ViewDrawActivity extends SuperActivity {
 	protected void doRightButtonClick() {
 		getCustomView().setAlpha(1.f);
 	}
-	
-	@Override
-	protected boolean canUseImageLayout() {
-		return true;
-	}
 }

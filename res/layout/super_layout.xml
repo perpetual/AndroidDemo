@@ -89,10 +89,10 @@
         
         
         <ViewStub 
-            android:id="@+id/image_area"
+            android:id="@+id/custom_view_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout="@layout/common_image_layout"/>
+            android:layout="@layout/common_custom_view_layout"/>
     </LinearLayout>
 
 </ScrollView>

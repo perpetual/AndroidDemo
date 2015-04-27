@@ -2,12 +2,6 @@ package com.example.androiddemo.activity;
 
 import java.util.Set;
 
-import com.example.androiddemo.R;
-import com.example.androiddemo.R.array;
-import com.example.androiddemo.R.id;
-import com.example.androiddemo.R.layout;
-import com.example.androiddemo.utils.AndroidDemoUtil;
-
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -22,6 +16,9 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.androiddemo.R;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 
 public class MainListActivity extends ListActivity {
 	private static final String TAG = MainListActivity.class.getSimpleName();
@@ -42,7 +39,7 @@ public class MainListActivity extends ListActivity {
 	}
 	
 	private void directJumpTo() {
-		Intent intent = new Intent(this, AccelerometerActivity.class);
+		Intent intent = new Intent(this, AnimationActivity.class);
 		startActivity(intent);
 		finish();
 	}
