@@ -32,7 +32,9 @@ public class OperationCode {
 	public static final int OP_CODE_SENSOR_STATE_CHANGED = 8;
 	
 	public static final int OP_CODE_ACCURACY_CHANGED_CHANGED = 9;
-	
+
 	public static final int OP_CODE_SHAKE = 10;
+	
+	public static final int OP_CODE_SHAKE_INIT = 11;
 }
 

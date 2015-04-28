@@ -12,7 +12,7 @@ import com.example.androiddemo.R;
 import com.example.androiddemo.animation.BreatheAniamation;
 import com.example.androiddemo.animation.ShakeAnimation;
 import com.example.androiddemo.model.OperationCode;
-import com.example.androiddemo.tools.AccelerometerManager;
+import com.example.androiddemo.tools.AccelerometerEngine;
 import com.example.androiddemo.tools.CommonCallbacks.ICallback;
 
 /**
@@ -48,7 +48,7 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 	@Override
 	public void initData(Context context, AttributeSet attrs) {
 		super.initData(context, attrs);
-		AccelerometerManager.getInstance().add(this);
+		AccelerometerEngine.getInstance().add(this);
 		mFlickerAnimation = new BreatheAniamation();
 	}
 
@@ -66,31 +66,32 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 	@Override
 	public void initView() {
 		super.initView();
-		mAmplitudeThresholdSeekBar.setMax(sShakeMaxAmplitude - AccelerometerManager.sMinShakeAmplitudeThreshold);
-		mAmplitudeThresholdSeekBar.setProgress(AccelerometerManager.sMaxShakeAmplitudeThreshold - AccelerometerManager.sMinShakeAmplitudeThreshold);
+		mAmplitudeThresholdSeekBar.setMax(sShakeMaxAmplitude - Math.round(AccelerometerEngine.sMinShakeAmplitudeThreshold));
+		mAmplitudeThresholdSeekBar.setProgress(Math.round(AccelerometerEngine.sMaxShakeAmplitudeThreshold - AccelerometerEngine.sMinShakeAmplitudeThreshold));
 		mAmplitudeThresholdSeekBar.setOnSeekBarChangeListener(this);
 		mAmplitudeThresholdSeekBar.setKeyProgressIncrement(1);
 		
 		mVibrationDurationSeekBar.setMax(sViberationMaxDuration - sViberationMinDuration);
-		mVibrationDurationSeekBar.setProgress(AccelerometerManager.sVibrationDuration - sViberationMinDuration);
+		mVibrationDurationSeekBar.setProgress(AccelerometerEngine.sVibrationDuration - sViberationMinDuration);
 		mVibrationDurationSeekBar.setOnSeekBarChangeListener(this);
 		mVibrationDurationSeekBar.setKeyProgressIncrement(100);
 		
 		mVibrationIntervalSeekBar.setMax(sViberationMaxInterval - sViberationMinInterval);
-		mVibrationIntervalSeekBar.setProgress(AccelerometerManager.sVibrationInterval - sViberationMinInterval);
+		mVibrationIntervalSeekBar.setProgress(AccelerometerEngine.sVibrationInterval - sViberationMinInterval);
 		mVibrationIntervalSeekBar.setOnSeekBarChangeListener(this);
 		mVibrationIntervalSeekBar.setKeyProgressIncrement(100);
 		mShakeAnimation = new ShakeAnimation(getCustomView());
 		WindowManager.LayoutParams params = getWindow().getAttributes();
 		params.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 		getWindow().addFlags(params.flags);
+		AccelerometerEngine.getInstance().start();
 	}
 	
 	@Override
 	public void updateView() {
-		mAmplitudeThresholdTextView.setText(String.valueOf(AccelerometerManager.sMaxShakeAmplitudeThreshold));
-		mVibrationDurationTextView.setText(String.valueOf(AccelerometerManager.sVibrationDuration));
-		mVibrationIntervalTextView.setText(String.valueOf(AccelerometerManager.sVibrationInterval));
+		mAmplitudeThresholdTextView.setText(String.valueOf(AccelerometerEngine.sMaxShakeAmplitudeThreshold));
+		mVibrationDurationTextView.setText(String.valueOf(AccelerometerEngine.sVibrationDuration));
+		mVibrationIntervalTextView.setText(String.valueOf(AccelerometerEngine.sVibrationInterval));
 	}
 	
 	@Override
@@ -110,8 +111,10 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 			break;
 		case OperationCode.OP_CODE_SHAKE:
 			updateTextView(TEXT_VIEW_LEFT, str, false);
-			updateTextView(TEXT_VIEW_RIGHT, String.valueOf(arg2), false);
 			updateTextView(TEXT_VIEW_BOTTOM, null == object ? "" : object.toString(), false);
+			break;
+		case OperationCode.OP_CODE_SHAKE_INIT:
+			updateTextView(TEXT_VIEW_RIGHT, str, false);
 			break;
 		default:
 			break;
@@ -125,7 +128,7 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 	
 	@Override
 	protected void doLeftButtonClick() {
-		AccelerometerManager.getInstance().start();
+		AccelerometerEngine.getInstance().start();
 	}
 	
 	@Override
@@ -135,7 +138,7 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 	
 	@Override
 	protected void doRightButtonClick() {
-		AccelerometerManager.getInstance().stop();
+		AccelerometerEngine.getInstance().stop();
 	}
 	
 	@Override
@@ -155,15 +158,9 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 	}
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		AccelerometerManager.getInstance().start();
-	}
-	
-	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		AccelerometerManager.getInstance().stop();
+		AccelerometerEngine.getInstance().stop();
 	}
 	
 	@Override
@@ -186,13 +183,13 @@ public class AccelerometerActivity extends SuperActivity implements ICallback, O
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 		switch (seekBar.getId()) {
 		case R.id.amplitude_threshold_seek_bar:
-			AccelerometerManager.sMaxShakeAmplitudeThreshold = progress + AccelerometerManager.sMinShakeAmplitudeThreshold;
+			AccelerometerEngine.sMaxShakeAmplitudeThreshold = progress + AccelerometerEngine.sMinShakeAmplitudeThreshold;
 			break;
 		case R.id.vibration_interval_seek_bar:
-			AccelerometerManager.sVibrationInterval = progress + sViberationMinInterval;
+			AccelerometerEngine.sVibrationInterval = progress + sViberationMinInterval;
 			break;
 		case R.id.vibration_duration_seek_bar:
-			AccelerometerManager.sVibrationDuration = progress + sViberationMinDuration;
+			AccelerometerEngine.sVibrationDuration = progress + sViberationMinDuration;
 			break;
 		default:
 			break;

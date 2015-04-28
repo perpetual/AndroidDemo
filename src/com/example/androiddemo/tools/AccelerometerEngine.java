@@ -28,20 +28,23 @@ import com.example.androiddemo.utils.ThreadUtils;
  * Gary		2015-4-25		Create		
  * </pre>
  */
-public class AccelerometerManager extends CommonCallbacks implements SensorEventListener{
-	private static final String TAG = "AccelerometerManager";
+public class AccelerometerEngine extends CommonCallbacks implements SensorEventListener{
+	private static final String TAG = AccelerometerEngine.class.getSimpleName();
 	
 	private static final float sAlpha = 0.8f;
 	private static final int sCorrectionCount = 10;	//修正次数
 	private static final float sCorrectionLimit = 0.05f;	//修正限度
 	private static final int sCollectionLimit = 3000;		//采集个数限制
+
+	public static float sMaxShakeAmplitudeThreshold = 18.5f;	//摇动幅度阈值
+	public static float sMaxShakeAmplitudeProportionThreshold = 0.39f;	//摇动幅度占最大值的比例
+	public static float sMinShakeAmplitudeThreshold = 3f;	//采集幅度阈值
+	public static float sMinShakeAmplitudeProportionThreshold = 0.1f;	//采集幅度占最大值的比例
 	
-	public static int sMaxShakeAmplitudeThreshold = 14;	//摇动幅度限制
-	public static int sMinShakeAmplitudeThreshold = 3;	//采集幅度限制
 	public static int sVibrationInterval = 500;	//振动间隔
 	public static int sVibrationDuration = 500;	//振动时长
 	
-	private static AccelerometerManager accelerometerManager = null;
+	private static AccelerometerEngine sAccelerometerManager = null;
 	private Sensor mAccelerometerSensor = null;
 	private float[] mHistoryLinearAcceleration = null;
 	private Float[] mGravity = new Float[]{0f, 0f, 0f};
@@ -55,6 +58,8 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 	private boolean mIsStartCount = false;
 	private List<Float> mAccelerationCollectionList = new ArrayList<Float>();
 	
+	private float mMaxRange = 0f;
+	
 	public static class ValuePair {
 		public ValuePair(float minValue, float maxValue) {
 			mMinValue = minValue;
@@ -64,16 +69,21 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 		public float mMinValue = 0f;
 	}
 	
-	public static synchronized AccelerometerManager getInstance() {
-		if (null == accelerometerManager) {
-			accelerometerManager = new AccelerometerManager();
+	public static synchronized AccelerometerEngine getInstance() {
+		if (null == sAccelerometerManager) {
+			sAccelerometerManager = new AccelerometerEngine();
 		}
-		return accelerometerManager;
+		return sAccelerometerManager;
 	}
 	
 	public void start() {
 		reset();
-		SystemServiceUtil.getSensorManager().registerListener(this, mAccelerometerSensor, SensorManager.SENSOR_DELAY_UI);	//大概60~70ms采集一次
+		updateThresHold();
+		doCallbacks(OperationCode.OP_CODE_SHAKE_INIT, 0, 0, AndroidDemoUtil.argumentsToString(
+				mAccelerometerSensor.getMaxDelay(), mAccelerometerSensor.getMinDelay(),
+				mAccelerometerSensor.getMaximumRange()), null);
+		SystemServiceUtil.getSensorManager().registerListener(this, mAccelerometerSensor,
+				SensorManager.SENSOR_DELAY_UI); // 大概60~70ms采集一次
 	}
 	
 	public void stop() {
@@ -81,9 +91,19 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 		reset();
 	}
 	
-	private AccelerometerManager() {
+	public void updateThresHold() {
+		sMaxShakeAmplitudeThreshold = mAccelerometerSensor.getMaximumRange() * sMaxShakeAmplitudeProportionThreshold;
+		sMinShakeAmplitudeThreshold = mAccelerometerSensor.getMaximumRange() * sMinShakeAmplitudeProportionThreshold;
+	}
+	
+	public float getMaxRange() {
+		return sAccelerometerManager.getMaxRange();
+	}
+	
+	private AccelerometerEngine() {
 		mAccelerometerSensor = SystemServiceUtil.getSensorManager()
 				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		sMaxShakeAmplitudeThreshold = (int)(mAccelerometerSensor.getMaximumRange() / 2);
 		mRunnable = new Runnable() {
 
 			@Override
@@ -100,17 +120,21 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 //					}
 //				}
 //
-				SystemServiceUtil.getVibratorService().cancel();
+				doCallbacks(OperationCode.OP_CODE_SHAKE, 0, 0,
+						AndroidDemoUtil.argumentsToString(mStepCount, mMaxRange,
+								sMaxShakeAmplitudeProportionThreshold,
+								sMaxShakeAmplitudeThreshold,
+								sMinShakeAmplitudeProportionThreshold,
+								sMinShakeAmplitudeThreshold), mAccelerationCollectionList);
 				if (mStepCount > 0) {
-					doCallbacks(OperationCode.OP_CODE_SHAKE, 0, 0,
-							AndroidDemoUtil.argumentsToString(mStepCount), mAccelerationCollectionList);
+					SystemServiceUtil.getVibratorService().cancel();
 					long[] vibratorArray = new long[mStepCount * 2];
 					if (mStepCount < 3) {
 						for (int i = 0; i < vibratorArray.length; ++i) {
 							vibratorArray[i] = 0 == i % 2 ? sVibrationInterval : sVibrationDuration;
-						}						
+						}
 					} else {
-						vibratorArray = new long[]{sVibrationInterval, sVibrationDuration};
+						vibratorArray = new long[] { sVibrationInterval, sVibrationDuration };
 					}
 					LogUtil.d(TAG, "mAccelerationCollectionList", mAccelerationCollectionList);
 					SystemServiceUtil.getVibratorService().vibrate(vibratorArray, -1);
@@ -118,6 +142,7 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 				mAccelerationCollectionList.clear();
 				mStepCount = 0;
 				mIsStartCount = false;
+				mMaxRange = 0f;
 			}
 		};
 		
@@ -151,6 +176,7 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 		mStepCount = 0;
 		mIsStartCount = false;
 		mIsSleep = false;
+		mMaxRange = 0f;
 	}
 
 	
@@ -194,21 +220,32 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 		mLinearAcceleration[0] = event.values[0] - mGravity[0];
 		mLinearAcceleration[1] = event.values[1] - mGravity[1];
 		mLinearAcceleration[2] = event.values[2] - mGravity[2];
-
-		float scalAcceleration = MathUtil.getScaleFloatValue(false, mLinearAcceleration[0], mLinearAcceleration[1], mLinearAcceleration[2]);
-		if (scalAcceleration > sMinShakeAmplitudeThreshold) {
+		float maxValue = 0f;
+		maxValue = Math.max(maxValue, event.values[0]);
+		maxValue = Math.max(maxValue, event.values[1]);
+		maxValue = Math.max(maxValue, event.values[2]);
+		
+		mMaxRange = Math.max(mMaxRange, event.values[0]);
+		mMaxRange = Math.max(mMaxRange, event.values[1]);
+		mMaxRange = Math.max(mMaxRange, event.values[2]);
+//		LogUtil.d(TAG, event.values[0], event.values[1], event.values[2]);
+//		float scalAcceleration = MathUtil.getScaleFloatValue(false, mLinearAcceleration[0], mLinearAcceleration[1], mLinearAcceleration[2]);
+		if (maxValue > sMinShakeAmplitudeThreshold) {
 			if (mAccelerationCollectionList.size() >= sCollectionLimit) {
 				mAccelerationCollectionList.remove(0);
 			}
-			mAccelerationCollectionList.add(scalAcceleration);
-			if (scalAcceleration > sMaxShakeAmplitudeThreshold) {
-				ThreadUtils.runOnMainThread(mRunnable, 1500);
+//			mAccelerationCollectionList.add(scalAcceleration);
+			if (maxValue > sMaxShakeAmplitudeThreshold) {
 				mIsStartCount = true;
+				ThreadUtils.runOnMainThread(mRunnable, 1500);
 			}
 		}
 		
 		if (null == mHistoryLinearAcceleration) {
 			mHistoryLinearAcceleration = Arrays.copyOf(event.values, event.values.length);
+			doCallbacks(OperationCode.OP_CODE_SENSOR_STATE_CHANGED, mAccelerometerSensor.getType(),
+					0, AndroidDemoUtil.argumentsToString(getRawValue(event), getGravity(),
+							getLinearAcceleration()), null);
 		} else {
 			float cos = (event.values[0] * mHistoryLinearAcceleration[0]
 					+ event.values[1] * mHistoryLinearAcceleration[1] + event.values[2]
@@ -227,10 +264,6 @@ public class AccelerometerManager extends CommonCallbacks implements SensorEvent
 				ThreadUtils.runOnMainThread(mSleepRunnable, 500);
 			}
 		}
-//		doCallbacks(OperationCode.OP_CODE_SENSOR_STATE_CHANGED,
-//				mAccelerometerSensor.getType(), 0,
-//				AndroidDemoUtil.argumentsToString(getRawValue(event),
-//						getGravity(), getLinearAcceleration()), null);
 	}
 
 	@Override
