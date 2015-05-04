@@ -16,13 +16,13 @@ import android.widget.ListView;
 import com.example.androiddemo.R;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 
-public class MainListActivity extends SuperListActivity<String> {	
+public class DemoMainListActivity extends SuperListActivity<String> {	
 	private String[] mTitleArray = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		directJumpTo();
+//		directJumpTo();
 	}
 	
 	private void directJumpTo() {
@@ -39,7 +39,7 @@ public class MainListActivity extends SuperListActivity<String> {
 			String packageName = getPackageName();
 			String classString = packageName + ".activity." + mTitleArray[position];
 			cls = Class.forName(classString);
-			Intent intent = new Intent(MainListActivity.this, cls);
+			Intent intent = new Intent(DemoMainListActivity.this, cls);
 			startActivity(intent);
 		} catch (Exception e) {
 			AndroidDemoUtil.showLongToast(e.toString());

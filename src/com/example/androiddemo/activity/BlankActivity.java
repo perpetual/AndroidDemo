@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.example.androiddemo.R;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 
-public class BlankActivity extends BaseActivity implements OnClickListener {
+public class BlankActivity extends DemoBaseActivity implements OnClickListener {
 	static {
 		try {
 			Thread.sleep(2000);

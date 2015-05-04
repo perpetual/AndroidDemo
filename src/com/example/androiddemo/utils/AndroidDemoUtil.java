@@ -483,7 +483,6 @@ public class AndroidDemoUtil {
 			}
 			return buffer.toString();
 		}
-
 	}
 	
 	public static void showDemoNotification(Class<?> cls) {

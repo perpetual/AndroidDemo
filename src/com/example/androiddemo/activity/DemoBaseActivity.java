@@ -12,9 +12,9 @@ import com.example.androiddemo.model.IUIInitialization;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
-public abstract class BaseActivity extends Activity implements IUIInitialization {
+public abstract class DemoBaseActivity extends Activity implements IUIInitialization {
 
-	protected static String TAG = BaseActivity.class.getSimpleName();
+	protected static String TAG = DemoBaseActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

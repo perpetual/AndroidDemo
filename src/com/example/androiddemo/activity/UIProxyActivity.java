@@ -16,7 +16,7 @@ public class UIProxyActivity extends Activity {
 			return;
 		}
 		
-		intent.setClass(this, MainListActivity.class);
+		intent.setClass(this, DemoMainListActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		startActivity(intent);

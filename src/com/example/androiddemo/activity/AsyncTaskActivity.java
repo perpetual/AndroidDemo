@@ -22,7 +22,7 @@ import com.example.androiddemo.utils.LogUtil;
  * Gary		2015-4-7		Create		
  * </pre>
  */
-public class AsyncTaskActivity extends SuperActivity {
+public class AsyncTaskActivity extends DemoSuperActivity {
 	private static final String TAG = AsyncTaskDemo.class.getSimpleName();
 
 	private AsyncTaskDemo mAsyncTaskDemo = null;

@@ -30,7 +30,7 @@ import com.example.androiddemo.utils.SystemServiceUtil;
  * garyzhao		2015-3-25		Create		
  * </pre>
  */
-public class MediaActivity extends SuperActivity implements CommonCallbacks.ICallback {
+public class MediaActivity extends DemoSuperActivity implements CommonCallbacks.ICallback {
 
 	private BluetoothHelper mBluetoothHelper = null;
 	private MediaManager mMediaManager = null;

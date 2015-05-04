@@ -5,7 +5,7 @@ import com.example.androiddemo.R.layout;
 
 import android.os.Bundle;
 
-public class StringFormatAcitvity extends BaseActivity {
+public class StringFormatAcitvity extends DemoBaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

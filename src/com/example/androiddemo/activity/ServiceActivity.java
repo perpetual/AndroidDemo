@@ -19,7 +19,7 @@ import com.example.androiddemo.tools.RemoteDemoManager;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
-public class ServiceActivity extends SuperActivity {
+public class ServiceActivity extends DemoSuperActivity {
 
 	private static final String TAG = AndroidDemoUtil
 			.getClassName(ServiceActivity.class);

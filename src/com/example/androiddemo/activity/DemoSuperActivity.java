@@ -12,7 +12,7 @@ import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.view.CustomView;
 
 
-public abstract class SuperActivity extends BaseActivity implements View.OnClickListener {
+public abstract class DemoSuperActivity extends DemoBaseActivity implements View.OnClickListener {
 
 	public static final int TEXT_VIEW_TOP = R.id.top_text_view;
 	public static final int TEXT_VIEW_LEFT = R.id.left_text_view;
@@ -192,7 +192,7 @@ public abstract class SuperActivity extends BaseActivity implements View.OnClick
 	 */	
 	@Override
 	public void initLayout() {
-		setContentView(R.layout.super_layout);
+		setContentView(R.layout.demo_super_layout);
 	}
 	
 	@Override

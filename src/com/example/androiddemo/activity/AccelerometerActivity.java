@@ -1,7 +1,6 @@
 package com.example.androiddemo.activity;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.WindowManager;
 import android.widget.SeekBar;
@@ -27,7 +26,7 @@ import com.example.androiddemo.tools.CommonCallbacks.ICallback;
  * Gary		2015-4-25		Create		
  * </pre>
  */
-public class AccelerometerActivity extends SuperActivity implements ICallback, OnSeekBarChangeListener{
+public class AccelerometerActivity extends DemoSuperActivity implements ICallback, OnSeekBarChangeListener{
 
 	private static final int sViberationMinDuration = 100;
 	private static final int sViberationMaxDuration = 3000;

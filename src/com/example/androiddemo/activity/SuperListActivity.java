@@ -27,7 +27,7 @@ import com.example.androiddemo.utils.LogUtil;
  * </pre>
  */
 public abstract class SuperListActivity<T> extends ListActivity implements IUIInitialization {
-	protected static String TAG = BaseActivity.class.getSimpleName();
+	protected static String TAG = DemoBaseActivity.class.getSimpleName();
 
 	protected SuperListAdapter<T> mListAdapter = null;
 	

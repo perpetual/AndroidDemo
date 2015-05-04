@@ -25,7 +25,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.androiddemo.activity.MainListActivity"
+            android:name="com.example.androiddemo.activity.DemoMainListActivity"
             android:clearTaskOnLaunch="false"
             android:exported="true"
             android:label="@string/app_name"
@@ -39,8 +39,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.androiddemo.activity.BaseActivity" />
-        <activity android:name="com.example.androiddemo.activity.SuperActivity" />
+        <activity android:name="com.example.androiddemo.activity.DemoBaseActivity" />
+        <activity android:name="com.example.androiddemo.activity.DemoSuperActivity" />
         <activity android:name="com.example.androiddemo.activity.BlankActivity" />
         <activity android:name="com.example.androiddemo.activity.TabBarActivity" />
         <activity android:name="com.example.androiddemo.activity.Browser1" />

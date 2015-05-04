@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class RotatableActivity extends BaseActivity implements OnClickListener {
+public class RotatableActivity extends DemoBaseActivity implements OnClickListener {
 
 	static private final int PICK_REQUEST = 1337;
 	private String CONTACT = "contact";

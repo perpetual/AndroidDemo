@@ -24,7 +24,7 @@ import com.example.androiddemo.view.LabelTextView;
  * Gary		2014-10-11		Create		
  * </pre>
  */
-public class ScreenConfigActivity extends BaseActivity implements IUIInitialization {
+public class ScreenConfigActivity extends DemoBaseActivity implements IUIInitialization {
 
 	private LabelTextView mScreenWidthLTV = null;
 	private LabelTextView mScreenHeightLTV = null;

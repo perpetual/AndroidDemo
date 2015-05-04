@@ -14,7 +14,7 @@ import com.example.androiddemo.utils.SystemServiceUtil;
  * Gary		2015-4-26		Create		
  * </pre>
  */
-public class VibratorActivity extends SuperActivity {
+public class VibratorActivity extends DemoSuperActivity {
 
 	@Override
 	protected String getTopButtonText() {

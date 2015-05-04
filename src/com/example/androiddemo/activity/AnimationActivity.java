@@ -9,7 +9,7 @@ import com.example.androiddemo.animation.Rotate3dAnimation;
 import com.example.androiddemo.animation.ShakeAnimation;
 
 
-public class AnimationActivity extends SuperActivity {
+public class AnimationActivity extends DemoSuperActivity {
 
 	private BreatheAniamation mCircleAnimation = null;
 	private Rotate3dAnimation mRotate3dAnimation = null;

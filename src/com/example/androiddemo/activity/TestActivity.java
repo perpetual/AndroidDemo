@@ -7,7 +7,7 @@ import com.example.androiddemo.utils.AndroidDemoUtil;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
-public class TestActivity extends BaseActivity {
+public class TestActivity extends DemoBaseActivity {
 
 	private LinearLayout mRootView = null;
 	

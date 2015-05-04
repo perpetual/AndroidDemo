@@ -14,7 +14,7 @@ package com.example.androiddemo.activity;
  * Gary		2014-10-15		Create
  * </pre>
  */
-public class ViewDrawActivity extends SuperActivity {
+public class ViewDrawActivity extends DemoSuperActivity {
 
 	@Override
 	protected String getLeftButtonText() {
