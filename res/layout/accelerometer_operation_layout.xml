@@ -52,4 +52,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/frequency_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5秒内振动次数限制" />
+
+    <TextView
+        android:id="@+id/frequency_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <SeekBar
+        android:id="@+id/frequency_seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
 </LinearLayout>

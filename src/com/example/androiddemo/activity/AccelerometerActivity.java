@@ -40,6 +40,8 @@ public class AccelerometerActivity extends DemoSuperActivity implements ICallbac
 	private SeekBar mVibrationDurationSeekBar = null;
 	private TextView mVibrationIntervalTextView = null;
 	private SeekBar mVibrationIntervalSeekBar = null;
+	private TextView mFrequencyTextView = null;
+	private SeekBar mFrequencySeekBar = null;
 	
 	private ShakeAnimation mShakeAnimation = null;
 	private BreatheAniamation mFlickerAnimation = null;
@@ -60,6 +62,8 @@ public class AccelerometerActivity extends DemoSuperActivity implements ICallbac
 		mVibrationDurationSeekBar = (SeekBar) findViewById(R.id.vibration_duration_seek_bar);
 		mVibrationIntervalTextView = (TextView) findViewById(R.id.vibration_interval_text_view);
 		mVibrationIntervalSeekBar = (SeekBar) findViewById(R.id.vibration_interval_seek_bar);
+		mFrequencyTextView = (TextView) findViewById(R.id.frequency_text_view);
+		mFrequencySeekBar = (SeekBar) findViewById(R.id.frequency_seek_bar);
 	}
 
 	@Override
@@ -80,6 +84,10 @@ public class AccelerometerActivity extends DemoSuperActivity implements ICallbac
 		mVibrationIntervalSeekBar.setOnSeekBarChangeListener(this);
 		mVibrationIntervalSeekBar.setKeyProgressIncrement(100);
 		mShakeAnimation = new ShakeAnimation(getCustomView());
+		
+		mFrequencySeekBar.setMax(20);
+		mFrequencySeekBar.setProgress(10);
+		
 		WindowManager.LayoutParams params = getWindow().getAttributes();
 		params.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 		getWindow().addFlags(params.flags);
