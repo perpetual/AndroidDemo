@@ -78,6 +78,7 @@ public class DemoMainListActivity extends SuperListActivity<String> {
 
 	@Override
 	protected List<String> getDataSource() {
+		Arrays.sort(mTitleArray);
 		return Arrays.asList(mTitleArray);
 	}
 }
