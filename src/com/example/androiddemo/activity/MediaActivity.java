@@ -159,7 +159,7 @@ public class MediaActivity extends DemoSuperActivity implements CommonCallbacks.
 	public void callback(int opCode, int arg1, int arg2, String str, Object object) {
 		switch (opCode) {
 		case OperationCode.OP_CODE_SCO_AUDIO_STATE_UPDATE:
-			updateTextView(TEXT_VIEW_LEFT, str + "|" + BluetoothHelper.getScoAudioConnectionState(arg1), true);
+			updateTextView(TEXT_VIEW_LEFT, AndroidDemoUtil.argumentsToString(str, BluetoothHelper.getScoAudioConnectionState(arg1)), true);
 			break;
 		case OperationCode.OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE:
 			updateTextView(TEXT_VIEW_TOP, str, true);
@@ -183,6 +183,7 @@ public class MediaActivity extends DemoSuperActivity implements CommonCallbacks.
 					intent.getIntExtra("microphone", -1)), true);
 			break;
 		default:
+			updateTextView(TEXT_VIEW_TOP, str, true);
 			break;
 		}
 	}

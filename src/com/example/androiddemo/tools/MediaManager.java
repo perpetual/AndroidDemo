@@ -58,7 +58,7 @@ public class MediaManager extends CommonCallbacks implements
 		 */
 		mBBR.register(mContext, AndroidDemoUtil.createIntentFilter(AudioManager.ACTION_HEADSET_PLUG), this);
 		
-		initPlayer(R.raw.canon, AudioManager.STREAM_MUSIC);
+		initPlayer(R.raw.canon, 6);
 	}
 	
 	public void release() {

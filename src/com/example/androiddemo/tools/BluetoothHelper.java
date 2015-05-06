@@ -44,7 +44,6 @@ public class BluetoothHelper extends CommonCallbacks implements
 	
 	private BluetoothReceiver mSCOAudioReceiver = null;
 	private Context mContext = null;
-	private AudioManager mAudioManager = null;
 	BluetoothProfile mBluetoothProxy = null; 
 	private BluetoothProfile.ServiceListener mServiceListener = null;
 	private boolean mSCOAudioStarted = false;
@@ -69,7 +68,6 @@ public class BluetoothHelper extends CommonCallbacks implements
 	public BluetoothHelper(Context context) {
 		mContext = context;
 		mSCOAudioReceiver = new BluetoothReceiver();
-		mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 
 		/**
 		 * 注册蓝牙耳机连接状态广播
@@ -98,7 +96,8 @@ public class BluetoothHelper extends CommonCallbacks implements
 				
 				@Override
 				public void onServiceDisconnected(int profile) {
-					doCallbacks(OperationCode.OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE, profile, 0, "onServiceConnected", null);
+					doCallbacks(OperationCode.OP_CODE_BLUETOOTH_SERVICE_CONNECTION_UPDATE, profile,
+							0, AndroidDemoUtil.argumentsToString(profile, "onServiceConnected"), null);
 				}
 				
 				@Override
@@ -171,7 +170,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 			state = "SCO_AUDIO_STATE_CONNECTING";
 			break;
 		case AudioManager.SCO_AUDIO_STATE_CONNECTED:
-			state = "SCO_AUDIO_STATE_CONNECTED";
+			state = AndroidDemoUtil.argumentsToString("SCO_AUDIO_STATE_CONNECTED", SystemServiceUtil.getAudioManager().isBluetoothA2dpOn());
 			break;
 		case AudioManager.SCO_AUDIO_STATE_ERROR:
 			state = "SCO_AUDIO_STATE_ERROR";
