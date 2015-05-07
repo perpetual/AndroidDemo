@@ -388,7 +388,7 @@ public class AndroidDemoUtil {
 		return (int) (dipValue * DENSITY + 0.5f);
 	}
 
-	public static int px2dip(Context context, float pxValue) {
+	public static int px2dip(float pxValue) {
 		return (int) (pxValue / DENSITY + 0.5f);
 	}
 	

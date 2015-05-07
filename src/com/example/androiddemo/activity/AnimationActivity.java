@@ -5,7 +5,9 @@ import android.util.AttributeSet;
 
 import com.example.androiddemo.R;
 import com.example.androiddemo.animation.BreatheAniamation;
+import com.example.androiddemo.animation.RandomShakeAnimation;
 import com.example.androiddemo.animation.Rotate3dAnimation;
+import com.example.androiddemo.animation.RotationAnimation;
 import com.example.androiddemo.animation.ShakeAnimation;
 
 
@@ -14,6 +16,7 @@ public class AnimationActivity extends DemoSuperActivity {
 	private BreatheAniamation mCircleAnimation = null;
 	private Rotate3dAnimation mRotate3dAnimation = null;
 	private ShakeAnimation mShakeAnimation = null;
+	private RandomShakeAnimation mRandomShakeAnimation = null;
 
 	private void startBreatheAnimation() {
 		getCustomView().clearAnimation();
@@ -28,6 +31,11 @@ public class AnimationActivity extends DemoSuperActivity {
 	private void startShakeAnimation() {
 		getCustomView().clearAnimation();
 		getCustomView().startAnimation(mShakeAnimation);
+	}
+	
+	private void startRadomShakeAnimation() {
+		getCustomView().clearAnimation();
+		getCustomView().startAnimation(mRandomShakeAnimation);
 	}
 	
 	@Override
@@ -56,8 +64,18 @@ public class AnimationActivity extends DemoSuperActivity {
 	}
 	
 	@Override
+	protected String getBottomButtonText() {
+		return "Random shake animation";
+	}
+	
+	@Override
 	protected void doTopButtonClick() {
 		startShakeAnimation();
+	}
+	
+	@Override
+	protected void doBotttomButtonClick() {
+		startRadomShakeAnimation();
 	}
 	
 	@Override
@@ -76,6 +94,7 @@ public class AnimationActivity extends DemoSuperActivity {
 		mShakeAnimation = new ShakeAnimation(getCustomView());
 		mRotate3dAnimation = new Rotate3dAnimation(0, 180, getCustomView().getWidth() / 2,
 				getCustomView().getHeight() / 4, 0, true);
+		mRandomShakeAnimation = new RandomShakeAnimation();
 	}
 
 }

@@ -183,7 +183,6 @@ public class MediaActivity extends DemoSuperActivity implements CommonCallbacks.
 					intent.getIntExtra("microphone", -1)), true);
 			break;
 		default:
-			updateTextView(TEXT_VIEW_TOP, str, true);
 			break;
 		}
 	}
