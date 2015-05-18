@@ -13,7 +13,6 @@ import android.widget.TextView;
 public class ViewStubActivity extends Activity {
 
 	ViewStub mViewStub = null;
-	TextView mTestTV = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +24,16 @@ public class ViewStubActivity extends Activity {
 	}
 
 	/**
-	 * Ë½ÓÐ¹¤¾ßº¯Êý
+	 * Ë½ï¿½Ð¹ï¿½ï¿½ßºï¿½ï¿½ï¿½
 	 */
 	private void bindView() {
 		mViewStub = (ViewStub) findViewById(R.id.mystub);
 		mViewStub.setVisibility(View.VISIBLE);
 		View view = findViewById(R.id.myinflate);
-		mTestTV = (TextView)findViewById(R.id.test_tv);
 	}
 
 	private void initView() {
 //		mViewStub.inflate();
 		mViewStub.setVisibility(View.VISIBLE);
-		mTestTV.setText("fegteg");
 	}
 }

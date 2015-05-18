@@ -5,7 +5,7 @@ import android.content.Intent;
 public class ThirdActivity extends TestActivity {
 
 	@Override
-	protected void buttonClickAction() {
+	protected void doTopButtonClick() {
 		Intent intent = new Intent(this, FirstActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

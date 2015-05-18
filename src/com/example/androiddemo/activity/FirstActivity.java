@@ -5,7 +5,7 @@ import android.content.Intent;
 public class FirstActivity extends TestActivity {
 	
 	@Override
-	protected void buttonClickAction() {
+	protected void doTopButtonClick() {
 		boolean b = getIntent().getBooleanExtra("START_SELF", false);
 		Intent intent = null;
 		if (b) {

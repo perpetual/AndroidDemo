@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.example.androiddemo.R;
 import com.example.androiddemo.utils.AndroidDemoUtil;
+import com.example.androiddemo.utils.LogUtil;
 
 public class DemoMainListActivity extends SuperListActivity<String> {	
 	private String[] mTitleArray = null;

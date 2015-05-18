@@ -5,8 +5,7 @@ import android.content.Intent;
 public class FourthActivity extends TestActivity {
 
 	@Override
-	protected void buttonClickAction() {
-		super.buttonClickAction();
+	protected void doTopButtonClick() {
 		Intent intent = new Intent(this, SecondActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
