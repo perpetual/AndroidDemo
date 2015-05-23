@@ -5,18 +5,19 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.os.PowerManager;
 import android.os.Vibrator;
 
 /**
  * <pre>
  * Copyright (C) 1998-2015 TENCENT Inc.All Rights Reserved.
- *
+ * 
  * Description：
  * 
  * History：
  * 
  * User				Date			Info		Reason
- * garyzhao		2015-4-7		Create		
+ * garyzhao		2015-4-7		Create
  * </pre>
  */
 public class SystemServiceUtil {
@@ -45,5 +46,9 @@ public class SystemServiceUtil {
 		return (Vibrator) AndroidDemoUtil.APPLICATION_CONTEXT
 				.getSystemService(Context.VIBRATOR_SERVICE);
 	}
-}
 
+	public static PowerManager getPowerManager() {
+		return (PowerManager) AndroidDemoUtil.APPLICATION_CONTEXT
+				.getSystemService(Context.POWER_SERVICE);
+	}
+}

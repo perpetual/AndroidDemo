@@ -13,6 +13,7 @@ import com.example.androiddemo.animation.ShakeAnimation;
 import com.example.androiddemo.model.OperationCode;
 import com.example.androiddemo.tools.AccelerometerEngine;
 import com.example.androiddemo.tools.CommonCallbacks.ICallback;
+import com.example.androiddemo.utils.ThreadUtils;
 
 /**
  * <pre>
@@ -162,6 +163,18 @@ public class AccelerometerActivity extends DemoSuperActivity implements ICallbac
 	@Override
 	protected int getCustomViewAreaLayoutResource() {
 		return R.layout.common_custom_view_layout;
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		ThreadUtils.runOnMainThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				AccelerometerEngine.getInstance().wakeUpCpu();
+			}
+		}, 3500);
 	}
 	
 	@Override

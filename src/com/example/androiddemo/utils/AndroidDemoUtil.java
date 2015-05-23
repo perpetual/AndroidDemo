@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.PowerManager;
