@@ -168,13 +168,6 @@ public class AccelerometerActivity extends DemoSuperActivity implements ICallbac
 	@Override
 	protected void onStop() {
 		super.onStop();
-		ThreadUtils.runOnMainThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				AccelerometerEngine.getInstance().wakeUpCpu();
-			}
-		}, 3500);
 	}
 	
 	@Override
