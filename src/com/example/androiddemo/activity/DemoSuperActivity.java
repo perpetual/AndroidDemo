@@ -184,7 +184,7 @@ public abstract class DemoSuperActivity extends DemoBaseActivity implements View
 	}
 	
 	protected int getCustomViewAreaLayoutResource() {
-		return 0;
+		return R.layout.common_custom_view_layout;
 	}
 	
 	/**

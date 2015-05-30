@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import android.hardware.Sensor;
+import android.content.Context;
+import android.content.Intent;
 import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.text.TextUtils;
 
 import com.example.androiddemo.model.OperationCode;
+import com.example.androiddemo.receiver.BaseBroadcastReceiver;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
-import com.example.androiddemo.utils.MathUtil;
 import com.example.androiddemo.utils.SystemServiceUtil;
-import com.example.androiddemo.utils.ThreadUtils;
 
 /**
  * <pre>
@@ -29,7 +29,7 @@ import com.example.androiddemo.utils.ThreadUtils;
  * Gary		2015-4-25		Create		
  * </pre>
  */
-public class AccelerometerEngine extends CommonCallbacks implements LinearAccelerometerSensor.IDataReceiver{
+public class AccelerometerEngine extends CommonCallbacks implements LinearAccelerometerSensor.IDataReceiver, BaseBroadcastReceiver.IBaseBroadcastReceiver{
 	private static final String TAG = AccelerometerEngine.class.getSimpleName();
 	
 	private static final int sCorrectionCount = 10;	//修正次数
@@ -58,6 +58,7 @@ public class AccelerometerEngine extends CommonCallbacks implements LinearAccele
 	private float mMaxRange = 0f;
 	
 	private WakeLock mWakeLock = null;
+	private BaseBroadcastReceiver mBaseBroadcastReceiver = null;
 	
 	public static class ValuePair {
 		public ValuePair(float minValue, float maxValue) {
@@ -76,27 +77,41 @@ public class AccelerometerEngine extends CommonCallbacks implements LinearAccele
 	}
 	
 	public void start() {
+		LogUtil.d(TAG, "start");
 		reset();
 		updateThresHold();
 		doCallbacks(OperationCode.OP_CODE_SHAKE_INIT, 0, 0, AndroidDemoUtil.argumentsToString(
 				mAccelerometerSensor.getMaxDelay(), mAccelerometerSensor.getMinDelay(),
 				mAccelerometerSensor.getMaximumRange()), null);
-		mWakeLock.acquire();
+		mBaseBroadcastReceiver.register(AndroidDemoUtil.APPLICATION_CONTEXT, AndroidDemoUtil.createIntentFilter(Intent.ACTION_SCREEN_OFF, Intent.ACTION_SCREEN_ON), this);
+//		if (null != mWakeLock) {
+//			mWakeLock.release();
+//			mWakeLock = null;
+//		} else {
+//			mWakeLock = SystemServiceUtil.getPowerManager().newWakeLock(
+//					PowerManager.PARTIAL_WAKE_LOCK, getClass().getSimpleName());
+//			mWakeLock.acquire();
+//		}
 		LinearAccelerometerSensor.getInstance().start(this);
 	}
 	
 	public void stop() {
+		LogUtil.d(TAG, "stop");
+		mBaseBroadcastReceiver.unregister(AndroidDemoUtil.APPLICATION_CONTEXT);
 		LinearAccelerometerSensor.getInstance().stop(this);
 		if (null != mWakeLock) {
 			mWakeLock.release();
+			mWakeLock = null;
 		}
 		reset();
 	}
 	
-	public void wakeUpCpu() {
-		LogUtil.d(TAG, "wakeUpCpu");
-		mWakeLock.acquire();
-		LinearAccelerometerSensor.getInstance().start(this);		
+	public void resume() {
+		LinearAccelerometerSensor.getInstance().resume(this);
+	}
+	
+	public void pause() {
+		LinearAccelerometerSensor.getInstance().pause(this);
 	}
 	
 	public void updateThresHold() {
@@ -110,7 +125,6 @@ public class AccelerometerEngine extends CommonCallbacks implements LinearAccele
 	
 	private AccelerometerEngine() {
 		mAccelerometerSensor = LinearAccelerometerSensor.getInstance();
-		mWakeLock = SystemServiceUtil.getPowerManager().newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, getClass().getSimpleName());
 		sMaxShakeAmplitudeThreshold = (int)(mAccelerometerSensor.getMaximumRange() / 2);
 		mRunnable = new Runnable() {
 
@@ -161,6 +175,7 @@ public class AccelerometerEngine extends CommonCallbacks implements LinearAccele
 				mIsSleep = false;
 			}
 		};
+		mBaseBroadcastReceiver = new BaseBroadcastReceiver();
 	}
 
 	private String getRawValue(SensorEvent se) {
@@ -190,6 +205,17 @@ public class AccelerometerEngine extends CommonCallbacks implements LinearAccele
 	@Override
 	public void onAccelerationChanged(float x, float y, float z) {
 		LogUtil.d(TAG, x, y, z);
+	}
+
+	@Override
+	public void onReciveBroadcast(Context context, Intent intent) {
+		if (TextUtils.equals(intent.getAction(), Intent.ACTION_SCREEN_ON)) {
+			LogUtil.d(TAG, "ACTION_SCREEN_ON");
+		} else if (TextUtils.equals(intent.getAction(), Intent.ACTION_SCREEN_OFF)) {
+			LogUtil.d(TAG, "ACTION_SCREEN_OFF");
+			pause();
+			resume();
+		}
 	}	
 }
 

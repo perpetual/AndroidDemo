@@ -5,7 +5,8 @@
     android:orientation="vertical" >
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/test_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="20dip"
         android:background="#ffff0000"
         android:text="@string/test" />

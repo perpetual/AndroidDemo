@@ -152,7 +152,7 @@ public class MediaActivity extends DemoSuperActivity implements CommonCallbacks.
 	
 	@Override
 	protected void doButton4Click() {
-		mMediaManager.stopPlayer();
+		mMediaManager.stop();
 	}
 	
 	@Override

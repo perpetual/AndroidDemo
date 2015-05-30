@@ -63,16 +63,25 @@ public class LinearAccelerometerSensor implements SensorEventListener{
 	public void start(IDataReceiver dataReciever) {
 		LogUtil.d(TAG, "start", dataReciever);
 		resetData();
+		resume(dataReciever);
 		mDataReceivers.add(dataReciever);
-		SystemServiceUtil.getSensorManager().registerListener(this, mAccelerometerSensor,
-				SensorManager.SENSOR_DELAY_UI); // ���60~70ms�ɼ�һ��
 	}
 	
 	public void stop(IDataReceiver dataReciever) {
 		LogUtil.d(TAG, "stop", dataReciever);
-		SystemServiceUtil.getSensorManager().unregisterListener(this, mAccelerometerSensor);
+		pause(dataReciever);
 		mDataReceivers.remove(dataReciever);
 		resetData();
+	}
+	
+	public void resume(IDataReceiver dataReciever) {
+		boolean b = SystemServiceUtil.getSensorManager().registerListener(this, mAccelerometerSensor,
+				SensorManager.SENSOR_DELAY_UI); // ���60~70ms�ɼ�һ��
+		LogUtil.d("xxx", b);
+	}
+	
+	public void pause(IDataReceiver dataReciever) {
+		SystemServiceUtil.getSensorManager().unregisterListener(this, mAccelerometerSensor);
 	}
 	
 	public void addDataReceiver(IDataReceiver dataReceiver) {
@@ -195,6 +204,7 @@ public class LinearAccelerometerSensor implements SensorEventListener{
 	
 	@Override
 	public void onSensorChanged(SensorEvent event) {
+		LogUtil.d(TAG, "onSensorChanged", event);
 		sAccelerometerSensorMaxRange = Math.max(sAccelerometerSensorMaxRange, event.values[0]);
 		sAccelerometerSensorMaxRange = Math.max(sAccelerometerSensorMaxRange, event.values[1]);
 		sAccelerometerSensorMaxRange = Math.max(sAccelerometerSensorMaxRange, event.values[2]);
@@ -229,13 +239,12 @@ public class LinearAccelerometerSensor implements SensorEventListener{
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		
+		LogUtil.d(TAG, "onAccuracyChanged", sensor, accuracy);
 	}
 	
 	@Override
 	public String toString() {
 		return AndroidDemoUtil.argumentsToString(sAccelerometerSensorMaxRange);
 	}
-	
 }
 

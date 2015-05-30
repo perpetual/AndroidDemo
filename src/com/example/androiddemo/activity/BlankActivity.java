@@ -2,6 +2,8 @@ package com.example.androiddemo.activity;
 
 import java.util.ArrayList;
 
+import android.animation.ObjectAnimator;
+import android.app.ActionBar.LayoutParams;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 
 import com.example.androiddemo.R;
 import com.example.androiddemo.utils.AndroidDemoUtil;
+import com.example.androiddemo.utils.ThreadUtils;
 
 public class BlankActivity extends DemoBaseActivity implements OnClickListener {
 	static {
@@ -39,6 +43,7 @@ public class BlankActivity extends DemoBaseActivity implements OnClickListener {
 	private Button mTestBtn = null;
 	private Button mConsumeMemoryBtn = null;
 	private TextView mTextView = null;
+	private TextView mTestTextView = null;
 	private EditText mEditText = null;
 	private LinearLayout mList = null;
 	
@@ -115,8 +120,24 @@ public class BlankActivity extends DemoBaseActivity implements OnClickListener {
 		mTextView = (TextView)findViewById(R.id.text_view);
 		mEditText = (EditText)findViewById(R.id.edittext1);
 		mList = (LinearLayout)findViewById(R.id.list);
+		mTestTextView = (TextView)findViewById(R.id.test_text_view);
 		EditText et = (EditText)LayoutInflater.from(this).inflate(R.layout.edit_text_layout, null);
 		mList.addView(et, 10);
+
+		ObjectAnimator translationXAnim = ObjectAnimator.ofFloat(mTestTextView, "translationX", 0,
+				AndroidDemoUtil.dip2px(200) * 1f);
+		
+		translationXAnim.setDuration(3000).start();
+		ThreadUtils.runOnMainThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				mTestTextView.setCompoundDrawablesWithIntrinsicBounds(null, getResources()
+						.getDrawable(R.drawable.ic_launcher), null, null);
+				mTestTextView.clearAnimation();
+				
+			}
+		}, 1500);
 	}
 	
 	private void updateUI() {

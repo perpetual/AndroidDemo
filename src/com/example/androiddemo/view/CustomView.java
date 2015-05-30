@@ -2,6 +2,7 @@ package com.example.androiddemo.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
@@ -13,6 +14,7 @@ public class CustomView extends ImageView implements OnLayoutChangeListener {
 
 	private static final String TAG = CustomView.class.getSimpleName();
 
+	
 	public CustomView(Context context) {
 		super(context);
 		addOnLayoutChangeListener(this);
@@ -23,6 +25,8 @@ public class CustomView extends ImageView implements OnLayoutChangeListener {
 		addOnLayoutChangeListener(this);
 	}
 
+
+	
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		LogUtil.d(TAG, getClass().getSimpleName(), "onMeasure", "widthMeasureSpec",
@@ -40,7 +44,7 @@ public class CustomView extends ImageView implements OnLayoutChangeListener {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		LogUtil.d(TAG, getClass().getSimpleName(), "onDraw|getHeight", getHeight());
-		super.onDraw(canvas);
+		super.onDraw(canvas);		
 	}
 
 	@Override

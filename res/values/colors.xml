@@ -7,4 +7,5 @@
     <drawable name="green">#FF00FF00</drawable>
     <drawable name="blue">#FF0000FF</drawable>
     <drawable name="transparent">#00000000</drawable>
+    <color name="half_black">#7f000000</color>
 </resources>

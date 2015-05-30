@@ -89,9 +89,11 @@ public class MediaManager extends CommonCallbacks implements
 		}
 	}
 	
-	public void stopPlayer() {
+	public void stop() {
 		if (mMediaPlayer.isPlaying()) {
+			LogUtil.d(TAG, "stop1");
 			mMediaPlayer.stop();
+			LogUtil.d(TAG, "stop2");
 		}
 	}
 	

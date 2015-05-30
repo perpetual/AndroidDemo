@@ -44,7 +44,7 @@ public class DemoListActivity extends Activity implements OnClickListener{
 	}
 	
 	/**
-	 * Ë½ÓÐ¹¤¾ßÀà
+	 * Ë½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	private void initData() {
 		mAdapter = new BaseAdapter() {
