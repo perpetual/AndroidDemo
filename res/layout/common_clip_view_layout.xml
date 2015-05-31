@@ -7,7 +7,7 @@
     <com.example.androiddemo.view.ClipView
         android:id="@+id/clip_view"
         android:layout_width="200dip"
-        android:layout_height="200dip"
-        android:background="@drawable/ic_launcher" />
+        android:scaleType="center"
+        android:layout_height="200dip" />
 
 </LinearLayout>

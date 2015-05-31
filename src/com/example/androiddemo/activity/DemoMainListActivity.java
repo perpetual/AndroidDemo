@@ -23,11 +23,11 @@ public class DemoMainListActivity extends SuperListActivity<String> {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		directJumpTo();
+		directJumpTo();
 	}
 	
 	private void directJumpTo() {
-		Intent intent = new Intent(this, AccelerometerActivity.class);
+		Intent intent = new Intent(this, ViewDrawActivity.class);
 		startActivity(intent);
 		finish();
 	}

@@ -1,31 +1,42 @@
 package com.example.androiddemo.view;
 
+import java.util.Arrays;
+
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
 import android.widget.ImageView;
 
+import com.example.androiddemo.model.IViewInitialization;
 import com.example.androiddemo.utils.LogUtil;
 
-public class CustomView extends ImageView implements OnLayoutChangeListener {
+public class CustomView extends ImageView implements OnLayoutChangeListener, IViewInitialization {
 
 	private static final String TAG = CustomView.class.getSimpleName();
 
-	
 	public CustomView(Context context) {
 		super(context);
+		initData(context, null);
+		initView();
+		updateView();
 		addOnLayoutChangeListener(this);
 	}
 
 	public CustomView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		initData(context, attrs);
+		initView();
+		updateView();
 		addOnLayoutChangeListener(this);
 	}
 
-
+	@Override
+	public void draw(Canvas canvas) {
+		LogUtil.d(TAG, getClass().getSimpleName(), "draw");
+		super.draw(canvas);
+	}
 	
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -66,5 +77,31 @@ public class CustomView extends ImageView implements OnLayoutChangeListener {
 		boolean b = super.onSetAlpha(alpha);
 		LogUtil.d(TAG, getClass().getSimpleName(), "onSetAlpha", alpha, b);
 		return b;
+	}
+
+	@Override
+	public void initData(Context context, AttributeSet attrs) {
+		
+	}
+
+	@Override
+	public void initView() {
+		
+	}
+
+	@Override
+	public void updateView() {
+		
+	}
+
+	@Override
+	public void refreshView() {
+		
+	}
+	
+	@Override
+	protected void drawableStateChanged() {
+		super.drawableStateChanged();
+		LogUtil.d(TAG, getClass().getSimpleName(), "drawableStateChanged", Arrays.asList(getDrawableState()));
 	}
 }
