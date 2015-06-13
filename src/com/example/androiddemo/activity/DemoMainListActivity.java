@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.AndroidException;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
@@ -22,6 +23,7 @@ public class DemoMainListActivity extends SuperListActivity<String> {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		LogUtil.d(TAG, AndroidDemoUtil.deviceInfo2String());
 		super.onCreate(savedInstanceState);
 		directJumpTo();
 	}

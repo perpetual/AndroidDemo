@@ -35,19 +35,35 @@ public class ClipView extends CustomView {
 	private static final String TAG = ClipView.class.getSimpleName();
 	private Drawable mMaskDrawable = null;
 	private final Paint mBitmapPaint = new Paint();
+	private final Paint mMaskPaint = new Paint();
 	private Bitmap mNormalMaskBitmap = null;
 	private Bitmap mPressMaskBitmap = null;
+	private Bitmap mBitmap = null;
 	private Canvas mTempCanvas = null;
     private BitmapShader mBitmapShader = null;
+    private BitmapShader mNormalBitmapShader = null;
+    private BitmapShader mPressBitmapShader = null;
+	private final int[] PRESSED_STATE = View.PRESSED_ENABLED_STATE_SET;
 	
 	public ClipView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 	
 	public void setMaskDrawable(Drawable drawable) {
-		LogUtil.d(TAG, "setMaskDrawable", drawable);
+		if (drawable == mMaskDrawable) {
+			return;
+		}
 		mMaskDrawable = drawable;
-		updateBitmapFromDrawable(mMaskDrawable);
+		LogUtil.d(TAG, "setMaskDrawable", drawable);
+		mNormalMaskBitmap = getBitmapFromDrawable(drawable);
+		drawable.setState(PRESSED_STATE);
+		mPressMaskBitmap = getBitmapFromDrawable(drawable);
+		if (null != mNormalMaskBitmap) {
+			mNormalBitmapShader = new BitmapShader(mNormalMaskBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+		}
+		if (null != mPressMaskBitmap) {
+			mPressBitmapShader = new BitmapShader(mPressMaskBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+		}
 		invalidate();
 	}
 	
@@ -61,39 +77,49 @@ public class ClipView extends CustomView {
 		return mTempCanvas;
 	}
 	
-	private void updateBitmapFromDrawable(Drawable drawable) {
-		if (null == drawable) {
-			return;
+	private int minValue(int srcValue, final int minValue) {
+		if (srcValue < minValue) {
+			if (getWidth() > 0) {
+				srcValue = getWidth();
+			} else {
+				srcValue = 1;
+			}
 		}
-		if (drawable instanceof ColorDrawable) {
-            mNormalMaskBitmap = mPressMaskBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
-		} else {
-			drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-			mNormalMaskBitmap = Bitmap
-					.createBitmap(
-							drawable.getIntrinsicWidth(),
-							drawable.getIntrinsicHeight(),
-							drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
-									: Bitmap.Config.RGB_565);
-			drawable.draw(getCanvas(mNormalMaskBitmap));
-
-			drawable.setState(View.PRESSED_STATE_SET);
-			mPressMaskBitmap = Bitmap
-					.createBitmap(
-							drawable.getIntrinsicWidth(),
-							drawable.getIntrinsicHeight(),
-							drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
-									: Bitmap.Config.RGB_565);
-			drawable.draw(getCanvas(mPressMaskBitmap));
-		}
-		if (StateSet.stateSetMatches(View.PRESSED_STATE_SET, getDrawableState())) {
-		    mBitmapShader = new BitmapShader(mPressMaskBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-		} else {
-		    mBitmapShader = new BitmapShader(mNormalMaskBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-		}
-	    mBitmapPaint.setAntiAlias(true);
-	    mBitmapPaint.setShader(mBitmapShader);
+		return srcValue;
 	}
+	
+	private Bitmap getBitmapFromDrawable(Drawable drawable) {
+		if (null == drawable) {
+			return null;
+		}
+		Bitmap bitmap = null;
+
+		int width = drawable.getIntrinsicWidth();
+		if (width < 1) {
+			if (getWidth() > 0) {
+				width = getWidth();
+			} else {
+				width = 1;
+			}
+		}
+		int height = drawable.getIntrinsicHeight();
+		if (height < 1) {
+			if (getHeight() > 0) {
+				height = getHeight();
+			} else {
+				height = 1;
+			}
+		}
+
+		LogUtil.d(TAG, "getBitmapFromDrawable", width, height);
+		drawable.setBounds(0, 0, width, height);
+		bitmap = Bitmap.createBitmap(width, height,
+				drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+						: Bitmap.Config.RGB_565);
+		drawable.draw(getCanvas(bitmap));
+		return bitmap;
+	}
+
 	
 	@Override
 	public void initData(Context context, AttributeSet attrs) {
@@ -104,14 +130,22 @@ public class ClipView extends CustomView {
 	@Override
 	public void initView() {
 		super.initView();
-//		setImageResource(R.drawable.resource);
-//		setBackgroundResource(R.drawable.ic_launcher);
 		setClickable(true);
 	}
 	
 	@Override
+	public void updateView() {
+		super.updateView();
+		setImageResource(R.drawable.red);
+	}
+	
+	@Override
 	public void setImageResource(int resId) {
-		super.setImageResource(resId);
+		mBitmap = getBitmapFromDrawable(getResources().getDrawable(resId));
+		if (null != mBitmap) {
+			mBitmapShader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+		}
+		invalidate();
 	}
 	
 	@Override
@@ -127,32 +161,23 @@ public class ClipView extends CustomView {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		if (null != mPressMaskBitmap && StateSet.stateSetMatches(View.PRESSED_STATE_SET, getDrawableState())) {
-			canvas.drawRect(0, 0, mPressMaskBitmap.getWidth(), mPressMaskBitmap.getHeight(), mBitmapPaint);
-		} else if (null != mNormalMaskBitmap){
-			canvas.drawRect(0, 0, mNormalMaskBitmap.getWidth(), mNormalMaskBitmap.getHeight(), mBitmapPaint);
-		} else if (null != mMaskDrawable) {
-			mMaskDrawable.setBounds(0, 0, getWidth(), getHeight());
-			mMaskDrawable.setState(getDrawableState());
-			mMaskDrawable.draw(canvas);
-		}		
+		if (null != mBitmapShader) {
+			mBitmapPaint.setShader(mBitmapShader);
+			canvas.drawRect(0, 0, mBitmap.getWidth(), mBitmap.getHeight(), mBitmapPaint);
+		}
+		if (!StateSet.stateSetMatches(PRESSED_STATE, getDrawableState()) && null != mNormalBitmapShader) {
+			mMaskPaint.setShader(mNormalBitmapShader);
+			canvas.drawRect(0, 0, mNormalMaskBitmap.getWidth(), mNormalMaskBitmap.getHeight(), mMaskPaint);
+		} else if (StateSet.stateSetMatches(PRESSED_STATE, getDrawableState()) && null != mPressBitmapShader) {
+			mMaskPaint.setShader(mPressBitmapShader);
+			canvas.drawRect(0, 0, mPressMaskBitmap.getWidth(), mPressMaskBitmap.getHeight(), mMaskPaint);
+		}				
 	}
 	
 	@Override
 	protected void drawableStateChanged() {
 		super.drawableStateChanged();
-		LogUtil.d(TAG, Arrays.toString(getDrawableState()), Arrays.toString(View.PRESSED_STATE_SET));
-		if (null == mPressMaskBitmap || null == mNormalMaskBitmap) {
-			return;
-		}
-		if (StateSet.stateSetMatches(View.PRESSED_STATE_SET, getDrawableState())) {
-		    mBitmapShader = new BitmapShader(mPressMaskBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-		} else {
-		    mBitmapShader = new BitmapShader(mNormalMaskBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-		}
-		mBitmapShader.setLocalMatrix(null);
-	    mBitmapPaint.setAntiAlias(true);
-	    mBitmapPaint.setShader(mBitmapShader);
+		LogUtil.d(TAG, Arrays.toString(getDrawableState()), Arrays.toString(PRESSED_STATE));
 		invalidate();
 	}
 }

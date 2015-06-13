@@ -67,12 +67,12 @@ public class ViewDrawActivity extends DemoSuperActivity {
 	
 	@Override
 	protected void doTopButtonClick() {
+
 		mClipView.setMaskDrawable(getResources().getDrawable(R.drawable.multi_state));
 	}
 	
 	@Override
 	protected void doBotttomButtonClick() {
-		mClipView.setMaskDrawable(null);
 	}
 	
 	@Override

@@ -20,7 +20,6 @@ public class CustomView extends ImageView implements OnLayoutChangeListener, IVi
 		super(context);
 		initData(context, null);
 		initView();
-		updateView();
 		addOnLayoutChangeListener(this);
 	}
 
@@ -28,7 +27,6 @@ public class CustomView extends ImageView implements OnLayoutChangeListener, IVi
 		super(context, attrs);
 		initData(context, attrs);
 		initView();
-		updateView();
 		addOnLayoutChangeListener(this);
 	}
 
@@ -50,6 +48,9 @@ public class CustomView extends ImageView implements OnLayoutChangeListener, IVi
 		LogUtil.d(TAG, getClass().getSimpleName(), "onLayout|changed", changed, "left", left,
 				"top", top + "right", right, "bottom", bottom + "getHeight", getHeight());
 		super.onLayout(changed, left, top, right, bottom);
+		if (changed) {
+			updateView();
+		}
 	}
 
 	@Override
