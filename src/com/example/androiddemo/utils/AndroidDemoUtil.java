@@ -544,4 +544,30 @@ public class AndroidDemoUtil {
 	public static boolean isMainProcess() {
 		return TextUtils.equals(getPackageName(), getProcessName(getCurrentProcessID()));
 	}
+	
+	public static String getTopActivityName() {
+		ActivityManager actionManager = SystemServiceUtil.getActivityManager();
+		if (actionManager != null) {
+
+			List<RunningTaskInfo> localList = null;
+			try {
+				localList = actionManager.getRunningTasks(1);
+			} catch (Exception e) {
+				Log.w(TAG, "security e=" + e);
+			}
+
+			if ((localList != null) && (localList.size() > 0)) {
+				String topActivityName = ((ActivityManager.RunningTaskInfo) localList.get(0)).topActivity
+						.getClassName();
+
+				Log.v(TAG, "topActivityName=" + topActivityName);
+
+				return topActivityName;
+			}
+		} else {
+			Log.w(TAG, " actionManager is null");
+		}
+
+		return null;
+	}
 }

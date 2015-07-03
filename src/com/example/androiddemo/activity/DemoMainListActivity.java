@@ -6,12 +6,9 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.AndroidException;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.example.androiddemo.R;
@@ -29,7 +26,7 @@ public class DemoMainListActivity extends SuperListActivity<String> {
 	}
 	
 	private void directJumpTo() {
-		Intent intent = new Intent(this, ViewDrawActivity.class);
+		Intent intent = new Intent(this, AnimationActivity.class);
 		startActivity(intent);
 		finish();
 	}

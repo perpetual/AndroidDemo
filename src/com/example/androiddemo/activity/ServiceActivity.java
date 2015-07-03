@@ -1,14 +1,10 @@
 package com.example.androiddemo.activity;
 
-import java.io.FileDescriptor;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Binder;
 import android.os.IBinder;
-import android.os.IInterface;
 import android.os.RemoteException;
 import android.util.AttributeSet;
 import android.util.Log;

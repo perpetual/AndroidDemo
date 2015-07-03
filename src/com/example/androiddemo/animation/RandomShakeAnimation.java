@@ -22,7 +22,7 @@ import android.view.animation.TranslateAnimation;
  */
 public class RandomShakeAnimation extends AnimationSet {
 
-	private static final String TAG = RandomShakeAnimation.class.getSimpleName();
+	private static final String TAG = PathShakeAnimation.class.getSimpleName();
 	
 	private static final int ANIMATION_COUNT = 8;
 	private static final int SINGLE_ANIMATION_DURATION = 20;

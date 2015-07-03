@@ -21,8 +21,9 @@ public class ShakeAnimation extends TranslateAnimation {
 	
 	public ShakeAnimation(View view) {
 		super(view.getWidth(), view.getWidth() + 15, view.getHeight(), view.getHeight());
-		setInterpolator(new CycleInterpolator(2f));
-		setDuration(300);
+		setRepeatCount(1);
+		setRepeatMode(Animation.REVERSE);
+		setDuration(500);
 	}
 }
 
