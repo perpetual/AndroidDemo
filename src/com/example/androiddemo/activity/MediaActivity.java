@@ -168,7 +168,7 @@ public class MediaActivity extends DemoSuperActivity implements CommonCallbacks.
 			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + BluetoothHelper.getHeadsetConnectState(arg1), true);
 			break;
 		case OperationCode.OP_CODE_ACTION_A2DP_CONNECTION_STATE_UPDATE:
-			updateTextView(TEXT_VIEW_RIGHT, str + "|" + BluetoothHelper.getA2DPConnectState(arg1), true);
+			updateTextView(TEXT_VIEW_RIGHT, AndroidDemoUtil.argumentsToString(str, BluetoothHelper.getA2DPConnectState(arg1), BluetoothHelper.getBluetoothDeviceInfo((BluetoothDevice)object)), true);
 			break;
 		case OperationCode.OP_CODE_ACL_CONNECTION_STATE_UPDATE:
 			updateTextView(TEXT_VIEW_BOTTOM, str + "|" + BluetoothHelper.getBluetoothDeviceInfo((BluetoothDevice)object), true);

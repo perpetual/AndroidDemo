@@ -113,6 +113,7 @@
         <activity android:name="com.example.androiddemo.activity.SensorListActivity" />
         <activity android:name="com.example.androiddemo.activity.AccelerometerActivity" />
         <activity android:name="com.example.androiddemo.activity.VibratorActivity" />
+        <activity android:name="com.example.androiddemo.activity.JumpToActivity" />
 
         <receiver android:name="com.example.androiddemo.BluetoothReceiver" >
             <intent-filter android:priority="2147483647" >

@@ -26,7 +26,7 @@ public class DemoMainListActivity extends SuperListActivity<String> {
 	}
 	
 	private void directJumpTo() {
-		Intent intent = new Intent(this, AnimationActivity.class);
+		Intent intent = new Intent(this, MediaActivity.class);
 		startActivity(intent);
 		finish();
 	}

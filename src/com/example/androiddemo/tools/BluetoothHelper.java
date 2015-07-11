@@ -187,9 +187,9 @@ public class BluetoothHelper extends CommonCallbacks implements
 			return "";
 		}
 		return AndroidDemoUtil.argumentsToString(bd.getName(), bd.getAddress(),
-				"BondState", bd.getBondState(), "DeviceClass", Integer.toHexString(bd.getBluetoothClass().getDeviceClass()),
-				"MajorDeviceClass", Integer.toHexString(bd.getBluetoothClass().getMajorDeviceClass()),
-				"isBluetoothHeadset", isBluetoothHeadset(bd));
+				"BondState", bd.getBondState(), "DeviceClass【", Integer.toHexString(bd.getBluetoothClass().getDeviceClass()),
+				"】MajorDeviceClass【", Integer.toHexString(bd.getBluetoothClass().getMajorDeviceClass()),
+				"】isBluetoothHeadset", isBluetoothHeadset(bd));
 	}
 	
 	public static boolean isBluetoothHeadset(BluetoothDevice bluetoothDevice) {
@@ -296,7 +296,7 @@ public class BluetoothHelper extends CommonCallbacks implements
 				.equals(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED, intent.getAction())) {
 			doCallbacks(OperationCode.OP_CODE_ACTION_A2DP_CONNECTION_STATE_UPDATE,
 					intent.getIntExtra(BluetoothHeadset.EXTRA_STATE, -1), 0, intent.getAction(),
-					null);
+					intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE));
 		} else if (TextUtils.equals(BluetoothDevice.ACTION_ACL_CONNECTED, intent.getAction())
 				|| TextUtils.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED, intent.getAction())) {
 			doCallbacks(OperationCode.OP_CODE_ACL_CONNECTION_STATE_UPDATE, 0, 0,
