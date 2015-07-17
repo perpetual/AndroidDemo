@@ -22,6 +22,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
@@ -592,34 +593,40 @@ public class AndroidDemoUtil {
 		return getBitmapFromDrawable(drawable, -1, -1);
 	}
 	
-	public static Bitmap getBitmapFromDrawable(Drawable drawable, int defaultWidth, int defaultHeight) {
+	public static Bitmap getBitmapFromDrawable(Drawable drawable, int defaultWidth,
+			int defaultHeight) {
 		if (null == drawable) {
 			return null;
 		}
-		Bitmap bitmap = null;
-		int width = drawable.getIntrinsicWidth();
-		if (width < 1) {
-			if (defaultWidth > 0) {
-				width = defaultWidth;
-			} else {
-				width = 1;
-			}
-		}
-		int height = drawable.getIntrinsicHeight();
-		if (height < 1) {
-			if (defaultHeight > 0) {
-				height = defaultHeight;
-			} else {
-				height = 1;
-			}
-		}
 
-		LogUtil.d(TAG, "getMaskBitmapFromDrawable", defaultWidth, defaultHeight, width, height);
-		drawable.setBounds(0, 0, width, height);
-		bitmap = Bitmap.createBitmap(width, height,
-				drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
-						: Bitmap.Config.RGB_565);
-		drawable.draw(getCanvas(bitmap));
+		Bitmap bitmap = null;
+		if (drawable instanceof BitmapDrawable) {
+			bitmap = ((BitmapDrawable)drawable).getBitmap();
+		} else {
+			int width = drawable.getIntrinsicWidth();
+			if (width < 1) {
+				if (defaultWidth > 0) {
+					width = defaultWidth;
+				} else {
+					width = 1;
+				}
+			}
+			int height = drawable.getIntrinsicHeight();
+			if (height < 1) {
+				if (defaultHeight > 0) {
+					height = defaultHeight;
+				} else {
+					height = 1;
+				}
+			}
+
+			drawable.setBounds(0, 0, width, height);
+			bitmap = Bitmap.createBitmap(width, height,
+					drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+							: Bitmap.Config.RGB_565);
+			drawable.draw(getCanvas(bitmap));
+		}
+		LogUtil.d(TAG, "getMaskBitmapFromDrawable", drawable, defaultWidth, defaultHeight, bitmap.getWidth(), bitmap.getHeight());
 		return bitmap;
 	}
 }
