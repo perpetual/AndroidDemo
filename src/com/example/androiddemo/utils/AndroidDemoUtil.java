@@ -19,6 +19,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.Build;
@@ -569,5 +573,53 @@ public class AndroidDemoUtil {
 		}
 
 		return null;
+	}
+	
+
+	private static Canvas sTempCanvas = null;
+	
+	private static Canvas getCanvas(Bitmap bitmap) {
+		if (null == sTempCanvas) {
+			sTempCanvas = new Canvas();
+		}
+		if (null != bitmap) {
+			sTempCanvas.setBitmap(bitmap);
+		}
+		return sTempCanvas;
+	}
+
+	public static Bitmap getBitmapFromDrawable(Drawable drawable) {
+		return getBitmapFromDrawable(drawable, -1, -1);
+	}
+	
+	public static Bitmap getBitmapFromDrawable(Drawable drawable, int defaultWidth, int defaultHeight) {
+		if (null == drawable) {
+			return null;
+		}
+		Bitmap bitmap = null;
+		int width = drawable.getIntrinsicWidth();
+		if (width < 1) {
+			if (defaultWidth > 0) {
+				width = defaultWidth;
+			} else {
+				width = 1;
+			}
+		}
+		int height = drawable.getIntrinsicHeight();
+		if (height < 1) {
+			if (defaultHeight > 0) {
+				height = defaultHeight;
+			} else {
+				height = 1;
+			}
+		}
+
+		LogUtil.d(TAG, "getMaskBitmapFromDrawable", defaultWidth, defaultHeight, width, height);
+		drawable.setBounds(0, 0, width, height);
+		bitmap = Bitmap.createBitmap(width, height,
+				drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+						: Bitmap.Config.RGB_565);
+		drawable.draw(getCanvas(bitmap));
+		return bitmap;
 	}
 }

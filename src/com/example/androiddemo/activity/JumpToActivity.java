@@ -1,10 +1,6 @@
 package com.example.androiddemo.activity;
 
-import java.net.URI;
-import java.net.URL;
-
 import android.content.Intent;
-import android.net.Uri;
 
 /**
  * <pre>
@@ -26,10 +22,15 @@ public class JumpToActivity extends DemoSuperActivity {
 	
 	protected void doTopButtonClick() {
 		Intent intent = new Intent();
-		intent.setAction(Intent.ACTION_VIEW);
+		intent.setAction("com.tencent.pb.voip.mail");
+		intent.putExtra("extra_start_enrty", 0);
+		intent.putExtra("extra_key_main_info", "测试");
+		intent.putExtra("extra_key_sub_info", "xxxx@xx.com");
+		intent.putExtra("extra_key_promtp_info", "正在呼叫");
+		intent.putExtra("extra_key_extra_info", "邮箱呼叫电话本");
 		intent.addCategory(Intent.CATEGORY_DEFAULT);
 //		intent.setData(	Uri.parse("invoketalkroom://?groupId=37066102_2101818468_1436253697&uuid=37066102&roomId=0&roomKey=0&routeId=727881078"));
-		intent.setData(	Uri.parse("invoketalkroom://talk?vtype=0&groupId=37066102_2101818468_1436253697&playId=0&uuid=37066102&roomId=0&roomKey=0&routeId=727881078&memSession=0&hostUuid=37066102&playItemInfo="));
+//		intent.setData(	Uri.parse("invoketalkroom://talk?vtype=0&groupId=37066102_2101818468_1436253697&playId=0&uuid=37066102&roomId=0&roomKey=0&routeId=727881078&memSession=0&hostUuid=37066102&playItemInfo="));
 		startActivity(intent);
 	};
 }

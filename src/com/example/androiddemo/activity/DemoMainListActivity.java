@@ -22,11 +22,11 @@ public class DemoMainListActivity extends SuperListActivity<String> {
 	protected void onCreate(Bundle savedInstanceState) {
 		LogUtil.d(TAG, AndroidDemoUtil.deviceInfo2String());
 		super.onCreate(savedInstanceState);
-		directJumpTo();
+//		directJumpTo();
 	}
 	
 	private void directJumpTo() {
-		Intent intent = new Intent(this, MediaActivity.class);
+		Intent intent = new Intent(this, JumpToActivity.class);
 		startActivity(intent);
 		finish();
 	}

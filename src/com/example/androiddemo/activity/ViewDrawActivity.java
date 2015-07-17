@@ -1,8 +1,9 @@
 package com.example.androiddemo.activity;
 
 import com.example.androiddemo.R;
-import com.example.androiddemo.view.ClipView;
+import com.example.androiddemo.view.MaskView;
 
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 
 
@@ -21,18 +22,22 @@ import android.graphics.drawable.Drawable;
  */
 public class ViewDrawActivity extends DemoSuperActivity {
 
-	private ClipView mClipView = null;
+	private MaskView mClipView = null;
 	
 	
 	@Override
 	public void initView() {
 		super.initView();
+		mClipView.setImageResource(R.drawable.ic_launcher);
+		mClipView.setImageSaturation(0.5f);
+		mClipView.setImageCenter(true);
+		mClipView.setImageRotation(45 / 2);
 	}
 	
 	@Override
 	public void bindView() {
 		super.bindView();
-		mClipView = (ClipView) findViewById(R.id.clip_view);
+		mClipView = (MaskView) findViewById(R.id.clip_view);
 	}
 	
 	@Override
@@ -57,12 +62,12 @@ public class ViewDrawActivity extends DemoSuperActivity {
 	
 	@Override
 	protected void doLeftButtonClick() {
-		getCustomView().setAlpha(0.5f);
+		mClipView.setImageAlpha(0.5f);
 	}
 	
 	@Override
 	protected void doRightButtonClick() {
-		getCustomView().setAlpha(1.f);
+		mClipView.setImageAlpha(1.f);
 	}
 	
 	@Override
@@ -73,6 +78,7 @@ public class ViewDrawActivity extends DemoSuperActivity {
 	
 	@Override
 	protected void doBotttomButtonClick() {
+		mClipView.setMaskDrawable(null);
 	}
 	
 	@Override

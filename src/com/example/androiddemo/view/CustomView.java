@@ -3,19 +3,23 @@ package com.example.androiddemo.view;
 import java.util.Arrays;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
 import android.widget.ImageView;
 
 import com.example.androiddemo.model.IViewInitialization;
+import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 
 public class CustomView extends ImageView implements OnLayoutChangeListener, IViewInitialization {
 
 	private static final String TAG = CustomView.class.getSimpleName();
-
+	
 	public CustomView(Context context) {
 		super(context);
 		initData(context, null);
@@ -29,7 +33,7 @@ public class CustomView extends ImageView implements OnLayoutChangeListener, IVi
 		initView();
 		addOnLayoutChangeListener(this);
 	}
-
+	
 	@Override
 	public void draw(Canvas canvas) {
 		LogUtil.d(TAG, getClass().getSimpleName(), "draw");
@@ -39,14 +43,14 @@ public class CustomView extends ImageView implements OnLayoutChangeListener, IVi
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		LogUtil.d(TAG, getClass().getSimpleName(), "onMeasure", "widthMeasureSpec",
-				widthMeasureSpec, "heightMeasureSpec", heightMeasureSpec, "getHeight", getHeight());
+				widthMeasureSpec, "getWidth", getWidth(), "heightMeasureSpec", heightMeasureSpec, "getHeight", getHeight());
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-		LogUtil.d(TAG, getClass().getSimpleName(), "onLayout|changed", changed, "left", left,
-				"top", top + "right", right, "bottom", bottom + "getHeight", getHeight());
+		LogUtil.d(TAG, getClass().getSimpleName(), "onLayout", "changed", changed, "left", left,
+				"top", top, "right", right, "bottom", bottom, "getWidth", getWidth(), "getHeight", getHeight());
 		super.onLayout(changed, left, top, right, bottom);
 		if (changed) {
 			updateView();
@@ -55,13 +59,13 @@ public class CustomView extends ImageView implements OnLayoutChangeListener, IVi
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		LogUtil.d(TAG, getClass().getSimpleName(), "onDraw|getHeight", getHeight());
-		super.onDraw(canvas);		
+		LogUtil.d(TAG, getClass().getSimpleName(), "onDraw", "getWidth", getWidth(), "getHeight", getHeight());
+		super.onDraw(canvas);
 	}
 
 	@Override
 	protected void onFinishInflate() {
-		LogUtil.d(TAG, getClass().getSimpleName(), "onFinishInflate", "getHeight", getHeight());
+		LogUtil.d(TAG, getClass().getSimpleName(), "onFinishInflate", "getWidth", getWidth(), "getHeight", getHeight());
 		super.onFinishInflate();
 	}
 
@@ -69,8 +73,8 @@ public class CustomView extends ImageView implements OnLayoutChangeListener, IVi
 	public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft,
 			int oldTop, int oldRight, int oldBottom) {
 		LogUtil.d(TAG, getClass().getSimpleName(), "onLayoutChange", "v", v.getClass()
-				.getSimpleName() + "left" + left + "top", top + "right" + right + "bottom" + bottom
-				+ "getHeight", getHeight());
+				.getSimpleName(), "left", left, "top", top, "right", right, "bottom", bottom,
+				"getWidth", getWidth(), "getHeight", getHeight());
 	}
 
 	@Override
