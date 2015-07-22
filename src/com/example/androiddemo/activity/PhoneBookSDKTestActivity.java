@@ -56,9 +56,9 @@ public class PhoneBookSDKTestActivity extends DemoSuperActivity implements IMult
 	
 	@Override
 	protected void doTopButtonClick() {
-		mPBSDK.init(this, CLIENTID3);
+		mPBSDK.init(this, mCommonInputView.getInputView1().getText().toString());
 		mPBSDK.setOpenLog(true, false);
-		mPBSDK.reqAuth(CODE3);
+		mPBSDK.reqAuth(mCommonInputView.getInputView2().getText().toString());
 	}
 	
 	@Override

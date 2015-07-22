@@ -31,4 +31,11 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>pb</name>
+			<type>2</type>
+			<location>/Users/garyzhao/Source/Android/PhoneBook_VoipSdk/PhoneBookSdk/src/com/tencent/pb</location>
+		</link>
+	</linkedResources>
 </projectDescription>
