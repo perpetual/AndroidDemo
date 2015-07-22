@@ -18,6 +18,15 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_APN_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
 
     <application
         android:name="AndroidDemoApplication"
@@ -114,6 +123,8 @@
         <activity android:name="com.example.androiddemo.activity.AccelerometerActivity" />
         <activity android:name="com.example.androiddemo.activity.VibratorActivity" />
         <activity android:name="com.example.androiddemo.activity.JumpToActivity" />
+        <activity android:name="com.example.androiddemo.activity.ContentProviderActivity" />
+        <activity android:name="com.example.androiddemo.activity.PhoneBookSDKTestActivity" />
 
         <receiver android:name="com.example.androiddemo.BluetoothReceiver" >
             <intent-filter android:priority="2147483647" >

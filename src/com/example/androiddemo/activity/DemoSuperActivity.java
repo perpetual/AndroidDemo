@@ -26,6 +26,8 @@ public abstract class DemoSuperActivity extends DemoBaseActivity implements View
 	public static final int BUTTON2 = R.id.button2;
 	public static final int BUTTON3 = R.id.button3;
 	public static final int BUTTON4 = R.id.button4;
+	public static final int COMMON_INPUT_VIEW_LAYOUT = R.layout.common_input_view_layout;
+	public static final int COMMON_CUSTOM_VIEW_LAYOUT = R.layout.common_custom_view_layout;
 	
 	private TextView mTopTextView = null;
 	private TextView mLeftTextView = null;
@@ -41,7 +43,7 @@ public abstract class DemoSuperActivity extends DemoBaseActivity implements View
 	private Button mButton2 = null;
 	private Button mButton3 = null;
 	private Button mButton4 = null;
-	private CustomView mCustionView = null;
+	private View mCustomView = null;
 	private LinearLayout mRootView = null;
 	
 
@@ -175,16 +177,25 @@ public abstract class DemoSuperActivity extends DemoBaseActivity implements View
 		return mRootView;
 	}
 	
-	protected final CustomView getCustomView() {
-		return mCustionView;
+	protected final View getCustomView() {
+		if (null == mCustomView) {
+			throw new NullPointerException("getCustomView null");
+		}
+		return mCustomView;
 	}
 	
 	protected int getOperationAreaLayoutResource() {
 		return 0;
 	}
 	
+	/**
+	 * {@link }
+	 * @return
+	 *
+	 * @author garyzhao in 2015-7-22
+	 */
 	protected int getCustomViewAreaLayoutResource() {
-		return R.layout.common_custom_view_layout;
+		return 0;
 	}
 	
 	/**
@@ -227,11 +238,7 @@ public abstract class DemoSuperActivity extends DemoBaseActivity implements View
 			if (null != mCustomViewArea && mCustomViewArea instanceof ViewStub) {
 				((ViewStub) mCustomViewArea).setLayoutResource(getCustomViewAreaLayoutResource());
 				mCustomViewArea.setVisibility(View.VISIBLE);
-				if (null == mCustomViewArea.getParent()
-						&& R.layout.common_custom_view_layout == getCustomViewAreaLayoutResource()) {
-					mCustomViewArea = findViewById(R.id.custom_view_area);
-					mCustionView = (CustomView) findViewById(R.id.custom_view);
-				}
+				mCustomView = findViewById(R.id.custom_view_layout);
 			}
 		}
 	}

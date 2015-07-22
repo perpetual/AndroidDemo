@@ -31,6 +31,8 @@
         <item>SensorListActivity</item>
         <item>VibratorActivity</item>
         <item>JumpToActivity</item>
+        <item>ContentProviderActivity</item>
+        <item>PhoneBookSDKTestActivity</item>
     </string-array>
 
     <string-array name="media_spinner_list">

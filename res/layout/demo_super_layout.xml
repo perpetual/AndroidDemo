@@ -92,6 +92,7 @@
             android:id="@+id/custom_view_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inflatedId="@+id/custom_view_layout"
             android:layout="@layout/common_custom_view_layout"/>
     </LinearLayout>
 
