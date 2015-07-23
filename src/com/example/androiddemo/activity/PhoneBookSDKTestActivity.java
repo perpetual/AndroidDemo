@@ -2,11 +2,12 @@ package com.example.androiddemo.activity;
 
 import java.util.List;
 
-import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
+import com.example.androiddemo.tools.CommonCallbacks;
 import com.example.androiddemo.utils.AndroidDemoUtil;
 import com.example.androiddemo.utils.LogUtil;
 import com.example.androiddemo.view.CommonInputView;
@@ -34,9 +35,27 @@ public class PhoneBookSDKTestActivity extends DemoSuperActivity implements IMult
 	public static final String CODE3 = "SDKConstCode";
 	public static final String UNIQUEID = "3333333333";
 	
+	private static final int TEST_DATA = 109402;
+	
 	private CommonInputView mCommonInputView = null;
 	
 	IMultiTalkSdkApi mPBSDK = null;
+	
+	private Intent getPhoneBookJumpIntent() {
+		Intent intent = new Intent();
+		intent.setAction("com.tencent.pb.voip.single");
+		intent.putExtra("extra_start_enrty", 0);
+		intent.putExtra("extra_key_main_info", "测试");
+		intent.putExtra("extra_key_sub_info", "xxxx@xx.com");
+		intent.putExtra("extra_key_promtp_info", "正在呼叫");
+		intent.putExtra("extra_key_extra_info", "邮箱呼叫电话本");
+		String clientUUID = mCommonInputView.getInputView1().getText().toString();
+		intent.putExtra("extra_key_test_client_uuid", TextUtils.isEmpty(clientUUID) ? TEST_DATA : Integer.valueOf(clientUUID));
+		intent.putExtra("extra_key_mic_mute", false);
+		intent.putExtra("extra_key_speaker_on", false);
+		intent.addCategory(Intent.CATEGORY_DEFAULT);
+		return intent;
+	}
 	
 	@Override
 	protected int getCustomViewAreaLayoutResource() {
@@ -78,11 +97,12 @@ public class PhoneBookSDKTestActivity extends DemoSuperActivity implements IMult
 	
 	@Override
 	protected String getBottomButtonText() {
-		return "设置";
+		return "呼出";
 	}
 	
 	@Override
 	protected void doBotttomButtonClick() {
+		startActivity(getPhoneBookJumpIntent());
 	}
 	
 	@Override
@@ -155,7 +175,7 @@ public class PhoneBookSDKTestActivity extends DemoSuperActivity implements IMult
 	@Override
 	public void initView() {
 		super.initView();
-		mCommonInputView.getInputView1().setText(CLIENTID3);
+		mCommonInputView.getInputView1().setText(String.valueOf(TEST_DATA));
 		mCommonInputView.getInputView2().setText(CODE3);
 	}
 }
