@@ -5,6 +5,9 @@ import java.util.List;
 import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.PersistableBundle;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -26,12 +29,14 @@ import com.example.androiddemo.utils.LogUtil;
  * garyzhao		2015-4-24		Create		
  * </pre>
  */
-public abstract class SuperListActivity<T> extends ListActivity implements IUIInitialization {
+public abstract class SuperListActivity<T> extends ListActivity implements IUIInitialization, Handler.Callback {
 	protected static String TAG = DemoBaseActivity.class.getSimpleName();
 
 	protected SuperListAdapter<T> mListAdapter = null;
 	
 	protected abstract List<T> getDataSource();
+	
+	protected Handler mHandler = null;
 	
 	private void updateData() {
 		mListAdapter.updateData(getDataSource());
@@ -46,12 +51,12 @@ public abstract class SuperListActivity<T> extends ListActivity implements IUIIn
 		initLayout();
 		bindView();
 		initView();
-		refreshView();
 	}
 
 	@Override
 	public void initData(Context context, AttributeSet attrs) {
 		mListAdapter = new SuperListAdapter<T>(context);
+		mHandler = new Handler(Looper.getMainLooper(), this);
 	}
 
 	@Override
@@ -65,7 +70,7 @@ public abstract class SuperListActivity<T> extends ListActivity implements IUIIn
 	@Override
 	public void initView() {	
 		setListAdapter(mListAdapter);
-		LogUtil.d(TAG, "xxx", getListAdapter(), mListAdapter);
+		LogUtil.d(TAG, getListAdapter(), mListAdapter);
 	}
 
 	@Override
@@ -111,6 +116,7 @@ public abstract class SuperListActivity<T> extends ListActivity implements IUIIn
 	@Override
 	protected void onResume() {
 		super.onResume();
+		refreshView();
 		Log.d(TAG, this + "onResume");
 		AndroidDemoUtil.showLongToast("taskID:" + getTaskId());
 	}
@@ -131,5 +137,10 @@ public abstract class SuperListActivity<T> extends ListActivity implements IUIIn
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.d(TAG, this + "onDestroy");
+	}
+	
+	@Override
+	public boolean handleMessage(Message msg) {
+		return false;
 	}
 }

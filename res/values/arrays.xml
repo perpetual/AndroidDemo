@@ -33,6 +33,7 @@
         <item>JumpToActivity</item>
         <item>ContentProviderActivity</item>
         <item>PhoneBookSDKTestActivity</item>
+        <item>WindowActivity</item>
     </string-array>
 
     <string-array name="media_spinner_list">

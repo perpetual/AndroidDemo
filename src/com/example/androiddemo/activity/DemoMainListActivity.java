@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.View;
@@ -18,19 +19,27 @@ import com.example.androiddemo.utils.LogUtil;
 public class DemoMainListActivity extends SuperListActivity<String> {	
 	private String[] mTitleArray = null;
 
+	private static final int MSG_CODE_NAVIGATE_TO = 0x100;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		LogUtil.d(TAG, AndroidDemoUtil.deviceInfo2String());
 		super.onCreate(savedInstanceState);
-//		directJumpTo();
 	}
 	
-	private void directJumpTo() {
-		Intent intent = new Intent(this, JumpToActivity.class);
-		startActivity(intent);
-		finish();
+	private void navigateTo(boolean isScrollTo) {
+		Class<?> cls = WindowActivity.class;
+		if (isScrollTo) {
+			int scrollIndex = getDataSource().indexOf(cls.getSimpleName());
+			mListAdapter.highLightBackground(scrollIndex);
+			setSelection(scrollIndex);
+		} else {
+			Intent intent = new Intent(this, cls);
+			startActivity(intent);
+			finish();
+		}
 	}
-
+	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
@@ -73,12 +82,31 @@ public class DemoMainListActivity extends SuperListActivity<String> {
 	@Override
 	public void initView() {
 		super.initView();
-		setSelection(getListAdapter().getCount() - 1);
 	}
 
+	@Override
+	public void refreshView() {
+		super.refreshView();
+		mHandler.sendEmptyMessageDelayed(MSG_CODE_NAVIGATE_TO, 500);
+	}
+	
 	@Override
 	protected List<String> getDataSource() {
 		Arrays.sort(mTitleArray);
 		return Arrays.asList(mTitleArray);
+	}
+	
+	@Override
+	public boolean handleMessage(Message msg) {
+		boolean handled = false;
+		switch (msg.what) {
+		case MSG_CODE_NAVIGATE_TO:
+			navigateTo(true);
+			break;
+
+		default:
+			break;
+		}
+		return handled || super.handleMessage(msg);
 	}
 }

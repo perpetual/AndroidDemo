@@ -35,24 +35,41 @@ public class PhoneBookSDKTestActivity extends DemoSuperActivity implements IMult
 	public static final String CODE3 = "SDKConstCode";
 	public static final String UNIQUEID = "3333333333";
 	
-	private static final int TEST_DATA = 109402;
+	private static final int TEST_DATA = 33729902;
 	
 	private CommonInputView mCommonInputView = null;
 	
 	IMultiTalkSdkApi mPBSDK = null;
-	
+
 	private Intent getPhoneBookJumpIntent() {
 		Intent intent = new Intent();
-		intent.setAction("com.tencent.pb.voip.single");
+		intent.setAction("com.tencent.pb.voip.single.invoke");
 		intent.putExtra("extra_start_enrty", 0);
 		intent.putExtra("extra_key_main_info", "测试");
-		intent.putExtra("extra_key_sub_info", "xxxx@xx.com");
+		intent.putExtra("extra_key_sub_info", "xxxx@qq.com");
 		intent.putExtra("extra_key_promtp_info", "正在呼叫");
 		intent.putExtra("extra_key_extra_info", "邮箱呼叫电话本");
 		String clientUUID = mCommonInputView.getInputView1().getText().toString();
 		intent.putExtra("extra_key_test_client_uuid", TextUtils.isEmpty(clientUUID) ? TEST_DATA : Integer.valueOf(clientUUID));
 		intent.putExtra("extra_key_mic_mute", false);
 		intent.putExtra("extra_key_speaker_on", false);
+		intent.putExtra("extra_key_main_id", 333443L);
+		intent.putExtra("extra_key_show_title", true);
+		intent.addCategory(Intent.CATEGORY_DEFAULT);
+		return intent;
+	}
+	
+	private Intent getPhoneBookNewJumpIntent() {
+		Intent intent = new Intent();
+		intent.setAction("com.tencent.pb.voip.single.invoke");
+		intent.putExtra("extra_start_enrty", 0);
+		intent.putExtra("extra_key_main_info", "测试");
+		intent.putExtra("extra_key_sub_info", "xxxx@qq.com");
+		intent.putExtra("extra_key_promtp_info", "正在呼叫...");
+		intent.putExtra("extra_key_extra_info", "邮箱呼叫电话本");
+		intent.putExtra("extra_key_mic_mute", false);
+		intent.putExtra("extra_key_speaker_on", false);
+		intent.putExtra("extra_key_main_id", 333443L);
 		intent.addCategory(Intent.CATEGORY_DEFAULT);
 		return intent;
 	}

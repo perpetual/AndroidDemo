@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.PowerManager;
 import android.os.Vibrator;
+import android.view.WindowManager;
 
 /**
  * <pre>
@@ -50,5 +51,11 @@ public class SystemServiceUtil {
 	public static PowerManager getPowerManager() {
 		return (PowerManager) AndroidDemoUtil.APPLICATION_CONTEXT
 				.getSystemService(Context.POWER_SERVICE);
+	}
+	
+	public static WindowManager getWindowManager() {
+		return (WindowManager) AndroidDemoUtil.APPLICATION_CONTEXT
+				.getSystemService(Context.WINDOW_SERVICE);
+
 	}
 }

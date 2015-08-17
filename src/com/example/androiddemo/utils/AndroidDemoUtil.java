@@ -629,4 +629,8 @@ public class AndroidDemoUtil {
 		LogUtil.d(TAG, "getMaskBitmapFromDrawable", drawable, defaultWidth, defaultHeight, bitmap.getWidth(), bitmap.getHeight());
 		return bitmap;
 	}
+	
+	public static int getColorValue(int colorResource) {
+		return APPLICATION_CONTEXT.getResources().getColor(colorResource);
+	}
 }
