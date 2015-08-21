@@ -42,6 +42,7 @@ public class MediaManager extends CommonCallbacks implements
 	private BaseBroadcastReceiver mBBR = null;
 	private MediaPlayer mMediaPlayer = null;
 	private int mStreamType = AudioManager.STREAM_MUSIC;
+	private int mMediaResourceID = 0;
 	
 	public MediaManager(Context context) {
 		mContext = context;
@@ -58,17 +59,39 @@ public class MediaManager extends CommonCallbacks implements
 		 */
 		mBBR.register(mContext, AndroidDemoUtil.createIntentFilter(AudioManager.ACTION_HEADSET_PLUG), this);
 		
-		initPlayer(R.raw.canon, 6);
+		initPlayer(R.raw.voip_peer_cannot_arrive, AudioManager.STREAM_VOICE_CALL);
 	}
 	
 	public void release() {
 		removeAll();
 		mBBR.unregister(mContext);
-		mMediaPlayer.release();
+		if (null != mMediaPlayer) {
+			mMediaPlayer.release();
+		}
+	}
+	
+	private static MediaPlayer createPlayer(int mediaResourceID, int streamType) {
+		AssetFileDescriptor afd = AndroidDemoUtil.APPLICATION_CONTEXT.getResources().openRawResourceFd(mediaResourceID);
+		if (null == afd) {
+			return null;
+		}
+		MediaPlayer mediaPlayer = null;
+		try {
+			mediaPlayer = new MediaPlayer();
+			FileDescriptor fd = afd.getFileDescriptor();
+			mediaPlayer.setDataSource(fd, afd.getStartOffset(), afd.getLength());
+			mediaPlayer.setAudioStreamType(streamType);
+			mediaPlayer.prepare();
+		} catch (Exception e) {
+			LogUtil.e(TAG, e.toString());
+		}
+		return mediaPlayer;
 	}
 	
 	public void initPlayer(int mediaResourceID, int streamType) {
-		AssetFileDescriptor afd = mContext.getResources().openRawResourceFd(mediaResourceID);
+		mStreamType = streamType;
+		mMediaResourceID = mediaResourceID;
+		AssetFileDescriptor afd = mContext.getResources().openRawResourceFd(mMediaResourceID);
 		if (null == afd) {
 			return;
 		}
@@ -76,7 +99,6 @@ public class MediaManager extends CommonCallbacks implements
 			mMediaPlayer = new MediaPlayer();
 			FileDescriptor fd = afd.getFileDescriptor();
 			mMediaPlayer.setDataSource(fd, afd.getStartOffset(), afd.getLength());
-			mStreamType = streamType;
 			mMediaPlayer.setAudioStreamType(mStreamType);
 			mMediaPlayer.setOnPreparedListener(this);
 			mMediaPlayer.setOnCompletionListener(this);
@@ -84,6 +106,7 @@ public class MediaManager extends CommonCallbacks implements
 			mMediaPlayer.setOnInfoListener(this);
 			mMediaPlayer.setOnSeekCompleteListener(this);
 			mMediaPlayer.prepare();
+//			mMediaPlayer.setNextMediaPlayer(createPlayer(R.raw.voip_busy_offline, AudioManager.STREAM_MUSIC));
 		} catch (Exception e) {
 			LogUtil.e(TAG, e.toString());
 		}
@@ -135,6 +158,13 @@ public class MediaManager extends CommonCallbacks implements
 	@Override
 	public void onCompletion(MediaPlayer mp) {
 		doCallbacks(-1, 0, 0, "onCompletion", null);
+//		mMediaPlayer.reset();
+//		mMediaPlayer.release();
+//		mMediaPlayer = null;
+//		if (R.raw.voip_busy_offline != mMediaResourceID) {
+//			initPlayer(R.raw.voip_busy_offline, AudioManager.STREAM_VOICE_CALL);
+//			start();
+//		}
 	}
 
 	@Override
@@ -162,6 +192,8 @@ public class MediaManager extends CommonCallbacks implements
 	@Override
 	public void start() {
 		if (null != mMediaPlayer && !mMediaPlayer.isPlaying()) {
+			SystemServiceUtil.getAudioManager().setMode(AudioManager.MODE_IN_CALL);
+			SystemServiceUtil.getAudioManager().setSpeakerphoneOn(false);
 			mMediaPlayer.start();	
 		}
 	}

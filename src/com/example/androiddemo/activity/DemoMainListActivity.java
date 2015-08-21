@@ -28,7 +28,7 @@ public class DemoMainListActivity extends SuperListActivity<String> {
 	}
 	
 	private void navigateTo(boolean isScrollTo) {
-		Class<?> cls = WindowActivity.class;
+		Class<?> cls = MediaActivity.class;
 		if (isScrollTo) {
 			int scrollIndex = getDataSource().indexOf(cls.getSimpleName());
 			mListAdapter.highLightBackground(scrollIndex);
