@@ -1,5 +1,7 @@
 package com.example.androiddemo.activity;
 
+import java.util.HashSet;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -17,16 +19,26 @@ import com.example.androiddemo.utils.LogUtil;
 
 public class ServiceActivity extends DemoSuperActivity {
 
-	private static final String TAG = AndroidDemoUtil
-			.getClassName(ServiceActivity.class);
-	private Intent mLocalServiceIntent = null;
+	private static final String TAG = ServiceActivity.class.getSimpleName();
+	private HashSet<Intent> mLocalServiceIntentSet = null;
 	private int mCounter = 0;
 	private ServiceConnection mRemoteServiceConnection2 = null;
 	private IRemoteDemoService2 mRemoteDemoService2 = null;
 
-	private void stopService() {
-		boolean ret = stopService(mLocalServiceIntent);
-		updateButton(TEXT_VIEW_TOP, AndroidDemoUtil.argumentsToString("Stop successful", ret));
+	private void stopLocalService() {
+		for (Intent intent : mLocalServiceIntentSet) {
+			boolean ret = stopService(intent);
+			updateTextView(TEXT_VIEW_TOP, AndroidDemoUtil.argumentsToString("Stop successful", ret), true);			
+		}
+		mLocalServiceIntentSet.clear();
+	}
+	
+	private void startLocalService() {
+		Intent serviceIntent = new Intent(this, BackgroundDemoService.class);
+		serviceIntent.putExtra(BackgroundDemoService.EXTRAS_KEY,
+				++mCounter);
+		mLocalServiceIntentSet.add(serviceIntent);
+		LogUtil.d(TAG, "startLocalService", startService(serviceIntent));		
 	}
 	
 	@Override
@@ -55,7 +67,7 @@ public class ServiceActivity extends DemoSuperActivity {
 	public void initData(Context context, AttributeSet attrs) {
 		AndroidDemoUtil.getThreadSignature();
 		
-		mLocalServiceIntent = new Intent(this, BackgroundDemoService.class);
+		mLocalServiceIntentSet = new HashSet<Intent>();
 
 		mRemoteServiceConnection2 = new ServiceConnection() {
 
@@ -83,9 +95,7 @@ public class ServiceActivity extends DemoSuperActivity {
 	
 	@Override
 	protected void doTopButtonClick() {
-		mLocalServiceIntent.putExtra(BackgroundDemoService.EXTRAS_KEY,
-				++mCounter);
-		startService(mLocalServiceIntent);
+		startLocalService();
 	}
 	
 	
@@ -96,7 +106,7 @@ public class ServiceActivity extends DemoSuperActivity {
 	
 	@Override
 	protected void doBotttomButtonClick() {
-		stopService();
+		stopLocalService();
 	}
 	
 	@Override

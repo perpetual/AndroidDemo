@@ -1,5 +1,7 @@
 package com.example.androiddemo.service;
 
+import java.util.Currency;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,9 +19,9 @@ import com.example.androiddemo.utils.SystemServiceUtil;
  * <pre>
  * Copyright (C) 1998-2015 TENCENT Inc.All Rights Reserved.
  * 
- * Description：
+ * Description锛�
  * 
- * History：
+ * History锛�
  * 
  * User				Date			Info		Reason
  * garyzhao		2015-4-7		Create
@@ -42,11 +44,11 @@ public class BackgroundDemoService extends BaseService {
 		public void run() {
 			while (true) {
 				try {
-					Thread.sleep(2000);
-					LogUtil.d(TAG, "Current process id", android.os.Process.myPid(), "currentThread",
+					LogUtil.v(TAG, "Current process id", android.os.Process.myPid(), "currentThread",
 							Thread.currentThread().getId(), "Sleeping for 2 seconds. counter = ",
-							mCounter, "StartId", mStartId, "TopActivityName", AndroidDemoUtil.getTopActivityName());
+							mCounter, "StartId", mStartId, "TopActivityName", AndroidDemoUtil.getTopActivityName(), Thread.currentThread().getState());
 //					stopSelfResult(mStartId);
+					Thread.sleep(1500);
 				} catch (Exception e) {
 				}
 			}
@@ -71,17 +73,25 @@ public class BackgroundDemoService extends BaseService {
 		super.onStartCommand(intent, flags, startId);
 		LogUtil.d(TAG, "onStartCommand", "intent", intent, "flags", flags, "startId", startId);
 		int counter = intent.getExtras().getInt(EXTRAS_KEY);
-		mMyThread = new Thread(mMyThreads, new ServiceRunnable(counter, startId));
-		mMyThread.start();
+		if (null == mMyThread) {
+			mMyThread = new Thread(mMyThreads, new ServiceRunnable(counter, startId));
+		}
+		Thread.State state = mMyThread.getState();
+		LogUtil.d(TAG, "onStartCommand", mMyThread.getId(), state, mMyThread.isAlive());
+		if (Thread.State.NEW == state) {
+			mMyThread.start();			
+		}
+		mMyThread.run();
 		return START_STICKY;
 	}
 
+	
 	@Override
 	public void onDestroy() {
-		LogUtil.d(TAG, "onDestroy");
+		super.onDestroy();
 		mMyThread.interrupt();
 		mMyThreads.interrupt();
+		LogUtil.d(TAG, "onDestroy", mMyThread.getState());
 		mNotificationMananger.cancelAll();
-		super.onDestroy();
 	}
 }
