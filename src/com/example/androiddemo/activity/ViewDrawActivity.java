@@ -1,12 +1,9 @@
 package com.example.androiddemo.activity;
 
+import android.view.View;
+
 import com.example.androiddemo.R;
 import com.example.androiddemo.view.MaskView;
-
-import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
-
-
 
 /**
  * <pre>
@@ -23,7 +20,7 @@ import android.graphics.drawable.Drawable;
 public class ViewDrawActivity extends DemoSuperActivity {
 
 	private MaskView mClipView = null;
-	
+    private View mClipViewParent = null;
 	
 	@Override
 	public void initView() {
@@ -32,12 +29,14 @@ public class ViewDrawActivity extends DemoSuperActivity {
 		mClipView.setImageSaturation(0.5f);
 		mClipView.setImageCenter(true);
 		mClipView.setImageRotation(45 / 2);
+		mClipViewParent.setOnClickListener(this);
 	}
 	
 	@Override
 	public void bindView() {
 		super.bindView();
 		mClipView = (MaskView) findViewById(R.id.clip_view);
+		mClipViewParent = findViewById(R.id.parent_view);
 	}
 	
 	@Override
@@ -84,5 +83,10 @@ public class ViewDrawActivity extends DemoSuperActivity {
 	@Override
 	protected int getCustomViewAreaLayoutResource() {
 		return R.layout.common_clip_view_layout;
+	}
+	
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
 	}
 }

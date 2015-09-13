@@ -47,4 +47,9 @@
         <item>播客音</item>
         <item>铃声音</item>
     </string-array>
+    
+    <string-array name="test_tabs">
+        <item>tab0</item>
+        <item>tab1</item>
+    </string-array>
 </resources>
